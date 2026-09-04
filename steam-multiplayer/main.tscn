@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://d28bjioq1yoli"]
+
+[ext_resource type="Script" uid="uid://f2brq3aklygk" path="res://LobbyMain.gd" id="1_ig7tw"]
+
+[node name="Lobby" type="Node3D" unique_id=2035849254 node_paths=PackedStringArray("spawn_point")]
+script = ExtResource("1_ig7tw")
+spawn_point = NodePath("spawn")
+
+[node name="Button" type="Button" parent="." unique_id=137012220]
+offset_left = 503.0
+offset_top = 584.0
+offset_right = 700.0
+offset_bottom = 624.0
+shortcut_feedback = false
+shortcut_in_tooltip = false
+text = "host"
+
+[node name="spawn" type="Node3D" parent="." unique_id=1949804315]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=680742946]
+_spawnable_scenes = PackedStringArray("res://Player/player_controller.tscn")
+spawn_path = NodePath("..")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=984972397]
+use_collision = true
+size = Vector3(10, 0.001, 10)
+
+[connection signal="pressed" from="Button" to="." method="_on_host_button_pressed"]
+[connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

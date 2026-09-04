@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://bxrtwet2knbel"]
+
+[ext_resource type="Script" uid="uid://bqx4ih5oftfmn" path="res://Player/Scripts/PlayerController.gd" id="1_ldje2"]
+[ext_resource type="Script" uid="uid://ca06ghrdq810d" path="res://Player/StateMachine.gd" id="2_bacvh"]
+[ext_resource type="Texture2D" uid="uid://c1ajv64cojpom" path="res://icon.svg" id="2_ldje2"]
+[ext_resource type="Script" uid="uid://v8bu5xhu8iqi" path="res://Player/FloorState.gd" id="3_bacvh"]
+[ext_resource type="Script" uid="uid://cespvcgu3ee6n" path="res://Player/JumpState.gd" id="4_j8irr"]
+[ext_resource type="Script" uid="uid://daao05y4qi2lm" path="res://Player/FallState.gd" id="5_mdtj2"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j8abd"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f0yg5"]
+albedo_texture = ExtResource("2_ldje2")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_j8abd"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_f0yg5"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="player" type="CharacterBody3D" unique_id=1082542328 node_paths=PackedStringArray("neck", "player_cam")]
+script = ExtResource("1_ldje2")
+neck = NodePath("Neck")
+player_cam = NodePath("Neck/Camera3D")
+multiplayer_compatible = true
+
+[node name="StateMachine" type="Node" parent="." unique_id=1106026005 node_paths=PackedStringArray("starting_state")]
+script = ExtResource("2_bacvh")
+starting_state = NodePath("Floor")
+
+[node name="Floor" type="Node" parent="StateMachine" unique_id=394806617]
+script = ExtResource("3_bacvh")
+
+[node name="Jump" type="Node" parent="StateMachine" unique_id=1677315607]
+script = ExtResource("4_j8irr")
+
+[node name="Fall" type="Node" parent="StateMachine" unique_id=592346901]
+script = ExtResource("5_mdtj2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=840744841]
+shape = SubResource("CapsuleShape3D_j8abd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1744936756]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_f0yg5")
+mesh = SubResource("CapsuleMesh_j8abd")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1836853694]
+replication_config = SubResource("SceneReplicationConfig_f0yg5")
+
+[node name="Neck" type="Node3D" parent="." unique_id=1019611577]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Neck" unique_id=858006590]
