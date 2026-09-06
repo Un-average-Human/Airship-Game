@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bqx4ih5oftfmn" path="res://Player/Scripts/PlayerController.gd" id="1_ldje2"]
 [ext_resource type="Script" uid="uid://ca06ghrdq810d" path="res://Player/StateMachine.gd" id="2_bacvh"]
 [ext_resource type="Texture2D" uid="uid://c1ajv64cojpom" path="res://icon.svg" id="2_ldje2"]
+[ext_resource type="PackedScene" uid="uid://b8tlfoavqshxb" path="res://keybind_settings.tscn" id="2_vn67c"]
 [ext_resource type="Script" uid="uid://v8bu5xhu8iqi" path="res://Player/Scripts/StateMachine/FloorState.gd" id="3_bacvh"]
 [ext_resource type="Script" uid="uid://cespvcgu3ee6n" path="res://Player/Scripts/StateMachine/JumpState.gd" id="4_j8irr"]
 [ext_resource type="Script" uid="uid://daao05y4qi2lm" path="res://Player/Scripts/StateMachine/FallState.gd" id="5_mdtj2"]
@@ -27,6 +28,7 @@ script = ExtResource("1_ldje2")
 neck = NodePath("Neck")
 player_cam = NodePath("Neck/Camera3D")
 multiplayer_compatible = true
+keybind_menu_scene = ExtResource("2_vn67c")
 
 [node name="StateMachine" type="Node" parent="." unique_id=1106026005 node_paths=PackedStringArray("starting_state")]
 script = ExtResource("2_bacvh")
@@ -56,3 +58,5 @@ replication_config = SubResource("SceneReplicationConfig_f0yg5")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Neck" unique_id=858006590]
+
+[node name="menus" type="Node" parent="." unique_id=1030397280]

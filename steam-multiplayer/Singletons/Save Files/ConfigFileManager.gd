@@ -41,6 +41,7 @@ func _ready() -> void:
 		config.save(SETTINGS_FILE_PATH)
 	else:
 		config.load(SETTINGS_FILE_PATH)
+	apply_keybinds()
 
 
 
@@ -97,3 +98,11 @@ func load_keybinds() -> Dictionary:
 		
 		keybinds[key] = input_event
 	return keybinds
+
+func apply_keybinds() -> void:
+	var keybinds: Dictionary = load_keybinds()
+	
+	for action in keybinds:
+		if InputMap.has_action(action):
+			InputMap.action_erase_events(action)
+			InputMap.action_add_event(action, keybinds[action])
