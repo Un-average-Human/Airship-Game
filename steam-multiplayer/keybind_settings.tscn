@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://b8tlfoavqshxb"]
+
+[ext_resource type="PackedScene" uid="uid://drsfjyebyv2lu" path="res://input_button.tscn" id="1_gfesd"]
+[ext_resource type="Script" uid="uid://dgnfgrwitrr57" path="res://keybind_settings.gd" id="1_jtvdw"]
+
+[node name="KeybindSettings" type="Control" unique_id=502344923 node_paths=PackedStringArray("action_list")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jtvdw")
+input_button_scene = ExtResource("1_gfesd")
+action_list = NodePath("Panel/MarginContainer/ScrollContainer/ActionList")
+
+[node name="Panel" type="Panel" parent="." unique_id=1239215088]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=1392765065]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/MarginContainer" unique_id=595600052]
+layout_mode = 2
+
+[node name="ActionList" type="VBoxContainer" parent="Panel/MarginContainer/ScrollContainer" unique_id=1082012118]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="InputButton" parent="Panel/MarginContainer/ScrollContainer/ActionList" unique_id=759934800 instance=ExtResource("1_gfesd")]
+layout_mode = 2

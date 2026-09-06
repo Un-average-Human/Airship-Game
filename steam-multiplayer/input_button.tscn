@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://drsfjyebyv2lu"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_j8abd"]
+font_size = 30
+
+[node name="InputButton" type="Button" unique_id=759934800]
+custom_minimum_size = Vector2(0, 50)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 8.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=739290492]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1641220550]
+layout_mode = 2
+theme_override_constants/separation = 500
+
+[node name="ActionLabel" type="Label" parent="MarginContainer/HBoxContainer" unique_id=440891023]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "ACTION NAME"
+label_settings = SubResource("LabelSettings_j8abd")
+vertical_alignment = 1
+
+[node name="InputLabel" type="Label" parent="MarginContainer/HBoxContainer" unique_id=569319427]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "INPUT KEY"
+label_settings = SubResource("LabelSettings_j8abd")
+horizontal_alignment = 2
+vertical_alignment = 1

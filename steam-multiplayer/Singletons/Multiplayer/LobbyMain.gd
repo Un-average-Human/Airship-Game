@@ -38,11 +38,9 @@ func initialize_player(player: CharacterBody3D) -> void:
 		player.add_collision_exception_with(other_players)
 	players.append(player)
 
-
 #what to do after clicking the host
 func _on_host_button_pressed() -> void:
 	Networking.host_lobby()
-
 
 func _on_multiplayer_spawner_spawned(node: Node) -> void:
 	if node is CharacterBody3D:

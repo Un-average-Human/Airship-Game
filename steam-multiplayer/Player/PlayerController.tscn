@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://bqx4ih5oftfmn" path="res://Player/Scripts/PlayerController.gd" id="1_ldje2"]
 [ext_resource type="Script" uid="uid://ca06ghrdq810d" path="res://Player/StateMachine.gd" id="2_bacvh"]
 [ext_resource type="Texture2D" uid="uid://c1ajv64cojpom" path="res://icon.svg" id="2_ldje2"]
-[ext_resource type="Script" uid="uid://v8bu5xhu8iqi" path="res://Player/FloorState.gd" id="3_bacvh"]
-[ext_resource type="Script" uid="uid://cespvcgu3ee6n" path="res://Player/JumpState.gd" id="4_j8irr"]
-[ext_resource type="Script" uid="uid://daao05y4qi2lm" path="res://Player/FallState.gd" id="5_mdtj2"]
+[ext_resource type="Script" uid="uid://v8bu5xhu8iqi" path="res://Player/Scripts/StateMachine/FloorState.gd" id="3_bacvh"]
+[ext_resource type="Script" uid="uid://cespvcgu3ee6n" path="res://Player/Scripts/StateMachine/JumpState.gd" id="4_j8irr"]
+[ext_resource type="Script" uid="uid://daao05y4qi2lm" path="res://Player/Scripts/StateMachine/FallState.gd" id="5_mdtj2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j8abd"]
 

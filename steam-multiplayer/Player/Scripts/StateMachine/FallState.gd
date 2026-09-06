@@ -2,12 +2,10 @@ extends PlayerState
 
 @onready var state_machine = get_parent()
 
-const JUMP_VELOCITY = 4.0
-
-func _enter_state() -> void:
-	player.velocity.y = JUMP_VELOCITY
-
 func physics_update(delta: float) -> void:
+	if not player.is_multiplayer_authority():
+		return
+
 	var input_dir := Input.get_vector("left", "right", "forward", "backward")
 	var direction := (player.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
@@ -21,5 +19,5 @@ func physics_update(delta: float) -> void:
 	player.velocity += player.get_gravity() * delta
 	player.move_and_slide()
 	
-	if player.velocity.y <= 0:
-		state_machine.change_state("Fall")
+	if player.is_on_floor():
+		state_machine.change_state("floor")
