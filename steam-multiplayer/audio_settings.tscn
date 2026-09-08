@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://7mkynus2mglr"]
 
+[ext_resource type="Script" uid="uid://nxow5ac1o73w" path="res://audio_settings.gd" id="1_0ctkx"]
 [ext_resource type="Script" uid="uid://deknu2ug87akw" path="res://Classes/UI/AnimatedButton.gd" id="1_lemuw"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_j8abd"]
@@ -8,13 +9,18 @@ font_size = 25
 [sub_resource type="LabelSettings" id="LabelSettings_0ctkx"]
 font_size = 25
 
-[node name="AudioSettings" type="Control" unique_id=1890171780]
+[node name="AudioSettings" type="Control" unique_id=1890171780 node_paths=PackedStringArray("microphone_button", "input_mode_button", "option_button_array", "slider_array")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_0ctkx")
+microphone_button = NodePath("MarginContainer/ScrollContainer/SliderList/Mic/Microphone")
+input_mode_button = NodePath("MarginContainer/ScrollContainer/SliderList/MicInput/InputMode")
+option_button_array = [NodePath("MarginContainer/ScrollContainer/SliderList/MicInput/InputMode"), NodePath("MarginContainer/ScrollContainer/SliderList/Mic/Microphone")]
+slider_array = [NodePath("MarginContainer/ScrollContainer/SliderList/MasterVolume/MasterVolumeSlider"), NodePath("MarginContainer/ScrollContainer/SliderList/MusicVolume/MusicVolumeSlider"), NodePath("MarginContainer/ScrollContainer/SliderList/SFXVolume/SFXVolumeSlider"), NodePath("MarginContainer/ScrollContainer/SliderList/VoiceVolume/VoiceVolumeSlider")]
 
 [node name="Panel" type="Panel" parent="." unique_id=1799814561]
 layout_mode = 1
@@ -59,18 +65,18 @@ text = "Microphone"
 label_settings = SubResource("LabelSettings_j8abd")
 vertical_alignment = 1
 
-[node name="OptionButton" type="OptionButton" parent="MarginContainer/ScrollContainer/SliderList/Mic" unique_id=1894420962]
+[node name="Microphone" type="OptionButton" parent="MarginContainer/ScrollContainer/SliderList/Mic" unique_id=1894420962]
 custom_minimum_size = Vector2(500, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 20
 
-[node name="MicMode" type="HBoxContainer" parent="MarginContainer/ScrollContainer/SliderList" unique_id=2104614373]
+[node name="MicInput" type="HBoxContainer" parent="MarginContainer/ScrollContainer/SliderList" unique_id=2104614373]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/SliderList/MicMode" unique_id=1004225514]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/SliderList/MicInput" unique_id=1004225514]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -79,20 +85,12 @@ text = "Mode"
 label_settings = SubResource("LabelSettings_j8abd")
 vertical_alignment = 1
 
-[node name="OptionButton" type="OptionButton" parent="MarginContainer/ScrollContainer/SliderList/MicMode" unique_id=2048879410]
+[node name="InputMode" type="OptionButton" parent="MarginContainer/ScrollContainer/SliderList/MicInput" unique_id=2048879410]
 custom_minimum_size = Vector2(500, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-theme_override_font_sizes/font_size = 25
-selected = 0
-item_count = 3
-popup/item_0/text = "Voice Activated"
-popup/item_0/id = 0
-popup/item_1/text = "Push to Talk"
-popup/item_1/id = 1
-popup/item_2/text = "Toggle to Talk"
-popup/item_2/id = 2
+theme_override_font_sizes/font_size = 20
 
 [node name="MasterVolume" type="HBoxContainer" parent="MarginContainer/ScrollContainer/SliderList" unique_id=921835535]
 layout_mode = 2
@@ -107,7 +105,7 @@ text = "Master Audio"
 label_settings = SubResource("LabelSettings_j8abd")
 vertical_alignment = 1
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/SliderList/MasterVolume" unique_id=1575286274]
+[node name="MasterVolumeSlider" type="HSlider" parent="MarginContainer/ScrollContainer/SliderList/MasterVolume" unique_id=1575286274]
 custom_minimum_size = Vector2(500, 50)
 layout_mode = 2
 value = 100.0
@@ -125,7 +123,7 @@ text = "Music Volume"
 label_settings = SubResource("LabelSettings_j8abd")
 vertical_alignment = 1
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/SliderList/MusicVolume" unique_id=1770339436]
+[node name="MusicVolumeSlider" type="HSlider" parent="MarginContainer/ScrollContainer/SliderList/MusicVolume" unique_id=1770339436]
 custom_minimum_size = Vector2(500, 50)
 layout_mode = 2
 value = 100.0
@@ -143,7 +141,7 @@ text = "SFX Volume"
 label_settings = SubResource("LabelSettings_j8abd")
 vertical_alignment = 1
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/SliderList/SFXVolume" unique_id=1683603054]
+[node name="SFXVolumeSlider" type="HSlider" parent="MarginContainer/ScrollContainer/SliderList/SFXVolume" unique_id=1683603054]
 custom_minimum_size = Vector2(500, 50)
 layout_mode = 2
 value = 100.0
@@ -161,7 +159,7 @@ text = "Voice Volume"
 label_settings = SubResource("LabelSettings_j8abd")
 vertical_alignment = 1
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/SliderList/VoiceVolume" unique_id=2068083008]
+[node name="VoiceVolumeSlider" type="HSlider" parent="MarginContainer/ScrollContainer/SliderList/VoiceVolume" unique_id=2068083008]
 custom_minimum_size = Vector2(500, 50)
 layout_mode = 2
 value = 100.0
@@ -197,3 +195,5 @@ offset_bottom = 84.0
 text = "Audio Settings"
 label_settings = SubResource("LabelSettings_0ctkx")
 vertical_alignment = 1
+
+[connection signal="pressed" from="ResetButton" to="." method="_reset_settings"]

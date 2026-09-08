@@ -33,8 +33,9 @@ func _ready() -> void:
 		config.set_value("video", "vsync_enabled", false)
 		
 		#AUDIO SETTINGS
+		config.set_value("audio", "microphone", "")
+		config.set_value("audio", "input_mode", 0)
 		config.set_value("audio", "master_volume", 1.0)
-		config.set_value("audio", "voice_volume", 1.0)
 		config.set_value("audio", "music_volume", 1.0)
 		config.set_value("audio", "sfx_volume", 1.0)
 		config.set_value("audio", "voice_volume", 1.0)
