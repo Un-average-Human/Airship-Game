@@ -2,9 +2,29 @@
 
 [ext_resource type="Script" uid="uid://f2brq3aklygk" path="res://Singletons/Multiplayer/LobbyMain.gd" id="1_ig7tw"]
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_0xm2m"]
+sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
+
+[sub_resource type="Environment" id="Environment_h2yge"]
+background_mode = 2
+sky = SubResource("Sky_0xm2m")
+tonemap_mode = 2
+glow_enabled = true
+
 [node name="Lobby" type="Node3D" unique_id=2035849254 node_paths=PackedStringArray("spawn_point")]
 script = ExtResource("1_ig7tw")
 spawn_point = NodePath("spawn")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=594899208]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2137890352]
+environment = SubResource("Environment_h2yge")
 
 [node name="Button" type="Button" parent="." unique_id=137012220]
 offset_left = 503.0
@@ -19,12 +39,12 @@ text = "host"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=680742946]
-_spawnable_scenes = PackedStringArray("uid://d28bjioq1yoli")
+_spawnable_scenes = PackedStringArray("uid://bxrtwet2knbel")
 spawn_path = NodePath("..")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=984972397]
 use_collision = true
-size = Vector3(10, 0.001, 10)
+size = Vector3(22, 0.001, 25)
 
 [connection signal="pressed" from="Button" to="." method="_on_host_button_pressed"]
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

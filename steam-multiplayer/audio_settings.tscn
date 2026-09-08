@@ -1,0 +1,199 @@
+[gd_scene format=3 uid="uid://7mkynus2mglr"]
+
+[ext_resource type="Script" uid="uid://deknu2ug87akw" path="res://Classes/UI/AnimatedButton.gd" id="1_lemuw"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_j8abd"]
+font_size = 25
+
+[sub_resource type="LabelSettings" id="LabelSettings_0ctkx"]
+font_size = 25
+
+[node name="AudioSettings" type="Control" unique_id=1890171780]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="." unique_id=1799814561]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=632051416]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 338.0
+offset_top = 121.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 90
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer" unique_id=908571169]
+layout_mode = 2
+
+[node name="SliderList" type="VBoxContainer" parent="MarginContainer/ScrollContainer" unique_id=1612824735]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 15
+
+[node name="Mic" type="HBoxContainer" parent="MarginContainer/ScrollContainer/SliderList" unique_id=1229455151]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/SliderList/Mic" unique_id=819188803]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "Microphone"
+label_settings = SubResource("LabelSettings_j8abd")
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/ScrollContainer/SliderList/Mic" unique_id=1894420962]
+custom_minimum_size = Vector2(500, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 25
+
+[node name="MicMode" type="HBoxContainer" parent="MarginContainer/ScrollContainer/SliderList" unique_id=2104614373]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/SliderList/MicMode" unique_id=1004225514]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "Mode"
+label_settings = SubResource("LabelSettings_j8abd")
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/ScrollContainer/SliderList/MicMode" unique_id=2048879410]
+custom_minimum_size = Vector2(500, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 25
+selected = 0
+item_count = 3
+popup/item_0/text = "Voice Activated"
+popup/item_0/id = 0
+popup/item_1/text = "Push to Talk"
+popup/item_1/id = 1
+popup/item_2/text = "Toggle to Talk"
+popup/item_2/id = 2
+
+[node name="MasterVolume" type="HBoxContainer" parent="MarginContainer/ScrollContainer/SliderList" unique_id=921835535]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/SliderList/MasterVolume" unique_id=1245243374]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "Master Audio"
+label_settings = SubResource("LabelSettings_j8abd")
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/SliderList/MasterVolume" unique_id=1575286274]
+custom_minimum_size = Vector2(500, 50)
+layout_mode = 2
+value = 100.0
+
+[node name="MusicVolume" type="HBoxContainer" parent="MarginContainer/ScrollContainer/SliderList" unique_id=1034884901]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/SliderList/MusicVolume" unique_id=1417232040]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "Music Volume"
+label_settings = SubResource("LabelSettings_j8abd")
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/SliderList/MusicVolume" unique_id=1770339436]
+custom_minimum_size = Vector2(500, 50)
+layout_mode = 2
+value = 100.0
+
+[node name="SFXVolume" type="HBoxContainer" parent="MarginContainer/ScrollContainer/SliderList" unique_id=654785139]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/SliderList/SFXVolume" unique_id=576743855]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "SFX Volume"
+label_settings = SubResource("LabelSettings_j8abd")
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/SliderList/SFXVolume" unique_id=1683603054]
+custom_minimum_size = Vector2(500, 50)
+layout_mode = 2
+value = 100.0
+
+[node name="VoiceVolume" type="HBoxContainer" parent="MarginContainer/ScrollContainer/SliderList" unique_id=1195796667]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/SliderList/VoiceVolume" unique_id=1639221568]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "Voice Volume"
+label_settings = SubResource("LabelSettings_j8abd")
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/ScrollContainer/SliderList/VoiceVolume" unique_id=2068083008]
+custom_minimum_size = Vector2(500, 50)
+layout_mode = 2
+value = 100.0
+
+[node name="ResetButton" type="Button" parent="." unique_id=954396972]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 121.0
+offset_right = 310.0
+offset_bottom = 171.0
+theme_override_font_sizes/font_size = 20
+text = "Reset to default"
+script = ExtResource("1_lemuw")
+metadata/_custom_type_script = "uid://deknu2ug87akw"
+
+[node name="BackButton" type="Button" parent="." unique_id=55962675]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 186.0
+offset_right = 181.0
+offset_bottom = 236.0
+theme_override_font_sizes/font_size = 20
+text = "Back"
+script = ExtResource("1_lemuw")
+metadata/_custom_type_script = "uid://deknu2ug87akw"
+
+[node name="Label" type="Label" parent="." unique_id=1681639676]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 37.0
+offset_right = 310.0
+offset_bottom = 84.0
+text = "Audio Settings"
+label_settings = SubResource("LabelSettings_0ctkx")
+vertical_alignment = 1

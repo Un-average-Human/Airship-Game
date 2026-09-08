@@ -36,6 +36,7 @@ func on_lobby_created(connect: int, lobby_id: int) -> void:
 #called when joining a lobby, including after creating one
 func on_lobby_joined(lobby_id: int, permissions: int, locked: bool, response: int) -> void:
 	if response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
+		print("lobby joined successfully")
 		#ignore if we created the lobby
 		if Steam.getLobbyOwner(lobby_id) == Steam.getSteamID():
 			return

@@ -48,7 +48,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 10
+theme_override_constants/separation = 15
 
 [node name="InputButton" parent="Panel/MarginContainer/ScrollContainer/ActionList" unique_id=759934800 instance=ExtResource("1_gfesd")]
 layout_mode = 2
@@ -74,9 +74,9 @@ metadata/_custom_type_script = "uid://deknu2ug87akw"
 [node name="BackButton" type="Button" parent="Panel" unique_id=500586976]
 layout_mode = 0
 offset_left = 78.0
-offset_top = 188.0
+offset_top = 186.0
 offset_right = 181.0
-offset_bottom = 238.0
+offset_bottom = 236.0
 theme_override_font_sizes/font_size = 20
 text = "Back"
 script = ExtResource("3_pjluo")

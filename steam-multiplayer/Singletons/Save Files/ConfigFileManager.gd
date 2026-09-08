@@ -37,6 +37,7 @@ func _ready() -> void:
 		config.set_value("audio", "voice_volume", 1.0)
 		config.set_value("audio", "music_volume", 1.0)
 		config.set_value("audio", "sfx_volume", 1.0)
+		config.set_value("audio", "voice_volume", 1.0)
 		
 		config.save(SETTINGS_FILE_PATH)
 	else:

@@ -7,7 +7,7 @@ var players: Array[CharacterBody3D]
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Networking.host_created.connect(on_host_created)
-	multiplayer.peer_disconnected.connect(remove_peer)
+	#multiplayer.peer_disconnected.connect(remove_peer)
 
 func on_host_created() -> void:
 	#spawns the server player

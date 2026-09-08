@@ -21,10 +21,18 @@ func _enter_tree() -> void:
 	if multiplayer_compatible:
 		set_multiplayer_authority(name.to_int())
 
+func _ready() -> void:
+	if multiplayer_compatible and is_multiplayer_authority():
+		player_cam.make_current()
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
 func _unhandled_input(event: InputEvent) -> void:
 	if multiplayer_compatible:
 		if not is_multiplayer_authority():
 			return
+	
+	if menus.get_children().size() == 0:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 	if event is InputEventMouseMotion:
 		rotate_y(-event.relative.x * 0.005)
@@ -33,5 +41,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 	if Input.is_action_just_pressed("open_menu"):
 		if menus.get_children().size() == 0:
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 			var keybind_menu = keybind_menu_scene.instantiate()
 			menus.add_child(keybind_menu)
