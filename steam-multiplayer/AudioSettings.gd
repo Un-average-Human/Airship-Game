@@ -30,8 +30,9 @@ func _ready() -> void:
 	for option_button: OptionButton in option_button_array:
 		option_button.item_selected.connect(_manage_microphone.bind(option_button))
 	
-	
-	#LOAD SETTINGS
+	_load_settings()
+
+func _load_settings():
 	var audio_settings: Dictionary = ConfigFileManager.load_audio_settings()
 	for slider: HSlider in slider_array:
 		var slider_name = slider.name.to_snake_case().trim_suffix("_slider")

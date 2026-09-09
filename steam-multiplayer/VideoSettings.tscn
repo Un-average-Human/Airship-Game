@@ -6,7 +6,7 @@
 [sub_resource type="LabelSettings" id="LabelSettings_pf3kc"]
 font_size = 25
 
-[node name="VideoSettings" type="Control" unique_id=1992613558 node_paths=PackedStringArray("window_mode_option", "resolution_option", "max_framerate_option", "vsync_option")]
+[node name="VideoSettings" type="Control" unique_id=1992613558 node_paths=PackedStringArray("option_button_array", "window_mode_option", "resolution_option", "max_framerate_option", "vsync_option")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,6 +14,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lhbsn")
+option_button_array = [NodePath("MarginContainer/ScrollContainer/VideoList/WindowMode/WindowMode"), NodePath("MarginContainer/ScrollContainer/VideoList/Resolution/Resolution"), NodePath("MarginContainer/ScrollContainer/VideoList/MaxFramerate/MaxFramerate"), NodePath("MarginContainer/ScrollContainer/VideoList/VSync/Vsync")]
 window_mode_option = NodePath("MarginContainer/ScrollContainer/VideoList/WindowMode/WindowMode")
 resolution_option = NodePath("MarginContainer/ScrollContainer/VideoList/Resolution/Resolution")
 max_framerate_option = NodePath("MarginContainer/ScrollContainer/VideoList/MaxFramerate/MaxFramerate")
