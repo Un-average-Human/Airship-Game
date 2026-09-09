@@ -13,12 +13,7 @@ enum InputModes {
 }
 
 #SLIDERS
-@export_subgroup("Sliders")
 @export var slider_array: Array[HSlider]
-@export var master_volume_slider: HSlider
-@export var music_volume_slider: HSlider
-@export var sfx_volume_slider: HSlider
-@export var voice_volume_slider: HSlider
 
 func _ready() -> void:
 	for slider: HSlider in slider_array:
@@ -50,19 +45,24 @@ func _ready() -> void:
 					option_button.select(i)
 
 func _manage_volume(value_changed: bool, slider: HSlider):
-	ConfigFileManager.save_audio_settings(slider.name.trim_suffix("_slider"), slider.value / 100)
+	ConfigFileManager.save_audio_settings(slider.name.to_snake_case().trim_suffix("_slider"), slider.value / 100)
 
 func _manage_microphone(index: int, button: OptionButton):
 	var value = button.get_item_text(index)
 	match button:
 		microphone_button:
 			ConfigFileManager.save_audio_settings("microphone", value)
-			print(ConfigFileManager.load_audio_settings()["microphone"])
 		input_mode_button:
 			ConfigFileManager.save_audio_settings("input_mode", value)
 
 func _reset_settings():
 	for slider: HSlider in slider_array:
 		slider.value = slider.max_value
+		ConfigFileManager.save_audio_settings(slider.name.to_snake_case().trim_suffix("_slider"), slider.value / 100)
+
 	for option_button in option_button_array:
 		option_button.select(0)
+	ConfigFileManager.save_audio_settings("microphone", microphone_button\
+	.get_item_text(microphone_button.selected))
+	ConfigFileManager.save_audio_settings("input_mode", input_mode_button\
+	.get_item_text(input_mode_button.selected))
