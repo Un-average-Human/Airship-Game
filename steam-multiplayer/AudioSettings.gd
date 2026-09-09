@@ -54,15 +54,3 @@ func _manage_microphone(index: int, button: OptionButton):
 			ConfigFileManager.save_audio_settings("microphone", value)
 		input_mode_button:
 			ConfigFileManager.save_audio_settings("input_mode", value)
-
-func _reset_settings():
-	for slider: HSlider in slider_array:
-		slider.value = slider.max_value
-		ConfigFileManager.save_audio_settings(slider.name.to_snake_case().trim_suffix("_slider"), slider.value / 100)
-
-	for option_button in option_button_array:
-		option_button.select(0)
-	ConfigFileManager.save_audio_settings("microphone", microphone_button\
-	.get_item_text(microphone_button.selected))
-	ConfigFileManager.save_audio_settings("input_mode", input_mode_button\
-	.get_item_text(input_mode_button.selected))

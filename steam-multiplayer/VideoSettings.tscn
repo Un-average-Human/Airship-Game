@@ -1,0 +1,131 @@
+[gd_scene format=3 uid="uid://dql8i532nhdbk"]
+
+[ext_resource type="Script" uid="uid://c00620gqfk85c" path="res://VideoSettings.gd" id="1_lhbsn"]
+[ext_resource type="Script" uid="uid://deknu2ug87akw" path="res://Classes/UI/AnimatedButton.gd" id="2_ekkvr"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_pf3kc"]
+font_size = 25
+
+[node name="VideoSettings" type="Control" unique_id=1992613558 node_paths=PackedStringArray("window_mode_option", "resolution_option", "max_framerate_option", "vsync_option")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lhbsn")
+window_mode_option = NodePath("MarginContainer/ScrollContainer/VideoList/WindowMode/WindowMode")
+resolution_option = NodePath("MarginContainer/ScrollContainer/VideoList/Resolution/Resolution")
+max_framerate_option = NodePath("MarginContainer/ScrollContainer/VideoList/MaxFramerate/MaxFramerate")
+vsync_option = NodePath("MarginContainer/ScrollContainer/VideoList/VSync/Vsync")
+
+[node name="Panel" type="Panel" parent="." unique_id=158634405]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackButton" type="Button" parent="." unique_id=1539084864]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 121.0
+offset_right = 181.0
+offset_bottom = 171.0
+theme_override_font_sizes/font_size = 20
+text = "Back"
+script = ExtResource("2_ekkvr")
+metadata/_custom_type_script = "uid://deknu2ug87akw"
+
+[node name="Label" type="Label" parent="." unique_id=2008526190]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 37.0
+offset_right = 310.0
+offset_bottom = 84.0
+text = "Video Settings"
+label_settings = SubResource("LabelSettings_pf3kc")
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1513664089]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 338.0
+offset_top = 121.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 90
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer" unique_id=2095263463]
+layout_mode = 2
+
+[node name="VideoList" type="VBoxContainer" parent="MarginContainer/ScrollContainer" unique_id=1548070206]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 15
+
+[node name="WindowMode" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VideoList" unique_id=1334030776]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VideoList/WindowMode" unique_id=706358826]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Window Mode:"
+vertical_alignment = 1
+
+[node name="WindowMode" type="OptionButton" parent="MarginContainer/ScrollContainer/VideoList/WindowMode" unique_id=1477186202]
+custom_minimum_size = Vector2(500, 50)
+layout_mode = 2
+
+[node name="Resolution" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VideoList" unique_id=1801667683]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VideoList/Resolution" unique_id=1608266143]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Resolution:"
+vertical_alignment = 1
+
+[node name="Resolution" type="OptionButton" parent="MarginContainer/ScrollContainer/VideoList/Resolution" unique_id=627350462]
+custom_minimum_size = Vector2(500, 50)
+layout_mode = 2
+
+[node name="MaxFramerate" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VideoList" unique_id=673294342]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VideoList/MaxFramerate" unique_id=1311239435]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Max Framerate:"
+vertical_alignment = 1
+
+[node name="MaxFramerate" type="OptionButton" parent="MarginContainer/ScrollContainer/VideoList/MaxFramerate" unique_id=1753376151]
+custom_minimum_size = Vector2(500, 50)
+layout_mode = 2
+
+[node name="VSync" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VideoList" unique_id=1181771646]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VideoList/VSync" unique_id=949433760]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "V-Sync:"
+vertical_alignment = 1
+
+[node name="Vsync" type="OptionButton" parent="MarginContainer/ScrollContainer/VideoList/VSync" unique_id=856287127]
+custom_minimum_size = Vector2(500, 50)
+layout_mode = 2

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://drsfjyebyv2lu"]
 
-[ext_resource type="Script" uid="uid://deknu2ug87akw" path="res://Classes/UI/AnimatedButton.gd" id="1_8pwxk"]
+[ext_resource type="Script" uid="uid://deknu2ug87akw" path="res://Classes/UI/AnimatedButton.gd" id="1_6pxyt"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_j8abd"]
 font_size = 20
@@ -14,7 +14,7 @@ offset_right = -376.0
 offset_bottom = 50.0
 grow_horizontal = 2
 size_flags_horizontal = 4
-script = ExtResource("1_8pwxk")
+script = ExtResource("1_6pxyt")
 metadata/_custom_type_script = "uid://deknu2ug87akw"
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=739290492]

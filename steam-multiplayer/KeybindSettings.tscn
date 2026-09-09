@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://b8tlfoavqshxb"]
+
+[ext_resource type="Script" uid="uid://dgnfgrwitrr57" path="res://KeybindSettings.gd" id="1_oo46k"]
+[ext_resource type="PackedScene" uid="uid://drsfjyebyv2lu" path="res://InputButton.tscn" id="2_yyi56"]
+[ext_resource type="Script" uid="uid://deknu2ug87akw" path="res://Classes/UI/AnimatedButton.gd" id="3_x3fqx"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_8pwxk"]
+font_size = 25
+
+[node name="KeybindSettings" type="Control" unique_id=502344923 node_paths=PackedStringArray("back_button", "reset_button", "action_list")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oo46k")
+back_button = NodePath("BackButton")
+reset_button = NodePath("ResetButton")
+input_button_scene = ExtResource("2_yyi56")
+action_list = NodePath("MarginContainer/ScrollContainer/ActionList")
+
+[node name="Panel" type="Panel" parent="." unique_id=1239215088]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="." unique_id=819437895]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 37.0
+offset_right = 310.0
+offset_bottom = 84.0
+text = "Rebind Controls"
+label_settings = SubResource("LabelSettings_8pwxk")
+vertical_alignment = 1
+
+[node name="ResetButton" type="Button" parent="." unique_id=1640340523]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 121.0
+offset_right = 310.0
+offset_bottom = 171.0
+theme_override_font_sizes/font_size = 20
+text = "Reset to default"
+script = ExtResource("3_x3fqx")
+metadata/_custom_type_script = "uid://deknu2ug87akw"
+
+[node name="BackButton" type="Button" parent="." unique_id=500586976]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 186.0
+offset_right = 181.0
+offset_bottom = 236.0
+theme_override_font_sizes/font_size = 20
+text = "Back"
+script = ExtResource("3_x3fqx")
+metadata/_custom_type_script = "uid://deknu2ug87akw"
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1392765065]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 338.0
+offset_top = 121.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 90
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer" unique_id=595600052]
+layout_mode = 2
+
+[node name="ActionList" type="VBoxContainer" parent="MarginContainer/ScrollContainer" unique_id=1082012118]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 15
+
+[node name="InputButton" parent="MarginContainer/ScrollContainer/ActionList" unique_id=759934800 instance=ExtResource("2_yyi56")]
+layout_mode = 2
+
+[node name="InputButton2" parent="MarginContainer/ScrollContainer/ActionList" unique_id=1491917154 instance=ExtResource("2_yyi56")]
+layout_mode = 2
+
+[node name="InputButton3" parent="MarginContainer/ScrollContainer/ActionList" unique_id=693883970 instance=ExtResource("2_yyi56")]
+layout_mode = 2
+offset_transform_enabled = true

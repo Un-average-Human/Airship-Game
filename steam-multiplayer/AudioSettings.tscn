@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://7mkynus2mglr"]
 
-[ext_resource type="Script" uid="uid://nxow5ac1o73w" path="res://audio_settings.gd" id="1_0ctkx"]
-[ext_resource type="Script" uid="uid://deknu2ug87akw" path="res://Classes/UI/AnimatedButton.gd" id="1_lemuw"]
+[ext_resource type="Script" uid="uid://nxow5ac1o73w" path="res://AudioSettings.gd" id="1_xdrfg"]
+[ext_resource type="Script" uid="uid://deknu2ug87akw" path="res://Classes/UI/AnimatedButton.gd" id="2_mj33u"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_j8abd"]
 font_size = 25
@@ -16,7 +16,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_0ctkx")
+script = ExtResource("1_xdrfg")
 microphone_button = NodePath("MarginContainer/ScrollContainer/SliderList/Mic/Microphone")
 input_mode_button = NodePath("MarginContainer/ScrollContainer/SliderList/MicInput/InputMode")
 option_button_array = [NodePath("MarginContainer/ScrollContainer/SliderList/MicInput/InputMode"), NodePath("MarginContainer/ScrollContainer/SliderList/Mic/Microphone")]
@@ -164,26 +164,15 @@ custom_minimum_size = Vector2(500, 50)
 layout_mode = 2
 value = 100.0
 
-[node name="ResetButton" type="Button" parent="." unique_id=954396972]
-layout_mode = 0
-offset_left = 78.0
-offset_top = 121.0
-offset_right = 310.0
-offset_bottom = 171.0
-theme_override_font_sizes/font_size = 20
-text = "Reset to default"
-script = ExtResource("1_lemuw")
-metadata/_custom_type_script = "uid://deknu2ug87akw"
-
 [node name="BackButton" type="Button" parent="." unique_id=55962675]
 layout_mode = 0
 offset_left = 78.0
-offset_top = 186.0
+offset_top = 121.0
 offset_right = 181.0
-offset_bottom = 236.0
+offset_bottom = 171.0
 theme_override_font_sizes/font_size = 20
 text = "Back"
-script = ExtResource("1_lemuw")
+script = ExtResource("2_mj33u")
 metadata/_custom_type_script = "uid://deknu2ug87akw"
 
 [node name="Label" type="Label" parent="." unique_id=1681639676]
@@ -195,5 +184,3 @@ offset_bottom = 84.0
 text = "Audio Settings"
 label_settings = SubResource("LabelSettings_0ctkx")
 vertical_alignment = 1
-
-[connection signal="pressed" from="ResetButton" to="." method="_reset_settings"]
