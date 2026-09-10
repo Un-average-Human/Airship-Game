@@ -28,9 +28,9 @@ func _ready() -> void:
 		config.set_value("keybinding", "jump", "Space")
 		
 		#VIDEO SETTINGS
-		config.set_value("video", "window_mode", DisplayServer.WindowMode.WINDOW_MODE_FULLSCREEN)
+		config.set_value("video", "window_mode", "windowed_fullscreen")
 		config.set_value("video", "max_framerate", 0)
-		config.set_value("video", "vsync_enabled", false)
+		config.set_value("video", "vsync_mode", "disabled")
 		
 		#AUDIO SETTINGS
 		config.set_value("audio", "microphone", "")

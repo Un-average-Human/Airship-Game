@@ -2,11 +2,12 @@
 
 [ext_resource type="Script" uid="uid://c00620gqfk85c" path="res://VideoSettings.gd" id="1_lhbsn"]
 [ext_resource type="Script" uid="uid://deknu2ug87akw" path="res://Classes/UI/AnimatedButton.gd" id="2_ekkvr"]
+[ext_resource type="Script" uid="uid://dg52tlk2o5s7e" path="res://Classes/UI/UnfocusLineEdit.gd" id="3_ekkvr"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_pf3kc"]
 font_size = 25
 
-[node name="VideoSettings" type="Control" unique_id=1992613558 node_paths=PackedStringArray("option_button_array", "window_mode_option", "resolution_option", "max_framerate_option", "vsync_option")]
+[node name="VideoSettings" type="Control" unique_id=1992613558 node_paths=PackedStringArray("option_button_array", "window_mode_option", "resolution_option", "vsync_option", "framerate_line_edit", "framerate_slider")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,11 +15,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lhbsn")
-option_button_array = [NodePath("MarginContainer/ScrollContainer/VideoList/WindowMode/WindowMode"), NodePath("MarginContainer/ScrollContainer/VideoList/Resolution/Resolution"), NodePath("MarginContainer/ScrollContainer/VideoList/MaxFramerate/MaxFramerate"), NodePath("MarginContainer/ScrollContainer/VideoList/VSync/Vsync")]
+option_button_array = [NodePath("MarginContainer/ScrollContainer/VideoList/WindowMode/WindowMode"), NodePath("MarginContainer/ScrollContainer/VideoList/Resolution/Resolution"), NodePath("MarginContainer/ScrollContainer/VideoList/VSync/Vsync")]
 window_mode_option = NodePath("MarginContainer/ScrollContainer/VideoList/WindowMode/WindowMode")
 resolution_option = NodePath("MarginContainer/ScrollContainer/VideoList/Resolution/Resolution")
-max_framerate_option = NodePath("MarginContainer/ScrollContainer/VideoList/MaxFramerate/MaxFramerate")
 vsync_option = NodePath("MarginContainer/ScrollContainer/VideoList/VSync/Vsync")
+framerate_line_edit = NodePath("MarginContainer/ScrollContainer/VideoList/MaxFramerate/FramerateLineEdit")
+framerate_slider = NodePath("MarginContainer/ScrollContainer/VideoList/MaxFramerate/FramerateSlider")
 
 [node name="Panel" type="Panel" parent="." unique_id=158634405]
 layout_mode = 1
@@ -85,6 +87,7 @@ vertical_alignment = 1
 [node name="WindowMode" type="OptionButton" parent="MarginContainer/ScrollContainer/VideoList/WindowMode" unique_id=1477186202]
 custom_minimum_size = Vector2(500, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 
 [node name="Resolution" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VideoList" unique_id=1801667683]
 layout_mode = 2
@@ -100,6 +103,7 @@ vertical_alignment = 1
 [node name="Resolution" type="OptionButton" parent="MarginContainer/ScrollContainer/VideoList/Resolution" unique_id=627350462]
 custom_minimum_size = Vector2(500, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 
 [node name="MaxFramerate" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VideoList" unique_id=673294342]
 layout_mode = 2
@@ -112,9 +116,22 @@ theme_override_font_sizes/font_size = 20
 text = "Max Framerate:"
 vertical_alignment = 1
 
-[node name="MaxFramerate" type="OptionButton" parent="MarginContainer/ScrollContainer/VideoList/MaxFramerate" unique_id=1753376151]
-custom_minimum_size = Vector2(500, 50)
+[node name="FramerateLineEdit" type="LineEdit" parent="MarginContainer/ScrollContainer/VideoList/MaxFramerate" unique_id=516599997]
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Unlimited"
+emoji_menu_enabled = false
+script = ExtResource("3_ekkvr")
+metadata/_custom_type_script = "uid://dg52tlk2o5s7e"
+
+[node name="FramerateSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VideoList/MaxFramerate" unique_id=1740302831]
+custom_minimum_size = Vector2(375, 0)
+layout_mode = 2
+size_flags_vertical = 4
+min_value = 30.0
+max_value = 601.0
+value = 601.0
 
 [node name="VSync" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VideoList" unique_id=1181771646]
 layout_mode = 2
@@ -130,3 +147,4 @@ vertical_alignment = 1
 [node name="Vsync" type="OptionButton" parent="MarginContainer/ScrollContainer/VideoList/VSync" unique_id=856287127]
 custom_minimum_size = Vector2(500, 50)
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
