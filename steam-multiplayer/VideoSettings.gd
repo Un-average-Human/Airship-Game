@@ -46,25 +46,24 @@ func _load_settings() -> void:
 	var video_settings = ConfigFileManager.load_video_settings()
 	
 	if video_settings.has("window_mode"):
-		var saved_mode = video_settings["window_mode"]
+		var mode = video_settings["window_mode"]
 		var keys = window_modes.keys()
-		var index = keys.find(saved_mode)
-		if index != -1:
-			window_mode_option.selected = index
-			DisplayServer.window_set_mode(window_modes[saved_mode])
+		var index = keys.find(mode)
+		window_mode_option.selected = index
+		DisplayServer.window_set_mode(window_modes[mode])
 
 	if video_settings.has("vsync_mode"):
-		var saved_vsync = video_settings["vsync_mode"]
+		var vsync = video_settings["vsync_mode"]
 		var keys = vsync_modes.keys()
-		var index = keys.find(saved_vsync)
+		var index = keys.find(vsync)
 		if index != -1:
 			vsync_option.selected = index
-			DisplayServer.window_set_vsync_mode(vsync_modes[saved_vsync])
+			DisplayServer.window_set_vsync_mode(vsync_modes[vsync])
 
 	if video_settings.has("max_framerate"):
-		var saved_fps = int(video_settings["max_framerate"])
-		framerate_slider.value = saved_fps
-		_update_max_framerate(saved_fps)
+		var max_framerate = int(video_settings["max_framerate"])
+		framerate_slider.value = max_framerate
+		_update_max_framerate(max_framerate)
 
 	
 
