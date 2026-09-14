@@ -46,10 +46,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			menus.add_child(keybind_menu)
 	
 	if Input.is_action_just_pressed("interact"):
-		print("interact pressed")
 		if interact_raycast.is_colliding():
-			print("ray is colliding")
 			var collider = interact_raycast.get_collider()
 			if collider.is_in_group("interactable"):
 				print("function should be called")
-				collider.execute.rpc(int(self.name))
+				collider.execute(self)

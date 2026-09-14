@@ -45,7 +45,7 @@ script = ExtResource("4_j8irr")
 [node name="Fall" type="Node" parent="StateMachine" unique_id=592346901]
 script = ExtResource("5_mdtj2")
 
-[node name="Fall2" type="Node" parent="StateMachine" unique_id=750467208]
+[node name="Sitting" type="Node" parent="StateMachine" unique_id=750467208]
 script = ExtResource("7_laaob")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=840744841]
