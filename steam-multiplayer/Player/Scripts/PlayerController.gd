@@ -52,4 +52,4 @@ func _unhandled_input(event: InputEvent) -> void:
 			var collider = interact_raycast.get_collider()
 			if collider.is_in_group("interactable"):
 				print("function should be called")
-				collider.execute(int(self.name))
+				collider.execute.rpc(int(self.name))

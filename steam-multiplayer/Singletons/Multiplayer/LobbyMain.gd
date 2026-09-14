@@ -6,7 +6,7 @@ var players: Array[CharacterBody3D]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	Networking.host_created.connect(on_host_created)
+	SteamNetworking.host_created.connect(on_host_created)
 	#multiplayer.peer_disconnected.connect(remove_peer)
 
 func on_host_created() -> void:
@@ -40,7 +40,7 @@ func initialize_player(player: CharacterBody3D) -> void:
 
 #what to do after clicking the host
 func _on_host_button_pressed() -> void:
-	Networking.host_lobby()
+	SteamNetworking.host_lobby()
 
 func _on_multiplayer_spawner_spawned(node: Node) -> void:
 	if node is CharacterBody3D:
