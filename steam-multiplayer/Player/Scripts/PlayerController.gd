@@ -3,6 +3,7 @@ extends CharacterBody3D
 #camera
 @export var neck: Node3D
 @export var player_cam: Camera3D
+@export var interact_raycast: RayCast3D
 
 #multiplayer
 @export var multiplayer_compatible: bool 
@@ -10,12 +11,11 @@ extends CharacterBody3D
 #stats
 @export var walking_speed: float = 5.0
 @export var running_speed: float = 8.0
-var current_speed = walking_speed
 const JUMP_VELOCITY = 4.0
 
 #menus
 @export var keybind_menu_scene: PackedScene
-@onready var menus: Node = $menus
+@onready var menus: Node = $Menus
 
 func _enter_tree() -> void:
 	if multiplayer_compatible:
@@ -44,3 +44,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 			var keybind_menu = keybind_menu_scene.instantiate()
 			menus.add_child(keybind_menu)
+	
+	if Input.is_action_just_pressed("interact"):
+		print("interact pressed")
+		if interact_raycast.is_colliding():
+			print("ray is colliding")
+			var collider = interact_raycast.get_collider()
+			if collider.is_in_group("interactable"):
+				print("function should be called")
+				collider.execute(int(self.name))

@@ -3,7 +3,7 @@ extends Node
 signal host_created()
 
 #lobby settings
-var lobby_type = Steam.LobbyType.LOBBY_TYPE_FRIENDS_ONLY
+var lobby_type = Steam.LobbyType.LOBBY_TYPE_PRIVATE
 const MAX_MEMBERS: int = 4
 
 var peer: SteamMultiplayerPeer

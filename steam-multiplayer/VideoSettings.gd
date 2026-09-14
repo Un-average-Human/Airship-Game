@@ -65,9 +65,8 @@ func _load_settings() -> void:
 		framerate_slider.value = max_framerate
 		_update_max_framerate(max_framerate)
 
-	
 
-func _option_buttons(index: int, button: OptionButton):
+func _option_buttons(index: int, button: OptionButton) -> void:
 	var mode = button.get_item_text(index).to_snake_case()
 	match button:
 		window_mode_option:

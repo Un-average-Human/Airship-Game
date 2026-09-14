@@ -32,7 +32,7 @@ func _ready() -> void:
 	
 	_load_settings()
 
-func _load_settings():
+func _load_settings() -> void:
 	var audio_settings: Dictionary = ConfigFileManager.load_audio_settings()
 	for slider: HSlider in slider_array:
 		var slider_name = slider.name.to_snake_case().trim_suffix("_slider")
@@ -45,10 +45,10 @@ func _load_settings():
 				if option_button.get_item_text(i) == button_name:
 					option_button.select(i)
 
-func _manage_volume(value_changed: bool, slider: HSlider):
+func _manage_volume(value_changed: bool, slider: HSlider) -> void:
 	ConfigFileManager.save_audio_settings(slider.name.to_snake_case().trim_suffix("_slider"), slider.value / 100)
 
-func _manage_microphone(index: int, button: OptionButton):
+func _manage_microphone(index: int, button: OptionButton) -> void:
 	var value = button.get_item_text(index)
 	match button:
 		microphone_button:

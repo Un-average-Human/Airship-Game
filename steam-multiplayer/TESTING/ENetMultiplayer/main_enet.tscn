@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://df8mltyesaef"]
+
+[ext_resource type="Script" uid="uid://rv3hl1eano17" path="res://EnetLobby.gd" id="1_7lx20"]
+[ext_resource type="Script" uid="uid://b64joqut1orvw" path="res://TESTING/ENetMultiplayer/multiplayer_spawner.gd" id="2_vprvq"]
+[ext_resource type="PackedScene" uid="uid://bxrtwet2knbel" path="res://Player/PlayerController.tscn" id="3_vprvq"]
+[ext_resource type="PackedScene" uid="uid://dkf1ojl8dngnd" path="res://plane.tscn" id="4_x5t6k"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_0xm2m"]
+sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
+
+[sub_resource type="Environment" id="Environment_h2yge"]
+background_mode = 2
+sky = SubResource("Sky_0xm2m")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="Lobby" type="Node3D" unique_id=2035849254]
+script = ExtResource("1_7lx20")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=594899208]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2137890352]
+environment = SubResource("Environment_h2yge")
+
+[node name="server" type="Button" parent="." unique_id=137012220]
+anchors_preset = -1
+anchor_left = 0.43663195
+anchor_top = 0.90123457
+anchor_right = 0.6076389
+anchor_bottom = 0.962963
+shortcut_feedback = false
+shortcut_in_tooltip = false
+text = "host"
+metadata/_edit_use_anchors_ = true
+
+[node name="client" type="Button" parent="." unique_id=612915256]
+anchors_preset = -1
+anchor_left = 0.4453125
+anchor_top = 0.82098764
+anchor_right = 0.6163194
+anchor_bottom = 0.88271606
+shortcut_feedback = false
+shortcut_in_tooltip = false
+text = "client"
+metadata/_edit_use_anchors_ = true
+
+[node name="spawn" type="Node3D" parent="." unique_id=1949804315]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=680742946]
+_spawnable_scenes = PackedStringArray("uid://bxrtwet2knbel")
+spawn_path = NodePath("..")
+script = ExtResource("2_vprvq")
+network_player = ExtResource("3_vprvq")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=984972397]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1, 0)
+use_collision = true
+size = Vector3(22, 0.001, 25)
+
+[node name="plene" parent="." unique_id=510533729 instance=ExtResource("4_x5t6k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.1825857)
+
+[connection signal="pressed" from="server" to="." method="_on_server_pressed"]
+[connection signal="pressed" from="client" to="." method="_on_client_pressed"]
+[connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://v8bu5xhu8iqi" path="res://Player/Scripts/StateMachine/FloorState.gd" id="3_bacvh"]
 [ext_resource type="Script" uid="uid://cespvcgu3ee6n" path="res://Player/Scripts/StateMachine/JumpState.gd" id="4_j8irr"]
 [ext_resource type="Script" uid="uid://daao05y4qi2lm" path="res://Player/Scripts/StateMachine/FallState.gd" id="5_mdtj2"]
+[ext_resource type="Script" uid="uid://u4r25gc10pi0" path="res://Player/Scripts/StateMachine/SittingState.gd" id="7_laaob"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j8abd"]
 
@@ -23,10 +24,11 @@ properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[node name="player" type="CharacterBody3D" unique_id=1082542328 node_paths=PackedStringArray("neck", "player_cam")]
+[node name="player" type="CharacterBody3D" unique_id=1082542328 node_paths=PackedStringArray("neck", "player_cam", "interact_raycast")]
 script = ExtResource("1_ldje2")
 neck = NodePath("Neck")
-player_cam = NodePath("Neck/Camera3D")
+player_cam = NodePath("Neck/PlayerCamera")
+interact_raycast = NodePath("Neck/InteractionRaycast")
 multiplayer_compatible = true
 keybind_menu_scene = ExtResource("2_vn67c")
 
@@ -43,6 +45,9 @@ script = ExtResource("4_j8irr")
 [node name="Fall" type="Node" parent="StateMachine" unique_id=592346901]
 script = ExtResource("5_mdtj2")
 
+[node name="Fall2" type="Node" parent="StateMachine" unique_id=750467208]
+script = ExtResource("7_laaob")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=840744841]
 shape = SubResource("CapsuleShape3D_j8abd")
 
@@ -57,6 +62,9 @@ replication_config = SubResource("SceneReplicationConfig_f0yg5")
 [node name="Neck" type="Node3D" parent="." unique_id=1019611577]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="Camera3D" type="Camera3D" parent="Neck" unique_id=858006590]
+[node name="PlayerCamera" type="Camera3D" parent="Neck" unique_id=858006590]
 
-[node name="menus" type="Node" parent="." unique_id=1030397280]
+[node name="InteractionRaycast" type="RayCast3D" parent="Neck" unique_id=1572390967]
+target_position = Vector3(0, 0, -3)
+
+[node name="Menus" type="Node" parent="." unique_id=1030397280]
