@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" uid="uid://dx3ydu18eqax1" path="res://PlaneSystem.gd" id="1_s46f0"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_s46f0"]
+size = Vector3(1, 5.18042, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_nqs3l"]
 size = Vector3(2.3447266, 0.24121094, 0.033813477)
 
@@ -33,9 +36,6 @@ height = 1.2
 
 [sub_resource type="SphereMesh" id="SphereMesh_r8t2q"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_s46f0"]
-size = Vector3(1, 5.18042, 1)
-
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_s46f0"]
 properties/0/path = NodePath(".:rotation")
 properties/0/spawn = true
@@ -46,76 +46,83 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath(".:player_id")
 properties/2/spawn = true
 properties/2/replication_mode = 2
+properties/3/path = NodePath("mesh:rotation")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:forward_speed")
+properties/4/spawn = true
+properties/4/replication_mode = 1
 
-[node name="plene" type="RigidBody3D" unique_id=510533729 node_paths=PackedStringArray("ailerons", "elevators", "propellers", "rudder", "pilot_seat", "multiplayer_synchronizer") groups=["interactable"]]
-mass = 300.0
-angular_damp = 2.0
+[node name="plene" type="CharacterBody3D" unique_id=162553343 node_paths=PackedStringArray("ailerons", "elevators", "propellers", "rudder", "all_meshes", "pilot_seat", "multiplayer_synchronizer") groups=["interactable"]]
 script = ExtResource("1_s46f0")
-ailerons = [NodePath("moving_parts/AileronRight"), NodePath("moving_parts/AileronLeft")]
-elevators = [NodePath("moving_parts/ElevatorRight"), NodePath("moving_parts/ElevatorLeft")]
-propellers = [NodePath("moving_parts/Propeller")]
-rudder = NodePath("moving_parts/Rudder")
-pilot_seat = NodePath("PilotSeat")
+ailerons = [NodePath("mesh/moving_parts/AileronRight"), NodePath("mesh/moving_parts/AileronLeft")]
+elevators = [NodePath("mesh/moving_parts/ElevatorRight"), NodePath("mesh/moving_parts/ElevatorLeft")]
+propellers = [NodePath("mesh/moving_parts/Propeller")]
+rudder = NodePath("mesh/moving_parts/Rudder")
+all_meshes = NodePath("mesh")
+pilot_seat = NodePath("mesh/PilotSeat")
 multiplayer_synchronizer = NodePath("MultiplayerSynchronizer")
-
-[node name="moving_parts" type="Node3D" parent="." unique_id=281009658]
-
-[node name="Propeller" type="MeshInstance3D" parent="moving_parts" unique_id=5859431]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.011301279, -0.6247918)
-mesh = SubResource("BoxMesh_nqs3l")
-
-[node name="Rudder" type="MeshInstance3D" parent="moving_parts" unique_id=729101768]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74564385, 4.6121345)
-mesh = SubResource("BoxMesh_dpar4")
-
-[node name="AileronRight" type="MeshInstance3D" parent="moving_parts" unique_id=1316722114]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 1.912128, -0.25435606, 1.5620856)
-mesh = SubResource("BoxMesh_s46f0")
-
-[node name="AileronLeft" type="MeshInstance3D" parent="moving_parts" unique_id=1394589614]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1.9037476, -0.25435606, 1.5620856)
-mesh = SubResource("BoxMesh_s46f0")
-
-[node name="ElevatorRight" type="MeshInstance3D" parent="moving_parts" unique_id=1752248823]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0.7121279, 0.50057936, 4.3180547)
-mesh = SubResource("BoxMesh_6xwvw")
-
-[node name="ElevatorLeft" type="MeshInstance3D" parent="moving_parts" unique_id=1421350595]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -0.7620971, 0.50057936, 4.3180547)
-mesh = SubResource("BoxMesh_6xwvw")
-
-[node name="static_parts" type="Node3D" parent="." unique_id=1195817869]
-
-[node name="MeshInstance3D6" type="MeshInstance3D" parent="static_parts" unique_id=297116315]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, -0.25435615, 0.96125555)
-mesh = SubResource("BoxMesh_nc3cx")
-
-[node name="MeshInstance3D7" type="MeshInstance3D" parent="static_parts" unique_id=2046927292]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0.50057924, 3.7172246)
-mesh = SubResource("BoxMesh_28khi")
-
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="static_parts" unique_id=233532231]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74564385, 3.9612556)
-mesh = SubResource("BoxMesh_r8t2q")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="static_parts" unique_id=931256946]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 3.1913796e-08, 1.9969624)
-mesh = SubResource("CylinderMesh_lka76")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="static_parts" unique_id=667212410]
-mesh = SubResource("SphereMesh_lka76")
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="static_parts" unique_id=893021294]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
-mesh = SubResource("SphereMesh_r8t2q")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=322349979]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2.633243e-09, 2.0102417)
 shape = SubResource("BoxShape3D_s46f0")
 
+[node name="mesh" type="Node3D" parent="." unique_id=731902091]
+
+[node name="moving_parts" type="Node3D" parent="mesh" unique_id=281009658]
+
+[node name="Propeller" type="MeshInstance3D" parent="mesh/moving_parts" unique_id=5859431]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.011301279, -0.6247918)
+mesh = SubResource("BoxMesh_nqs3l")
+
+[node name="Rudder" type="MeshInstance3D" parent="mesh/moving_parts" unique_id=729101768]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74564385, 4.6121345)
+mesh = SubResource("BoxMesh_dpar4")
+
+[node name="AileronRight" type="MeshInstance3D" parent="mesh/moving_parts" unique_id=1316722114]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 1.912128, -0.25435606, 1.5620856)
+mesh = SubResource("BoxMesh_s46f0")
+
+[node name="AileronLeft" type="MeshInstance3D" parent="mesh/moving_parts" unique_id=1394589614]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1.9037476, -0.25435606, 1.5620856)
+mesh = SubResource("BoxMesh_s46f0")
+
+[node name="ElevatorRight" type="MeshInstance3D" parent="mesh/moving_parts" unique_id=1752248823]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0.7121279, 0.50057936, 4.3180547)
+mesh = SubResource("BoxMesh_6xwvw")
+
+[node name="ElevatorLeft" type="MeshInstance3D" parent="mesh/moving_parts" unique_id=1421350595]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -0.7620971, 0.50057936, 4.3180547)
+mesh = SubResource("BoxMesh_6xwvw")
+
+[node name="static_parts" type="Node3D" parent="mesh" unique_id=1195817869]
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="mesh/static_parts" unique_id=297116315]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, -0.25435615, 0.96125555)
+mesh = SubResource("BoxMesh_nc3cx")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="mesh/static_parts" unique_id=2046927292]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0.50057924, 3.7172246)
+mesh = SubResource("BoxMesh_28khi")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="mesh/static_parts" unique_id=233532231]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74564385, 3.9612556)
+mesh = SubResource("BoxMesh_r8t2q")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="mesh/static_parts" unique_id=931256946]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 3.1913796e-08, 1.9969624)
+mesh = SubResource("CylinderMesh_lka76")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="mesh/static_parts" unique_id=667212410]
+mesh = SubResource("SphereMesh_lka76")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="mesh/static_parts" unique_id=893021294]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+mesh = SubResource("SphereMesh_r8t2q")
+
+[node name="PilotSeat" type="Marker3D" parent="mesh" unique_id=1404166053]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 2)
+
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=195501571]
 replication_config = SubResource("SceneReplicationConfig_s46f0")
 visibility_update_mode = 1
-
-[node name="PilotSeat" type="Marker3D" parent="." unique_id=1404166053]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1)

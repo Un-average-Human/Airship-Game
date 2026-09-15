@@ -1,25 +1,35 @@
-extends RigidBody3D
+extends CharacterBody3D
 
 @export_category("Plane Data")
 
-@export_subgroup("Moving Parts")
+@export_subgroup("Parts")
 @export var ailerons: Array[MeshInstance3D]
 @export var elevators: Array[MeshInstance3D]
 @export var propellers: Array[MeshInstance3D]
 @export var rudder: MeshInstance3D
-
-@export_subgroup("Stats")
-@export var max_speed: float = 20.0
-@export var acceleration: float = 5.0
-@export var roll_torque = 150
-@export var pitch_torque = 1200
-
+@export var all_meshes: Node3D
 @export var pilot_seat: Marker3D
 
-var plane_gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
-var throttle: float = 0.0
+@export_subgroup("Stats")
+@export var min_flight_speed: float = 5.0
+@export var max_flight_speed: float = 10.0
+@export var acceleration: float = 6.0
+@export var turn_speed = 0.75
+@export var pitch_speed: float = 0.5
+@export var level_speed: float = 3.0
+@export var throttle_delta: float = 30.0
+
+@export var forward_speed: float = 0
+var target_speed: float = 0
+
+var turn_input = 0
+var pitch_input = 0
 
 var custom_gravity: float = 0.0
+var on_ground: bool = true
+
+var smoothed_turn: float = 0.0
+var smoothed_pitch: float = 0.0
 
 #player
 @export_subgroup("Player")
@@ -27,6 +37,8 @@ var custom_gravity: float = 0.0
 @export var multiplayer_synchronizer: MultiplayerSynchronizer
 
 var pilot: CharacterBody3D
+
+
 
 #FUNCTIONS
 func execute(player: CharacterBody3D):
@@ -46,13 +58,9 @@ func _manage_authority(driver_id: int):
 	set_multiplayer_authority(driver_id)
 	multiplayer_synchronizer.set_multiplayer_authority(driver_id)
 
-
 func _start_piloting():
 	if pilot and pilot.has_node("CollisionShape3D"):
 		pilot.get_node("CollisionShape3D").disabled = true
-	
-		pilot.reparent(pilot_seat)
-		pilot.global_position = pilot_seat.global_position
 
 func _stop_piloting():
 	if pilot:
@@ -65,38 +73,73 @@ func _stop_piloting():
 		pilot = null
 		player_id = 0
 
+func _get_input(delta):
+	if Input.is_action_pressed("throttle_up"):
+		target_speed = min(forward_speed + throttle_delta * delta, max_flight_speed)
+	if Input.is_action_pressed("throttle_down"):
+		var limit = 0 if on_ground else min_flight_speed
+		target_speed = max(forward_speed - throttle_delta * delta, limit)
+	turn_input = 0
+	if forward_speed >= max_flight_speed / 2:
+		turn_input = Input.get_axis("roll_right", "roll_left")
+	pitch_input = 0
+	if not on_ground:
+		pitch_input -= Input.get_action_strength("pitch_down")
+	if forward_speed >= min_flight_speed:
+		pitch_input += Input.get_action_strength("pitch_up")
+
 func _physics_process(delta: float) -> void:
+	for propeller in propellers:
+		propeller.rotate_object_local(Vector3.FORWARD, forward_speed * 5.0 * delta)
+		
 	if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
 		return
 	
-	#THROTTLE CONTROLS
-	var throttle_input = Input.get_axis("throttle_down", "throttle_up")
-	throttle = clamp(throttle + throttle_input * delta, 0.0, 1.0)
+	if pilot:
+		pilot.global_position = pilot_seat.global_position
+		
+	_get_input(delta)
 	
-	var target_speed = throttle * max_speed
-	var current_forward_speed: float = -global_transform.basis.z.dot(linear_velocity)
 	
-	if current_forward_speed < target_speed:
-		var thrust_force: float = mass * acceleration
-		apply_central_force(-global_transform.basis.z * thrust_force)
 	
-	#DRAG
-	var local_velocity = global_transform.basis.inverse() * linear_velocity
-	
-	var wing_grip: float = 4.0
-	local_velocity.x *= exp(-wing_grip * delta)
-	local_velocity.y *= exp(-wing_grip * delta)
-	
-	linear_velocity = global_transform.basis * local_velocity
-
 	#PITCH
-	var pitch_input = Input.get_axis("pitch_down", "pitch_up")
-	apply_torque(transform.basis.x * pitch_input * pitch_torque)
+	smoothed_pitch = lerp(smoothed_pitch, float(pitch_input), 3.0 * delta)
+	if not on_ground:
+		rotate_object_local(Vector3.RIGHT, smoothed_pitch * pitch_speed * delta)
+	else:
+		rotation.x = lerp(rotation.x, 0.0, 5.0 * delta)
+	
+	#YAW
+	smoothed_turn = lerp(smoothed_turn, float(turn_input), 3.0 * delta)
+	rotate_y(smoothed_turn * turn_speed * delta)
+	
+	
 	
 	#ROLL
-	var roll_input = Input.get_axis("roll_right", "roll_left")
-	apply_torque(transform.basis.z * roll_input * roll_torque)
+	if on_ground:
+		all_meshes.rotation.z = lerp(all_meshes.rotation.z, 0.0, level_speed * delta)
+	else:
+		all_meshes.rotation.z = lerp(all_meshes.rotation.z, smoothed_turn, level_speed * delta)
+	
+	
+	
+	#THROTTLE
+	forward_speed = lerp(forward_speed, target_speed, acceleration * delta)
+	velocity = -transform.basis.z * forward_speed
+	
+	if is_on_floor():
+		on_ground = true
+		velocity.y -= 1
+	else:
+		on_ground = false
+	
+	for propeller in propellers:
+		propeller.rotate_object_local(Vector3.FORWARD, target_speed * 3.0 * delta)
+	
+	
 	
 	#GRAVITY
-	custom_gravity = remap(throttle, 0.0, 1.0, 0.0, plane_gravity)
-	apply_central_force(Vector3.UP * custom_gravity * mass)
+	custom_gravity = remap(forward_speed, 0.0, max_flight_speed, 9.8, 0.0)
+	velocity.y -= custom_gravity * delta
+	
+	move_and_slide()
