@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dql8i532nhdbk"]
 
-[ext_resource type="Script" uid="uid://c00620gqfk85c" path="res://VideoSettings.gd" id="1_lhbsn"]
+[ext_resource type="Script" uid="uid://c00620gqfk85c" path="res://Player/Scripts/Menus/VideoSettings.gd" id="1_lhbsn"]
 [ext_resource type="Script" uid="uid://deknu2ug87akw" path="res://Classes/UI/AnimatedButton.gd" id="2_ekkvr"]
 [ext_resource type="Script" uid="uid://dg52tlk2o5s7e" path="res://Classes/UI/UnfocusLineEdit.gd" id="3_ekkvr"]
 

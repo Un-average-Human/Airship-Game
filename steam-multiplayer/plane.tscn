@@ -8,14 +8,14 @@ size = Vector3(1, 5.18042, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_nqs3l"]
 size = Vector3(2.3447266, 0.24121094, 0.033813477)
 
-[sub_resource type="BoxMesh" id="BoxMesh_dpar4"]
-size = Vector3(0.025634766, 1.3276367, 0.3017578)
-
 [sub_resource type="BoxMesh" id="BoxMesh_s46f0"]
 size = Vector3(0.016601563, 2.5203857, 0.20166016)
 
 [sub_resource type="BoxMesh" id="BoxMesh_6xwvw"]
 size = Vector3(0.016601563, 1.3051758, 0.20166016)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dpar4"]
+size = Vector3(0.025634766, 1.3276367, 0.3017578)
 
 [sub_resource type="BoxMesh" id="BoxMesh_nc3cx"]
 size = Vector3(0.07519531, 6.6188965, 1)
@@ -52,11 +52,17 @@ properties/3/replication_mode = 1
 properties/4/path = NodePath(".:forward_speed")
 properties/4/spawn = true
 properties/4/replication_mode = 1
+properties/5/path = NodePath(".:on_ground")
+properties/5/spawn = true
+properties/5/replication_mode = 2
+properties/6/path = NodePath(".:pitch_input")
+properties/6/spawn = true
+properties/6/replication_mode = 2
 
 [node name="plene" type="CharacterBody3D" unique_id=162553343 node_paths=PackedStringArray("ailerons", "elevators", "propellers", "rudder", "all_meshes", "pilot_seat", "multiplayer_synchronizer") groups=["interactable"]]
 script = ExtResource("1_s46f0")
 ailerons = [NodePath("mesh/moving_parts/AileronRight"), NodePath("mesh/moving_parts/AileronLeft")]
-elevators = [NodePath("mesh/moving_parts/ElevatorRight"), NodePath("mesh/moving_parts/ElevatorLeft")]
+elevators = [NodePath("mesh/moving_parts/ElevatorLeft"), NodePath("mesh/moving_parts/ElevatorRight")]
 propellers = [NodePath("mesh/moving_parts/Propeller")]
 rudder = NodePath("mesh/moving_parts/Rudder")
 all_meshes = NodePath("mesh")
@@ -75,10 +81,6 @@ shape = SubResource("BoxShape3D_s46f0")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.011301279, -0.6247918)
 mesh = SubResource("BoxMesh_nqs3l")
 
-[node name="Rudder" type="MeshInstance3D" parent="mesh/moving_parts" unique_id=729101768]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74564385, 4.6121345)
-mesh = SubResource("BoxMesh_dpar4")
-
 [node name="AileronRight" type="MeshInstance3D" parent="mesh/moving_parts" unique_id=1316722114]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 1.912128, -0.25435606, 1.5620856)
 mesh = SubResource("BoxMesh_s46f0")
@@ -87,13 +89,26 @@ mesh = SubResource("BoxMesh_s46f0")
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1.9037476, -0.25435606, 1.5620856)
 mesh = SubResource("BoxMesh_s46f0")
 
-[node name="ElevatorRight" type="MeshInstance3D" parent="mesh/moving_parts" unique_id=1752248823]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0.7121279, 0.50057936, 4.3180547)
+[node name="ElevatorLeft" type="Node3D" parent="mesh/moving_parts" unique_id=152015139]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 4.2)
+
+[node name="ElevatorLeft" type="MeshInstance3D" parent="mesh/moving_parts/ElevatorLeft" unique_id=1421350595]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -0.7620971, 0.00057935715, 0.11805487)
 mesh = SubResource("BoxMesh_6xwvw")
 
-[node name="ElevatorLeft" type="MeshInstance3D" parent="mesh/moving_parts" unique_id=1421350595]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -0.7620971, 0.50057936, 4.3180547)
+[node name="ElevatorRight" type="Node3D" parent="mesh/moving_parts" unique_id=814522240]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 4.2)
+
+[node name="ElevatorRight" type="MeshInstance3D" parent="mesh/moving_parts/ElevatorRight" unique_id=1752248823]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0.7121279, 0.00057935715, 0.11805487)
 mesh = SubResource("BoxMesh_6xwvw")
+
+[node name="Rudder" type="Node3D" parent="mesh/moving_parts" unique_id=714581496]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74564385, 4.462339)
+
+[node name="Rudder" type="MeshInstance3D" parent="mesh/moving_parts/Rudder" unique_id=729101768]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.14979553)
+mesh = SubResource("BoxMesh_dpar4")
 
 [node name="static_parts" type="Node3D" parent="mesh" unique_id=1195817869]
 

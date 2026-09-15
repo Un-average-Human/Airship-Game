@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b8tlfoavqshxb"]
 
-[ext_resource type="Script" uid="uid://dgnfgrwitrr57" path="res://KeybindSettings.gd" id="1_oo46k"]
+[ext_resource type="Script" uid="uid://dgnfgrwitrr57" path="res://Player/Scripts/Menus/KeybindSettings.gd" id="1_oo46k"]
 [ext_resource type="PackedScene" uid="uid://drsfjyebyv2lu" path="res://InputButton.tscn" id="2_yyi56"]
 [ext_resource type="Script" uid="uid://deknu2ug87akw" path="res://Classes/UI/AnimatedButton.gd" id="3_x3fqx"]
 

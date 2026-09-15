@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://7mkynus2mglr"]
 
-[ext_resource type="Script" uid="uid://nxow5ac1o73w" path="res://AudioSettings.gd" id="1_xdrfg"]
+[ext_resource type="Script" uid="uid://nxow5ac1o73w" path="res://Player/Scripts/Menus/AudioSettings.gd" id="1_xdrfg"]
 [ext_resource type="Script" uid="uid://deknu2ug87akw" path="res://Classes/UI/AnimatedButton.gd" id="2_mj33u"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_j8abd"]

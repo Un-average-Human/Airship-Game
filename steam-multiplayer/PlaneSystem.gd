@@ -3,10 +3,10 @@ extends CharacterBody3D
 @export_category("Plane Data")
 
 @export_subgroup("Parts")
-@export var ailerons: Array[MeshInstance3D]
-@export var elevators: Array[MeshInstance3D]
-@export var propellers: Array[MeshInstance3D]
-@export var rudder: MeshInstance3D
+@export var ailerons: Array[Node3D]
+@export var elevators: Array[Node3D]
+@export var propellers: Array[Node3D]
+@export var rudder: Node3D
 @export var all_meshes: Node3D
 @export var pilot_seat: Marker3D
 
@@ -19,22 +19,23 @@ extends CharacterBody3D
 @export var level_speed: float = 3.0
 @export var throttle_delta: float = 30.0
 
-@export var forward_speed: float = 0
-var target_speed: float = 0
-
-var turn_input = 0
-var pitch_input = 0
-
-var custom_gravity: float = 0.0
-var on_ground: bool = true
-
-var smoothed_turn: float = 0.0
-var smoothed_pitch: float = 0.0
-
 #player
 @export_subgroup("Player")
 @export var player_id: int
 @export var multiplayer_synchronizer: MultiplayerSynchronizer
+
+@export_subgroup("Stuff That Needs To Be Synced")
+@export var forward_speed: float = 0
+var target_speed: float = 0
+
+var turn_input = 0
+@export var pitch_input = 0
+
+var custom_gravity: float = 0.0
+@export var on_ground: bool = true
+
+var smoothed_turn: float = 0.0
+var smoothed_pitch: float = 0.0
 
 var pilot: CharacterBody3D
 
@@ -79,9 +80,11 @@ func _get_input(delta):
 	if Input.is_action_pressed("throttle_down"):
 		var limit = 0 if on_ground else min_flight_speed
 		target_speed = max(forward_speed - throttle_delta * delta, limit)
+		
 	turn_input = 0
 	if forward_speed >= max_flight_speed / 2:
 		turn_input = Input.get_axis("roll_right", "roll_left")
+		
 	pitch_input = 0
 	if not on_ground:
 		pitch_input -= Input.get_action_strength("pitch_down")
@@ -91,6 +94,9 @@ func _get_input(delta):
 func _physics_process(delta: float) -> void:
 	for propeller in propellers:
 		propeller.rotate_object_local(Vector3.FORWARD, forward_speed * 5.0 * delta)
+	for elevator in elevators:
+		elevator.rotation.x = lerp(elevator.rotation.x, deg_to_rad(-25) * pitch_input, delta * 5.0)
+	rudder.rotation.y = lerp(rudder.rotation.y, deg_to_rad(-25) * turn_input, delta * 5.0)
 		
 	if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
 		return
@@ -108,6 +114,8 @@ func _physics_process(delta: float) -> void:
 		rotate_object_local(Vector3.RIGHT, smoothed_pitch * pitch_speed * delta)
 	else:
 		rotation.x = lerp(rotation.x, 0.0, 5.0 * delta)
+	
+	
 	
 	#YAW
 	smoothed_turn = lerp(smoothed_turn, float(turn_input), 3.0 * delta)
@@ -132,9 +140,6 @@ func _physics_process(delta: float) -> void:
 		velocity.y -= 1
 	else:
 		on_ground = false
-	
-	for propeller in propellers:
-		propeller.rotate_object_local(Vector3.FORWARD, target_speed * 3.0 * delta)
 	
 	
 	
