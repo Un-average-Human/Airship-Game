@@ -1,5 +1,21 @@
 extends VehicleBody3D
 
+@export_category("Exterior Mechanisms and Instruments")
+@export_subgroup("Aerodynamic Components")
+@export var angle: float = 30
+@export var elevators: MeshInstance3D
+@export var right_aileron: MeshInstance3D
+@export var left_aileron: MeshInstance3D
+@export var rudder: MeshInstance3D
+
+
+@export_subgroup("Mechanical Components")
+@export var propellers: Array[MeshInstance3D]
+@export var tail_wheel: MeshInstance3D
+@export var guns: Array[MeshInstance3D]
+
+
+
 @export_category("Stats")
 @export_subgroup("Speed")
 @export var throttle_increase: float = 0.025
@@ -15,6 +31,8 @@ extends VehicleBody3D
 @export_subgroup("Roll")
 @export var roll_torque: float = 2000
 
+@export_subgroup("Yaw")
+
 var gravity: float = 0.0
 var acceleration: float = 0.0
 var throttle: float = 0.0
@@ -23,6 +41,7 @@ var target_speed: float = 0.0
 var throttle_input: float
 var pitch_input: float
 var roll_input: float
+var yaw_input: float
 
 @export var player_id: int
 @export var multiplayer_synchronizer: MultiplayerSynchronizer
@@ -64,11 +83,17 @@ func _stop_piloting():
 
 
 func _physics_process(delta: float) -> void:
-	if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
-		return
+	elevators.rotation.x = lerp(elevators.rotation.x, pitch_input * deg_to_rad(-angle), delta * 5)
 	
-	pilot.global_position = pilot_seat.global_position
-	pilot.global_rotation = pilot_seat.global_rotation
+	right_aileron.rotation.x = lerp(right_aileron.rotation.x, roll_input * deg_to_rad(angle), delta * 5)
+	left_aileron.rotation.x = -right_aileron.rotation.x
+	
+	
+	#if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
+		#return
+	#
+	#pilot.global_position = pilot_seat.global_position
+	#pilot.global_rotation = pilot_seat.global_rotation
 	
 	##THROTTLE
 	throttle_input = Input.get_axis("throttle_down", "throttle_up")
@@ -112,3 +137,6 @@ func _physics_process(delta: float) -> void:
 	##ROLL
 	roll_input = Input.get_axis("roll_right", "roll_left")
 	apply_torque(global_transform.basis.z * roll_input * roll_torque)
+	
+	##YAW
+	yaw_input = Input.get_axis("yaw_right", "yaw_left")
