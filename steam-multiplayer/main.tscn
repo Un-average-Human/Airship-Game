@@ -49,7 +49,10 @@ use_collision = true
 size = Vector3(22, 5, 51)
 
 [node name="H-UG01_plane" parent="." unique_id=1676773388 instance=ExtResource("2_0xm2m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4688709, -3.6042068)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4688709, -8.604207)
+mass = 1200.0
+pitch_torque = 12500.0
+roll_torque = 12500.0
 
 [connection signal="pressed" from="Button" to="." method="_on_host_button_pressed"]
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

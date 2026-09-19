@@ -23,7 +23,7 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	if multiplayer_compatible and is_multiplayer_authority():
-		#player_cam.make_current()
+		player_cam.make_current()
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _unhandled_input(event: InputEvent) -> void:
