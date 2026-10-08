@@ -19,6 +19,7 @@ extends VehicleBody3D
 @export_category("Stats")
 @export_subgroup("Speed")
 @export var throttle_increase: float = 0.025
+@export var speed_threshold: float = 10.0
 @export var max_speed: float = 20.0
 @export var accel_rate: float = 20.0
 @export var max_accel: float = 150
@@ -100,8 +101,8 @@ func _physics_process(delta: float) -> void:
 	if throttle_input != 0.0:
 		throttle = clampf(throttle + (throttle_increase * throttle_input), 0.0, 1.0)
 		print("Throttle: ", throttle)
-	print("Current speed: ", linear_velocity.length())
-	print("Current accel: ", acceleration)
+	#print("Current speed: ", linear_velocity.length())
+	#print("Current accel: ", acceleration)
 	
 	target_speed = remap(throttle, 0.0, 1.0, 0.0, max_speed)
 	
@@ -127,7 +128,8 @@ func _physics_process(delta: float) -> void:
 		linear_velocity = linear_velocity.limit_length(max_speed)
 	
 	##GRAVITY (may not be necessary
-	gravity = remap(linear_velocity.length(), 0.0, max_speed, 0.0, get_gravity().y)
+	gravity_scale = remap(linear_velocity.length(), 0.0, max_speed, 2.0, 1.0)
+	gravity = remap(linear_velocity.length(), speed_threshold, max_speed, 0.0, get_gravity().y)
 	apply_central_force(Vector3.UP * gravity)
 	
 	##PITCH
