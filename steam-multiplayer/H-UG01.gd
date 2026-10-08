@@ -35,11 +35,13 @@ extends VehicleBody3D
 
 @export_subgroup("Yaw")
 
+var grounded_wheels: Array[VehicleWheel3D] = []
 var gravity: float = 0.0
 var acceleration: float = 0.0
 var throttle: float = 0.0
 var target_speed: float = 0.0
 
+#input
 var throttle_input: float
 var pitch_input: float
 var roll_input: float
@@ -102,13 +104,18 @@ func _physics_process(delta: float) -> void:
 	
 	## GROUNDED STATE
 	for wheel: VehicleWheel3D in wheels:
-		wheel.is_in_contact()
+		if wheel.is_in_contact():
+			grounded_wheels.append(wheel)
+			_manage_plane_states(true)
+		else:
+			grounded_wheels.erase(wheel)
+			_manage_plane_states(false)
 	
 	##THROTTLE
 	throttle_input = Input.get_axis("throttle_down", "throttle_up")
 	if throttle_input != 0.0:
 		throttle = clampf(throttle + (throttle_increase * throttle_input), 0.0, 1.0)
-		print("Throttle: ", throttle)
+		#print("Throttle: ", throttle)
 	#print("Current speed: ", linear_velocity.length())
 	#print("Current accel: ", acceleration)
 	
@@ -135,7 +142,7 @@ func _physics_process(delta: float) -> void:
 	if linear_velocity.length() > max_speed:
 		linear_velocity = linear_velocity.limit_length(max_speed)
 	
-	##GRAVITY (may not be necessary
+	##GRAVITY (may not be necessary (it was necessary))
 	gravity_scale = remap(linear_velocity.length(), 0.0, max_speed, 2.0, 1.0)
 	gravity = remap(linear_velocity.length(), speed_threshold, max_speed, 0.0, get_gravity().y)
 	apply_central_force(Vector3.UP * gravity)
@@ -150,3 +157,6 @@ func _physics_process(delta: float) -> void:
 	
 	##YAW
 	yaw_input = Input.get_axis("yaw_right", "yaw_left")
+
+func _manage_plane_states(is_grounded: bool):
+	pass
