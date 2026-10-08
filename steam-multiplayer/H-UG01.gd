@@ -11,8 +11,9 @@ extends VehicleBody3D
 
 @export_subgroup("Mechanical Components")
 @export var propellers: Array[MeshInstance3D]
-@export var tail_wheel: MeshInstance3D
+@export var tail_wheel: Node3D
 @export var guns: Array[MeshInstance3D]
+@export var wheels: Array[VehicleWheel3D]
 
 
 
@@ -44,11 +45,13 @@ var pitch_input: float
 var roll_input: float
 var yaw_input: float
 
-@export var player_id: int
+@export_category("Multiplayer")
 @export var multiplayer_synchronizer: MultiplayerSynchronizer
-@export var pilot_seat: Marker3D
+@export var player_id: int
 
 var pilot: CharacterBody3D
+
+
 
 func execute(player: CharacterBody3D):
 	pilot = player
@@ -66,6 +69,7 @@ func _manage_authority(driver_id: int):
 	#update synchroniser so it sends data from the correct player
 	set_multiplayer_authority(driver_id)
 	multiplayer_synchronizer.set_multiplayer_authority(driver_id)
+
 
 func _start_piloting():
 	if pilot and pilot.has_node("CollisionShape3D"):
@@ -95,6 +99,10 @@ func _physics_process(delta: float) -> void:
 	#
 	#pilot.global_position = pilot_seat.global_position
 	#pilot.global_rotation = pilot_seat.global_rotation
+	
+	## GROUNDED STATE
+	for wheel: VehicleWheel3D in wheels:
+		wheel.is_in_contact()
 	
 	##THROTTLE
 	throttle_input = Input.get_axis("throttle_down", "throttle_up")
