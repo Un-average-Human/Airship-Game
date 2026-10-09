@@ -36,6 +36,8 @@ extends VehicleBody3D
 @export_subgroup("Yaw")
 
 var grounded_wheels: Array[VehicleWheel3D] = []
+var is_grounded: bool = true
+
 var gravity: float = 0.0
 var acceleration: float = 0.0
 var throttle: float = 0.0
@@ -103,13 +105,15 @@ func _physics_process(delta: float) -> void:
 	#pilot.global_rotation = pilot_seat.global_rotation
 	
 	## GROUNDED STATE
+	var wheels_in_contact: int = 0
 	for wheel: VehicleWheel3D in wheels:
 		if wheel.is_in_contact():
-			grounded_wheels.append(wheel)
-			_manage_plane_states(true)
-		else:
-			grounded_wheels.erase(wheel)
-			_manage_plane_states(false)
+			wheels_in_contact += 1
+			
+	if wheels_in_contact >= 2:
+		is_grounded = true
+	elif wheels_in_contact == 0:
+		is_grounded = false
 	
 	##THROTTLE
 	throttle_input = Input.get_axis("throttle_down", "throttle_up")
@@ -143,20 +147,26 @@ func _physics_process(delta: float) -> void:
 		linear_velocity = linear_velocity.limit_length(max_speed)
 	
 	##GRAVITY (may not be necessary (it was necessary))
-	gravity_scale = remap(linear_velocity.length(), 0.0, max_speed, 2.0, 1.0)
+	gravity_scale = remap(linear_velocity.length(), 0.0, max_speed, 2, 1.0)
 	gravity = remap(linear_velocity.length(), speed_threshold, max_speed, 0.0, get_gravity().y)
 	apply_central_force(Vector3.UP * gravity)
 	
 	##PITCH
-	pitch_input = Input.get_axis("pitch_down", "pitch_up")
+	#this makes so when youre grounded you can only pitch up
+	if is_grounded:
+		pitch_input = Input.get_action_strength("pitch_up")
+	else:
+		pitch_input = Input.get_axis("pitch_down", "pitch_up")
 	apply_torque(global_transform.basis.x * pitch_input * pitch_torque)
 	
 	##ROLL
-	roll_input = Input.get_axis("roll_right", "roll_left")
+	if not is_grounded:
+		roll_input = Input.get_axis("roll_right", "roll_left")
 	apply_torque(global_transform.basis.z * roll_input * roll_torque)
 	
 	##YAW
 	yaw_input = Input.get_axis("yaw_right", "yaw_left")
 
-func _manage_plane_states(is_grounded: bool):
-	pass
+func _manage_plane_states():
+	if is_grounded:
+		pass
