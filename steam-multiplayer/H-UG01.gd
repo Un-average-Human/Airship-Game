@@ -106,14 +106,18 @@ func _physics_process(delta: float) -> void:
 	
 	## GROUNDED STATE
 	var wheels_in_contact: int = 0
+	var surface_normal: Vector3
 	for wheel: VehicleWheel3D in wheels:
 		if wheel.is_in_contact():
-			wheels_in_contact += 1
+			surface_normal = wheel.get_contact_normal()
+			if surface_normal.dot(Vector3.UP) > 0.5:
+				wheels_in_contact += 1
 			
 	if wheels_in_contact >= 2:
 		is_grounded = true
 	elif wheels_in_contact == 0:
 		is_grounded = false
+	_manage_plane_states(delta)
 	
 	##THROTTLE
 	throttle_input = Input.get_axis("throttle_down", "throttle_up")
@@ -167,6 +171,8 @@ func _physics_process(delta: float) -> void:
 	##YAW
 	yaw_input = Input.get_axis("yaw_right", "yaw_left")
 
-func _manage_plane_states():
+func _manage_plane_states(delta):
 	if is_grounded:
-		pass
+		print(global_rotation.x)
+		global_rotation.z = lerp(global_rotation.z, 0.0, delta * 5)
+		#global_rotation.x = lerp(global_rotation.x, 0.0, delta * 5)
