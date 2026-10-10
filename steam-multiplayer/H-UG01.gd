@@ -113,7 +113,7 @@ func _physics_process(delta: float) -> void:
 			if surface_normal.dot(Vector3.UP) > 0.5:
 				wheels_in_contact += 1
 			
-	if wheels_in_contact >= 2 and linear_velocity.length() <= 10:
+	if wheels_in_contact >= 2:
 		is_grounded = true
 	elif wheels_in_contact == 0 or linear_velocity.length() >= 10:
 		is_grounded = false
@@ -145,7 +145,7 @@ func _physics_process(delta: float) -> void:
 	
 	apply_central_force(-global_transform.basis.z * target_speed * acceleration)
 	
-	#i cant just use linear_velocity = linear_velocity.limit_length(max_speed) 
+	#i cant just use linear_velocity = linear_velocity.limit_length(max_speed)
 	#because the wheels clip into the ground for some god forsaken reason
 	if linear_velocity.length() > max_speed:
 		linear_velocity = linear_velocity.limit_length(max_speed)
