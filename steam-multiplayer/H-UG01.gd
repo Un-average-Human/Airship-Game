@@ -113,9 +113,9 @@ func _physics_process(delta: float) -> void:
 			if surface_normal.dot(Vector3.UP) > 0.5:
 				wheels_in_contact += 1
 			
-	if wheels_in_contact >= 2:
+	if wheels_in_contact >= 2 and linear_velocity.length() <= 10:
 		is_grounded = true
-	elif wheels_in_contact == 0:
+	elif wheels_in_contact == 0 or linear_velocity.length() >= 10:
 		is_grounded = false
 	_manage_plane_states(delta)
 	
@@ -150,8 +150,16 @@ func _physics_process(delta: float) -> void:
 	if linear_velocity.length() > max_speed:
 		linear_velocity = linear_velocity.limit_length(max_speed)
 	
+	#BRAKE
+	if throttle == 0.0 and linear_velocity.length() > 0:
+		for wheel: VehicleWheel3D in wheels:
+			wheel.brake = 50.0 
+	else:
+		for wheel: VehicleWheel3D in wheels:
+			wheel.brake = 0.0
+	
 	##GRAVITY (may not be necessary (it was necessary))
-	gravity_scale = remap(linear_velocity.length(), 0.0, max_speed, 2, 1.0)
+	gravity_scale = remap(linear_velocity.length(), 0.0, max_speed, 1.5, 1.0)
 	gravity = remap(linear_velocity.length(), speed_threshold, max_speed, 0.0, get_gravity().y)
 	apply_central_force(Vector3.UP * gravity)
 	
@@ -173,6 +181,4 @@ func _physics_process(delta: float) -> void:
 
 func _manage_plane_states(delta):
 	if is_grounded:
-		print(global_rotation.x)
 		global_rotation.z = lerp(global_rotation.z, 0.0, delta * 5)
-		#global_rotation.x = lerp(global_rotation.x, 0.0, delta * 5)
