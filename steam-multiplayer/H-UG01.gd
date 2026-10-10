@@ -151,7 +151,7 @@ func _physics_process(delta: float) -> void:
 		linear_velocity = linear_velocity.limit_length(max_speed)
 	
 	#BRAKE
-	if throttle == 0.0 and linear_velocity.length() > 0:
+	if throttle == 0.0 and linear_velocity.length() > 0 and is_grounded:
 		for wheel: VehicleWheel3D in wheels:
 			wheel.brake = 50.0 
 	else:
