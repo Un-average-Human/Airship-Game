@@ -131,6 +131,7 @@ size = Vector3(100, 5, 1000)
 [node name="H-UG01_plane" parent="." unique_id=1676773388 instance=ExtResource("2_0xm2m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4688709, -8.604207)
 mass = 1200.0
+can_sleep = false
 pitch_torque = 12500.0
 roll_torque = 12500.0
 

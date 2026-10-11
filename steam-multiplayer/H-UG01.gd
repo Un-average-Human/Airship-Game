@@ -20,8 +20,8 @@ extends VehicleBody3D
 @export_category("Stats")
 @export_subgroup("Speed")
 @export var throttle_increase: float = 0.025
-@export var speed_threshold: float = 10.0
-@export var max_speed: float = 20.0
+@export var speed_threshold: float = 20.0
+@export var max_speed: float = 30.0
 @export var accel_rate: float = 20.0
 @export var max_accel: float = 150
 
@@ -97,6 +97,8 @@ func _physics_process(delta: float) -> void:
 	right_aileron.rotation.x = lerp(right_aileron.rotation.x, roll_input * deg_to_rad(angle), delta * 5)
 	left_aileron.rotation.x = -right_aileron.rotation.x
 	
+	rudder.rotation.y = lerp(rudder.rotation.y, yaw_input * deg_to_rad(-angle), delta * 5)
+	
 	
 	#if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
 		#return
@@ -115,7 +117,7 @@ func _physics_process(delta: float) -> void:
 			
 	if wheels_in_contact >= 2:
 		is_grounded = true
-	elif wheels_in_contact == 0 or linear_velocity.length() >= 10:
+	elif wheels_in_contact == 0 or linear_velocity.length() >= speed_threshold:
 		is_grounded = false
 	_manage_plane_states(delta)
 	
@@ -124,7 +126,7 @@ func _physics_process(delta: float) -> void:
 	if throttle_input != 0.0:
 		throttle = clampf(throttle + (throttle_increase * throttle_input), 0.0, 1.0)
 		#print("Throttle: ", throttle)
-	#print("Current speed: ", linear_velocity.length())
+	print("Current speed: ", linear_velocity.length())
 	#print("Current accel: ", acceleration)
 	
 	target_speed = remap(throttle, 0.0, 1.0, 0.0, max_speed)
@@ -137,13 +139,19 @@ func _physics_process(delta: float) -> void:
 	var vertical_drag_force: Vector3 = -global_transform.basis.y * (local_vel.y * vertical_drag * throttle)
 	
 	apply_central_force(lateral_drag_force)
-	apply_central_force(vertical_drag_force)
+	if linear_velocity.length() >= speed_threshold:
+		apply_central_force(vertical_drag_force)
 	
 	#ACCELERATION
 	var target_max_accel = remap(throttle, 0.0, 1.0, 0.0, max_accel)
 	acceleration = clampf(acceleration + (throttle * accel_rate * delta), 0.0, target_max_accel)
 	
-	apply_central_force(-global_transform.basis.z * target_speed * acceleration)
+	var forward_dir: Vector3
+	if is_grounded:
+		forward_dir = Vector3(-global_transform.basis.z.x, 0.0, -global_transform.basis.z.z)
+	else:
+		forward_dir = -global_transform.basis.z
+	apply_central_force(forward_dir * target_speed * acceleration)
 	
 	#i cant just use linear_velocity = linear_velocity.limit_length(max_speed)
 	#because the wheels clip into the ground for some god forsaken reason
@@ -159,7 +167,8 @@ func _physics_process(delta: float) -> void:
 			wheel.brake = 0.0
 	
 	##GRAVITY (may not be necessary (it was necessary))
-	gravity_scale = remap(linear_velocity.length(), 0.0, max_speed, 1.5, 1.0)
+	if not is_grounded:
+		gravity_scale = remap(linear_velocity.length(), 0.0, max_speed, 1.5, 1.0)
 	gravity = remap(linear_velocity.length(), speed_threshold, max_speed, 0.0, get_gravity().y)
 	apply_central_force(Vector3.UP * gravity)
 	
@@ -172,9 +181,9 @@ func _physics_process(delta: float) -> void:
 	apply_torque(global_transform.basis.x * pitch_input * pitch_torque)
 	
 	##ROLL
+	roll_input = Input.get_axis("roll_right", "roll_left")
 	if not is_grounded:
-		roll_input = Input.get_axis("roll_right", "roll_left")
-	apply_torque(global_transform.basis.z * roll_input * roll_torque)
+		apply_torque(global_transform.basis.z * roll_input * roll_torque)
 	
 	##YAW
 	yaw_input = Input.get_axis("yaw_right", "yaw_left")
