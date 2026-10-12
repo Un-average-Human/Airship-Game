@@ -22,8 +22,8 @@ extends VehicleBody3D
 @export var throttle_increase: float = 0.025
 @export var speed_threshold: float = 20.0
 @export var max_speed: float = 30.0
-@export var accel_rate: float = 20.0
-@export var max_accel: float = 150
+@export var accel_rate: float = 50.0
+@export var max_accel: float = 500.0
 
 @export_subgroup("Pitch")
 @export var lateral_drag: float = 5000.0
@@ -119,7 +119,6 @@ func _physics_process(delta: float) -> void:
 		is_grounded = true
 	elif wheels_in_contact == 0 or linear_velocity.length() >= speed_threshold:
 		is_grounded = false
-	_manage_plane_states(delta)
 	
 	##THROTTLE
 	throttle_input = Input.get_axis("throttle_down", "throttle_up")
@@ -139,7 +138,7 @@ func _physics_process(delta: float) -> void:
 	var vertical_drag_force: Vector3 = -global_transform.basis.y * (local_vel.y * vertical_drag * throttle)
 	
 	apply_central_force(lateral_drag_force)
-	if linear_velocity.length() >= speed_threshold:
+	if linear_velocity.length() >= speed_threshold and pitch_input != 0:
 		apply_central_force(vertical_drag_force)
 	
 	#ACCELERATION
@@ -167,9 +166,10 @@ func _physics_process(delta: float) -> void:
 			wheel.brake = 0.0
 	
 	##GRAVITY (may not be necessary (it was necessary))
-	if not is_grounded:
-		gravity_scale = remap(linear_velocity.length(), 0.0, max_speed, 1.5, 1.0)
-	gravity = remap(linear_velocity.length(), speed_threshold, max_speed, 0.0, get_gravity().y)
+	#if not is_grounded:
+	gravity_scale = remap(linear_velocity.length(), 0.0, max_speed, 1.5, 1.0)
+	if linear_velocity.length() >= speed_threshold:
+		gravity = remap(linear_velocity.length(), speed_threshold, max_speed, 0.0, -get_gravity().y * mass)
 	apply_central_force(Vector3.UP * gravity)
 	
 	##PITCH
@@ -178,6 +178,7 @@ func _physics_process(delta: float) -> void:
 		pitch_input = Input.get_action_strength("pitch_up")
 	else:
 		pitch_input = Input.get_axis("pitch_down", "pitch_up")
+	
 	apply_torque(global_transform.basis.x * pitch_input * pitch_torque)
 	
 	##ROLL
@@ -187,7 +188,3 @@ func _physics_process(delta: float) -> void:
 	
 	##YAW
 	yaw_input = Input.get_axis("yaw_right", "yaw_left")
-
-func _manage_plane_states(delta):
-	if is_grounded:
-		global_rotation.z = lerp(global_rotation.z, 0.0, delta * 5)
