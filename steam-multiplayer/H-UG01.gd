@@ -23,15 +23,17 @@ extends VehicleBody3D
 @export_category("Stats")
 @export_subgroup("Speed")
 @export var throttle_increase: float = 0.025
-@export var speed_threshold: float = 25.0
-@export var max_speed: float = 40.0
+@export var speed_threshold: float = 15.0
+@export var max_speed: float = 30.0
 @export var accel_rate: float = 125.0
-@export var max_accel: float = 500.0
+@export var max_accel: float = 1000.0
 
 @export_subgroup("Pitch")
-@export var lateral_drag: float = 8000.0
-@export var vertical_drag: float = 8000.0
-@export var pitch_torque: float = 10000.0
+@export var lateral_drag: float = 4000.0
+@export var vertical_drag: float = 4000.0
+@export var pitch_torque: float = 7500.0
+@export var pitch_strength: float = 20000.0
+
 
 @export var stall_time: float = 3.0
 @export var stall_invincibility_time: float = 3.0
@@ -59,6 +61,7 @@ var acceleration: float = 0.0
 var throttle: float = 0.0
 var old_throttle: float = throttle
 var target_speed: float = 0.0
+var current_pitch_torque: float = 0.0
 
 #input
 var throttle_input: float
@@ -147,7 +150,7 @@ func _physics_process(delta: float) -> void:
 			
 	if wheels_in_contact >= 2:
 		is_grounded = true
-	elif wheels_in_contact == 0 or linear_velocity.length() >= speed_threshold:
+	elif wheels_in_contact == 0:
 		is_grounded = false
 	
 	
@@ -186,6 +189,7 @@ func _physics_process(delta: float) -> void:
 		forward_dir = Vector3(-global_transform.basis.z.x, 0.0, -global_transform.basis.z.z)
 	else:
 		forward_dir = -global_transform.basis.z
+		#forward_dir = Vector3(-global_transform.basis.z.x, 0.0, -global_transform.basis.z.z)
 	
 	apply_central_force(forward_dir * target_speed * acceleration)
 	
@@ -222,7 +226,9 @@ func _physics_process(delta: float) -> void:
 	else:
 		pitch_input = Input.get_axis("pitch_down", "pitch_up")
 	
-	apply_torque(global_transform.basis.x * pitch_input * pitch_torque)
+	current_pitch_torque = move_toward(current_pitch_torque, pitch_torque * pitch_input, delta * pitch_strength)
+	print("Current Torque: ", current_pitch_torque)
+	apply_torque(global_transform.basis.x * current_pitch_torque)
 	
 	
 	
