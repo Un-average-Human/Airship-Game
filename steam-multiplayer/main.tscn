@@ -132,8 +132,6 @@ size = Vector3(100, 5, 1000)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4688709, -8.604207)
 mass = 1200.0
 can_sleep = false
-lateral_drag = 15000.0
-vertical_drag = 15000.0
 
 [node name="le_titan_celeste" type="StaticBody3D" parent="." unique_id=619446052]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -7)

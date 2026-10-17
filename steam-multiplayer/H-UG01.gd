@@ -21,12 +21,16 @@ extends VehicleBody3D
 @export_category("Controls")
 
 @export_subgroup("Grounded")
-@export var ENGINE_POWER: float = 3000
-@export var MAX_STEER: float = 0.9
+@export var ENGINE_POWER: float = 2750
+@export var MAX_STEER: float = 0.25
 
-@export_subgroup("Throttle")
+@export_subgroup("Engine")
+@export var max_speed: float = 30.0
 @export var throttle_charge_duration: float = 4
-var throttle: float
+var throttle: float = 0.0
+var is_engine_on: bool = false
+
+@export_subgroup("Pitch")
 
 
 
@@ -42,6 +46,7 @@ var throttle_input: float
 var pitch_input: float
 var roll_input: float
 var yaw_input: float
+var steer_input: float
 
 
 
@@ -69,7 +74,6 @@ func execute(player: CharacterBody3D):
 
 
 
-
 @rpc("any_peer", "call_local", "reliable")
 func _manage_authority(driver_id: int):
 	player_id = driver_id
@@ -77,6 +81,9 @@ func _manage_authority(driver_id: int):
 	#update synchroniser so it sends data from the correct player
 	set_multiplayer_authority(driver_id)
 	multiplayer_synchronizer.set_multiplayer_authority(driver_id)
+
+
+
 
 
 func _start_piloting():
@@ -95,25 +102,35 @@ func _stop_piloting():
 		player_id = 0
 
 
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("start_engine"):
+		is_engine_on = !is_engine_on
+
+
+
+
 func _physics_process(delta: float) -> void:
 	##INPUTS
 	throttle_input = Input.get_axis("throttle_down", "throttle_up")
 	pitch_input = Input.get_axis("pitch_down", "pitch_up")
-	roll_input
-	yaw_input
+	roll_input = Input.get_axis("roll_left", "roll_right")
+	yaw_input = Input.get_axis("yaw_left", "yaw_right")
+	steer_input = Input.get_axis("steer_left", "steer_right")
 	
-	_throttle(delta)
-	_control()
+	_controls(delta)
 	_testing()
 	
 	
 	##VISUALS
-	elevators.rotation.x = lerp(elevators.rotation.x, pitch_input * deg_to_rad(-angle), delta * 5)
+	elevators.rotation.x = lerp(elevators.rotation.x, pitch_input * deg_to_rad(angle), delta * 5)
 	
-	right_aileron.rotation.x = lerp(right_aileron.rotation.x, roll_input * deg_to_rad(angle), delta * 5)
-	left_aileron.rotation.x = -right_aileron.rotation.x
+	left_aileron.rotation.x = lerp(left_aileron.rotation.x, roll_input * deg_to_rad(angle), delta * 5)
+	right_aileron.rotation.x = -left_aileron.rotation.x
 	
-	rudder.rotation.y = lerp(rudder.rotation.y, yaw_input * deg_to_rad(-angle), delta * 5)
+	rudder.rotation.y = lerp(rudder.rotation.y, yaw_input * deg_to_rad(angle), delta * 5)
+	print(rad_to_deg(rudder.rotation.y))
 	
 	##MULTIPLAYER
 	#if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
@@ -126,15 +143,28 @@ func _physics_process(delta: float) -> void:
 func _ground_state_manager():
 	pass
 
-func _throttle(delta: float) -> void:
+func _controls(delta: float) -> void:
 	throttle = clamp(throttle + ((delta / throttle_charge_duration) * throttle_input), 0.0, 1.0)
-
-func _control():
+	
 	if is_grounded:
-		engine_force = throttle * ENGINE_POWER
+		#ACCELERATION
+		if is_engine_on and linear_velocity.length() <= max_speed:
+			brake = 0.0
+			engine_force = throttle * ENGINE_POWER
+		elif not is_engine_on:
+			engine_force = 0
+		elif linear_velocity.length() > max_speed:
+			brake = 50
+		
+		#STEERING
+		steering = move_toward(steering, steer_input * MAX_STEER, delta * 2)
 
-func _start_engine():
+func _pitch():
 	pass
 
 func _testing():
 	$ThrottleLabel.text = "Throttle: " + str(floor(throttle * 100)) + "%"
+	$EngineLabel.text = "Engine: ON" if is_engine_on else "Engine: OFF"
+	$SpeedLabel.text = "Speed: " + str(floor(linear_velocity.length()))
+	
+	
