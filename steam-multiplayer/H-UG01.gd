@@ -22,7 +22,7 @@ extends VehicleBody3D
 
 @export_subgroup("Grounded")
 @export var ENGINE_POWER: float = 2750
-@export var MAX_STEER: float = 0.25
+@export var MAX_STEER: float = 0.5
 
 @export_subgroup("Engine")
 @export var max_speed: float = 30.0
@@ -157,7 +157,8 @@ func _controls(delta: float) -> void:
 			brake = 50
 		
 		#STEERING
-		steering = move_toward(steering, steer_input / (linear_velocity.length() - max_speed) * MAX_STEER, delta * 2)
+		var speed_factor: float = remap(linear_velocity.length(), 0.0, max_speed, 1.0, 0.05)
+		steering = lerp(steering, steer_input * (MAX_STEER * speed_factor), delta * 5)
 
 func _pitch():
 	pass
