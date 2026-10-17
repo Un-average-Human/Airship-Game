@@ -157,7 +157,7 @@ func _controls(delta: float) -> void:
 			brake = 50
 		
 		#STEERING
-		steering = move_toward(steering, steer_input * MAX_STEER, delta * 2)
+		steering = move_toward(steering, steer_input / (linear_velocity.length() - max_speed) * MAX_STEER, delta * 2)
 
 func _pitch():
 	pass

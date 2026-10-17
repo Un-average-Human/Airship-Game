@@ -13,9 +13,6 @@ extends CharacterBody3D
 @export var running_speed: float = 8.0
 const JUMP_VELOCITY = 4.0
 
-#menus
-@export var keybind_menu_scene: PackedScene
-@onready var menus: Node = $Menus
 
 func _enter_tree() -> void:
 	if multiplayer_compatible:
@@ -31,19 +28,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		if not is_multiplayer_authority():
 			return
 	
-	if menus.get_children().size() == 0:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	
 	if event is InputEventMouseMotion:
 		rotate_y(-event.relative.x * 0.005)
 		neck.rotate_x(-event.relative.y * 0.005)
 		neck.rotation.x = clamp(neck.rotation.x, deg_to_rad(-70), deg_to_rad(70))
-		
-	if Input.is_action_just_pressed("open_menu"):
-		if menus.get_children().size() == 0:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-			var keybind_menu = keybind_menu_scene.instantiate()
-			menus.add_child(keybind_menu)
 	
 	if Input.is_action_just_pressed("interact"):
 		if interact_raycast.is_colliding():
