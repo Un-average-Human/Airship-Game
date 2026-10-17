@@ -53,6 +53,7 @@ var steer_input: float
 
 #grounded state
 var is_grounded: bool = true
+var wheels_in_contact: int = 0
 
 @export_category("Multiplayer")
 @export var multiplayer_synchronizer: MultiplayerSynchronizer
@@ -141,7 +142,18 @@ func _physics_process(delta: float) -> void:
 	
 
 func _ground_state_manager():
-	pass
+	for wheel: VehicleWheel3D in wheels:
+		if wheel.is_in_contact():
+			var surface_normal = wheel.get_contact_normal()
+			if surface_normal.dot(Vector3.UP) > 0.5:
+				wheels_in_contact += 1
+	
+	if linear_velocity.length() >= max_speed / 2:
+		is_grounded = false
+	
+	elif wheels_in_contact >= 2:
+		is_grounded = true
+	
 
 func _controls(delta: float) -> void:
 	throttle = clamp(throttle + ((delta / throttle_charge_duration) * throttle_input), 0.0, 1.0)
@@ -167,5 +179,5 @@ func _testing():
 	$ThrottleLabel.text = "Throttle: " + str(floor(throttle * 100)) + "%"
 	$EngineLabel.text = "Engine: ON" if is_engine_on else "Engine: OFF"
 	$SpeedLabel.text = "Speed: " + str(floor(linear_velocity.length()))
-	
+	$GroundedLabel.text = "Grounded: TRUE" if is_grounded else "Grounded: FALSE"
 	
