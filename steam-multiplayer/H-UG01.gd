@@ -20,11 +20,10 @@ extends VehicleBody3D
 
 @export_category("Controls")
 
-@export_subgroup("Grounded")
-@export var ENGINE_POWER: float = 2750
-@export var MAX_STEER: float = 0.5
+@export var MAX_STEER: float = 0.25
+@export var ENGINE_POWER: float = 8000
 
-@export_subgroup("Engine")
+@export_subgroup("Speed")
 @export var max_speed: float = 30.0
 @export var flight_speed_threshold: float = 20.0
 @export var throttle_charge_duration: float = 4
@@ -32,7 +31,7 @@ var throttle: float = 0.0
 var is_engine_on: bool = false
 
 @export_subgroup("Pitch")
-@export var pitch_torque: float = 12000
+@export var pitch_torque: float = 7500
 @export var pitch_strength: float = 500
 var current_pitch_torque: float
 
@@ -56,6 +55,7 @@ var steer_input: float
 
 
 #grounded state
+var gravity
 var is_grounded: bool = true
 
 @export_category("Multiplayer")
@@ -124,7 +124,7 @@ func _physics_process(delta: float) -> void:
 	steer_input = Input.get_axis("steer_left", "steer_right")
 	
 	##GRAVITY
-	var gravity = remap(linear_velocity.length(), 0.0, max_speed, 0.0, 10 * mass)
+	gravity = remap(linear_velocity.length(), 0.0, max_speed, 0.0, 10 * mass)
 	apply_central_force(Vector3.UP * gravity)
 	
 	_ground_state_manager()
@@ -168,36 +168,30 @@ func _controls(delta: float) -> void:
 	throttle = clamp(throttle + ((delta / throttle_charge_duration) * throttle_input), 0.0, 1.0)
 	
 	if is_grounded:
-		#ACCELERATION
-		if is_engine_on and linear_velocity.length() <= max_speed:
-			brake = 0.0
-			engine_force = throttle * ENGINE_POWER
-		elif not is_engine_on:
-			engine_force = 0
-		elif linear_velocity.length() > max_speed:
+		if linear_velocity.length() > max_speed:
 			brake = 50
 		
 		#STEERING
-		var speed_factor: float = remap(linear_velocity.length(), 0.0, max_speed, 1.0, 0.05)
+		var speed_factor: float = remap(linear_velocity.length(), 0.0, flight_speed_threshold, 1.0, 0.05)
 		steering = lerp(steering, steer_input * (MAX_STEER * speed_factor), delta * 5)
 	
 	else:
-		#ACCELERATION
-		var target_speed = throttle * ENGINE_POWER
-		apply_central_force(-global_transform.basis.z * target_speed)
-		if linear_velocity.length() > max_speed:
-			linear_velocity = linear_velocity.limit_length(max_speed)
-		
 		#PITCH
 		current_pitch_torque = move_toward(current_pitch_torque, pitch_torque * pitch_input, pitch_strength)
 		print("Current Torque: ", current_pitch_torque)
 		apply_torque(global_transform.basis.x * current_pitch_torque)
 
-
+	if is_engine_on:
+		#ACCELERATION
+		var target_speed = throttle * ENGINE_POWER
+		apply_central_force(-global_transform.basis.z * target_speed)
+		if linear_velocity.length() > max_speed:
+			linear_velocity = linear_velocity.limit_length(max_speed)
 
 func _testing():
 	$ThrottleLabel.text = "Throttle: " + str(floor(throttle * 100)) + "%"
 	$EngineLabel.text = "Engine: ON" if is_engine_on else "Engine: OFF"
 	$SpeedLabel.text = "Speed: " + str(floor(linear_velocity.length()))
 	$GroundedLabel.text = "Grounded: TRUE" if is_grounded else "Grounded: FALSE"
+	$GravityLabel.text = "Gravity: " + str(floor(gravity / mass))
 	
