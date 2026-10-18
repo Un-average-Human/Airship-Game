@@ -26,11 +26,15 @@ extends VehicleBody3D
 
 @export_subgroup("Engine")
 @export var max_speed: float = 30.0
+@export var flight_speed_threshold: float = 20.0
 @export var throttle_charge_duration: float = 4
 var throttle: float = 0.0
 var is_engine_on: bool = false
 
 @export_subgroup("Pitch")
+@export var pitch_torque: float = 12000
+@export var pitch_strength: float = 500
+var current_pitch_torque: float
 
 
 
@@ -53,7 +57,6 @@ var steer_input: float
 
 #grounded state
 var is_grounded: bool = true
-var wheels_in_contact: int = 0
 
 @export_category("Multiplayer")
 @export var multiplayer_synchronizer: MultiplayerSynchronizer
@@ -120,6 +123,12 @@ func _physics_process(delta: float) -> void:
 	yaw_input = Input.get_axis("yaw_left", "yaw_right")
 	steer_input = Input.get_axis("steer_left", "steer_right")
 	
+	##GRAVITY
+	if not is_grounded:
+		var gravity = remap(linear_velocity.length(), 0.0, flight_speed_threshold, 0.0, -get_gravity().y * mass)
+		apply_central_force(Vector3.UP * gravity)
+	
+	_ground_state_manager()
 	_controls(delta)
 	_testing()
 	
@@ -131,7 +140,6 @@ func _physics_process(delta: float) -> void:
 	right_aileron.rotation.x = -left_aileron.rotation.x
 	
 	rudder.rotation.y = lerp(rudder.rotation.y, yaw_input * deg_to_rad(angle), delta * 5)
-	print(rad_to_deg(rudder.rotation.y))
 	
 	##MULTIPLAYER
 	#if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
@@ -142,18 +150,20 @@ func _physics_process(delta: float) -> void:
 	
 
 func _ground_state_manager():
+	var wheels_in_contact: int = 0
 	for wheel: VehicleWheel3D in wheels:
 		if wheel.is_in_contact():
 			var surface_normal = wheel.get_contact_normal()
 			if surface_normal.dot(Vector3.UP) > 0.5:
 				wheels_in_contact += 1
 	
-	if linear_velocity.length() >= max_speed / 2:
+	if wheels_in_contact == 0 or linear_velocity.length() >= flight_speed_threshold:
 		is_grounded = false
 	
 	elif wheels_in_contact >= 2:
 		is_grounded = true
-	
+
+
 
 func _controls(delta: float) -> void:
 	throttle = clamp(throttle + ((delta / throttle_charge_duration) * throttle_input), 0.0, 1.0)
@@ -171,9 +181,18 @@ func _controls(delta: float) -> void:
 		#STEERING
 		var speed_factor: float = remap(linear_velocity.length(), 0.0, max_speed, 1.0, 0.05)
 		steering = lerp(steering, steer_input * (MAX_STEER * speed_factor), delta * 5)
+	
+	else:
+		#ACCELERATION
+		var target_speed = throttle * ENGINE_POWER
+		apply_central_force(-global_transform.basis.z * target_speed)
+		
+		#PITCH
+		current_pitch_torque = move_toward(current_pitch_torque, pitch_torque * pitch_input, pitch_strength)
+		print("Current Torque: ", current_pitch_torque)
+		apply_torque(global_transform.basis.x * current_pitch_torque)
 
-func _pitch():
-	pass
+
 
 func _testing():
 	$ThrottleLabel.text = "Throttle: " + str(floor(throttle * 100)) + "%"
