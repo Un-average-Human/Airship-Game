@@ -124,9 +124,8 @@ func _physics_process(delta: float) -> void:
 	steer_input = Input.get_axis("steer_left", "steer_right")
 	
 	##GRAVITY
-	if not is_grounded:
-		var gravity = remap(linear_velocity.length(), 0.0, flight_speed_threshold, 0.0, -get_gravity().y * mass)
-		apply_central_force(Vector3.UP * gravity)
+	var gravity = remap(linear_velocity.length(), 0.0, max_speed, 0.0, 10 * mass)
+	apply_central_force(Vector3.UP * gravity)
 	
 	_ground_state_manager()
 	_controls(delta)
@@ -157,7 +156,7 @@ func _ground_state_manager():
 			if surface_normal.dot(Vector3.UP) > 0.5:
 				wheels_in_contact += 1
 	
-	if wheels_in_contact == 0 or linear_velocity.length() >= flight_speed_threshold:
+	if wheels_in_contact == 0:
 		is_grounded = false
 	
 	elif wheels_in_contact >= 2:
@@ -186,6 +185,8 @@ func _controls(delta: float) -> void:
 		#ACCELERATION
 		var target_speed = throttle * ENGINE_POWER
 		apply_central_force(-global_transform.basis.z * target_speed)
+		if linear_velocity.length() > max_speed:
+			linear_velocity = linear_velocity.limit_length(max_speed)
 		
 		#PITCH
 		current_pitch_torque = move_toward(current_pitch_torque, pitch_torque * pitch_input, pitch_strength)
