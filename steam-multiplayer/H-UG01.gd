@@ -131,7 +131,6 @@ func _physics_process(delta: float) -> void:
 	_controls(delta)
 	_testing()
 	
-	
 	##VISUALS
 	elevators.rotation.x = lerp(elevators.rotation.x, pitch_input * deg_to_rad(angle), delta * 5)
 	
@@ -187,6 +186,9 @@ func _controls(delta: float) -> void:
 		apply_central_force(-global_transform.basis.z * target_speed)
 		if linear_velocity.length() > max_speed:
 			linear_velocity = linear_velocity.limit_length(max_speed)
+		
+		if not is_grounded:
+			apply_central_force(-global_transform.basis.y * linear_velocity.dot(global_transform.basis.y) * mass * 1.0)
 
 func _testing():
 	$ThrottleLabel.text = "Throttle: " + str(floor(throttle * 100)) + "%"
