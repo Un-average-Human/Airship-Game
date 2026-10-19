@@ -31,11 +31,13 @@ var throttle: float = 0.0
 var is_engine_on: bool = false
 
 @export_subgroup("Pitch")
-@export var pitch_torque: float = 7500
+@export var pitch_torque: float = 6000
 @export var pitch_strength: float = 500
 var current_pitch_torque: float
 
-@export var drag_factor_time: float = 4.0
+#drags
+const DRAG_FACTOR_TIME: float = 2.5
+const DRAG_STRENGTH: float = 10.0
 var drag_factor: float = 0.0
 
 
@@ -163,6 +165,7 @@ func _ground_state_manager():
 	
 	elif wheels_in_contact >= 2:
 		is_grounded = true
+		drag_factor = 0.0
 
 
 
@@ -172,6 +175,8 @@ func _controls(delta: float) -> void:
 	if is_grounded:
 		if linear_velocity.length() > max_speed:
 			brake = 50
+		else:
+			brake = 0
 		
 		#STEERING
 		var speed_factor: float = remap(linear_velocity.length(), 0.0, flight_speed_threshold, 1.0, 0.05)
@@ -190,12 +195,11 @@ func _controls(delta: float) -> void:
 		if linear_velocity.length() > max_speed:
 			linear_velocity = linear_velocity.limit_length(max_speed)
 		
+		#DRAG
 		if not is_grounded:
-			if pitch_input == 0:
-				drag_factor = lerp(drag_factor, 0.0, (5 / drag_factor_time) * delta)
-			else:
-				drag_factor = lerp(drag_factor, 7.5, (5 / drag_factor_time) * delta * abs(pitch_input))
-			apply_central_force(-global_transform.basis.y * linear_velocity.dot(global_transform.basis.y) * mass * drag_factor)
+			drag_factor = move_toward(drag_factor, DRAG_STRENGTH, (DRAG_STRENGTH / DRAG_FACTOR_TIME) * delta)
+			var complete_drag_factor = mass * drag_factor * throttle
+			apply_central_force(-global_transform.basis.y * linear_velocity.dot(global_transform.basis.y) * complete_drag_factor)
 
 func _testing():
 	$ThrottleLabel.text = "Throttle: " + str(floor(throttle * 100)) + "%"
