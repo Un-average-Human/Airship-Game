@@ -37,7 +37,7 @@ var current_pitch_torque: float
 
 #drags
 const DRAG_FACTOR_TIME: float = 2.5
-const DRAG_STRENGTH: float = 10.0
+const DRAG_STRENGTH: float = 5.0
 var drag_factor: float = 0.0
 
 
@@ -128,10 +128,6 @@ func _physics_process(delta: float) -> void:
 	yaw_input = Input.get_axis("yaw_left", "yaw_right")
 	steer_input = Input.get_axis("steer_left", "steer_right")
 	
-	##GRAVITY
-	gravity = remap(linear_velocity.length(), 0.0, max_speed, 0.0, 10 * mass)
-	apply_central_force(Vector3.UP * gravity)
-	
 	_ground_state_manager()
 	_controls(delta)
 	_testing()
@@ -160,7 +156,7 @@ func _ground_state_manager():
 			if surface_normal.dot(Vector3.UP) > 0.5:
 				wheels_in_contact += 1
 	
-	if wheels_in_contact == 0:
+	if wheels_in_contact == 0 or linear_velocity.length() >= flight_speed_threshold:
 		is_grounded = false
 	
 	elif wheels_in_contact >= 2:
@@ -173,7 +169,7 @@ func _controls(delta: float) -> void:
 	throttle = clamp(throttle + ((delta / throttle_charge_duration) * throttle_input), 0.0, 1.0)
 	
 	if is_grounded:
-		if linear_velocity.length() > max_speed:
+		if linear_velocity.length() > max_speed or throttle == 0:
 			brake = 50
 		else:
 			brake = 0
@@ -196,16 +192,14 @@ func _controls(delta: float) -> void:
 			linear_velocity = linear_velocity.limit_length(max_speed)
 		
 		#DRAG
-		if not is_grounded:
-			drag_factor = move_toward(drag_factor, DRAG_STRENGTH, (DRAG_STRENGTH / DRAG_FACTOR_TIME) * delta)
-			var complete_drag_factor = mass * drag_factor * throttle
-			apply_central_force(-global_transform.basis.y * linear_velocity.dot(global_transform.basis.y) * complete_drag_factor)
+		drag_factor = move_toward(drag_factor, DRAG_STRENGTH, (DRAG_STRENGTH / DRAG_FACTOR_TIME) * delta)
+		var complete_drag_factor = mass * drag_factor * throttle
+		apply_central_force(-global_transform.basis.y * linear_velocity.dot(global_transform.basis.y) * complete_drag_factor)
 
 func _testing():
 	$ThrottleLabel.text = "Throttle: " + str(floor(throttle * 100)) + "%"
 	$EngineLabel.text = "Engine: ON" if is_engine_on else "Engine: OFF"
 	$SpeedLabel.text = "Speed: " + str(floor(linear_velocity.length()))
 	$GroundedLabel.text = "Grounded: TRUE" if is_grounded else "Grounded: FALSE"
-	$GravityLabel.text = "Gravity: " + str(floor(gravity / mass))
 	$DragFactorLabel.text = "Drag Factor: " + str(floor(drag_factor))
 	
