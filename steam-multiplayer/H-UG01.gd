@@ -26,7 +26,7 @@ extends VehicleBody3D
 @export_subgroup("Speed")
 @export var max_speed: float = 30.0
 @export var flight_speed_threshold: float = 20.0
-@export var throttle_charge_duration: float = 4
+@export var throttle_charge_duration: float = 2
 var throttle: float = 0.0
 var is_engine_on: bool = false
 
@@ -34,6 +34,9 @@ var is_engine_on: bool = false
 @export var pitch_torque: float = 7500
 @export var pitch_strength: float = 500
 var current_pitch_torque: float
+
+@export var drag_factor_time: float = 4.0
+var drag_factor: float = 0.0
 
 
 
@@ -132,7 +135,7 @@ func _physics_process(delta: float) -> void:
 	_testing()
 	
 	##VISUALS
-	elevators.rotation.x = lerp(elevators.rotation.x, pitch_input * deg_to_rad(angle), delta * 5)
+	elevators.rotation.x = lerp(elevators.rotation.x, pitch_input * deg_to_rad(-angle), delta * 5)
 	
 	left_aileron.rotation.x = lerp(left_aileron.rotation.x, roll_input * deg_to_rad(angle), delta * 5)
 	right_aileron.rotation.x = -left_aileron.rotation.x
@@ -188,7 +191,11 @@ func _controls(delta: float) -> void:
 			linear_velocity = linear_velocity.limit_length(max_speed)
 		
 		if not is_grounded:
-			apply_central_force(-global_transform.basis.y * linear_velocity.dot(global_transform.basis.y) * mass * 1.0)
+			if pitch_input == 0:
+				drag_factor = lerp(drag_factor, 0.0, (5 / drag_factor_time) * delta)
+			else:
+				drag_factor = lerp(drag_factor, 7.5, (5 / drag_factor_time) * delta * abs(pitch_input))
+			apply_central_force(-global_transform.basis.y * linear_velocity.dot(global_transform.basis.y) * mass * drag_factor)
 
 func _testing():
 	$ThrottleLabel.text = "Throttle: " + str(floor(throttle * 100)) + "%"
@@ -196,4 +203,5 @@ func _testing():
 	$SpeedLabel.text = "Speed: " + str(floor(linear_velocity.length()))
 	$GroundedLabel.text = "Grounded: TRUE" if is_grounded else "Grounded: FALSE"
 	$GravityLabel.text = "Gravity: " + str(floor(gravity / mass))
+	$DragFactorLabel.text = "Drag Factor: " + str(floor(drag_factor))
 	
