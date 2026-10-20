@@ -20,7 +20,7 @@ extends VehicleBody3D
 
 @export_category("Controls")
 
-@export var MAX_STEER: float = 0.25
+@export var MAX_STEER: float = 0.5
 @export var ENGINE_POWER: float = 8000
 
 @export_subgroup("Speed")
@@ -35,9 +35,14 @@ var is_engine_on: bool = false
 @export var pitch_strength: float = 500
 var current_pitch_torque: float
 
-#drags
+@export_subgroup("Roll")
+@export var roll_torque: float = 10000
+@export var roll_strength: float = 1000
+var current_roll_torque: float
+
+#drag
 const DRAG_FACTOR_TIME: float = 2.5
-const DRAG_STRENGTH: float = 5.0
+const DRAG_STRENGTH: float = 10.0
 var drag_factor: float = 0.0
 
 
@@ -124,7 +129,7 @@ func _physics_process(delta: float) -> void:
 	##INPUTS
 	throttle_input = Input.get_axis("throttle_down", "throttle_up")
 	pitch_input = Input.get_axis("pitch_down", "pitch_up")
-	roll_input = Input.get_axis("roll_left", "roll_right")
+	roll_input = Input.get_axis("roll_right", "roll_left")
 	yaw_input = Input.get_axis("yaw_left", "yaw_right")
 	steer_input = Input.get_axis("steer_left", "steer_right")
 	
@@ -181,8 +186,11 @@ func _controls(delta: float) -> void:
 	else:
 		#PITCH
 		current_pitch_torque = move_toward(current_pitch_torque, pitch_torque * pitch_input, pitch_strength)
-		print("Current Torque: ", current_pitch_torque)
 		apply_torque(global_transform.basis.x * current_pitch_torque)
+		
+		#ROLL
+		current_roll_torque = move_toward(current_roll_torque, roll_torque * roll_input, roll_strength)
+		apply_torque(global_transform.basis.z * current_roll_torque)
 
 	if is_engine_on:
 		#ACCELERATION
@@ -192,14 +200,16 @@ func _controls(delta: float) -> void:
 			linear_velocity = linear_velocity.limit_length(max_speed)
 		
 		#DRAG
-		drag_factor = move_toward(drag_factor, DRAG_STRENGTH, (DRAG_STRENGTH / DRAG_FACTOR_TIME) * delta)
-		var complete_drag_factor = mass * drag_factor * throttle
-		apply_central_force(-global_transform.basis.y * linear_velocity.dot(global_transform.basis.y) * complete_drag_factor)
+	drag_factor = move_toward(drag_factor, DRAG_STRENGTH, (DRAG_STRENGTH / DRAG_FACTOR_TIME) * delta)
+	var speed_factor: float = remap(linear_velocity.length(), 0.0, max_speed, 0.0, 1.0)
+	var complete_drag_factor: float = mass * drag_factor * speed_factor
+	apply_central_force(-global_transform.basis.y * linear_velocity.dot(global_transform.basis.y) * complete_drag_factor)
+	apply_central_force(-global_transform.basis.x * linear_velocity.dot(global_transform.basis.x) * complete_drag_factor)
 
 func _testing():
-	$ThrottleLabel.text = "Throttle: " + str(floor(throttle * 100)) + "%"
-	$EngineLabel.text = "Engine: ON" if is_engine_on else "Engine: OFF"
-	$SpeedLabel.text = "Speed: " + str(floor(linear_velocity.length()))
-	$GroundedLabel.text = "Grounded: TRUE" if is_grounded else "Grounded: FALSE"
-	$DragFactorLabel.text = "Drag Factor: " + str(floor(drag_factor))
+	%ThrottleLabel.text = "Throttle: " + str(floor(throttle * 100)) + "%"
+	%EngineLabel.text = "Engine: ON" if is_engine_on else "Engine: OFF"
+	%SpeedLabel.text = "Speed: " + str(floor(linear_velocity.length()))
+	%GroundedLabel.text = "Grounded: TRUE" if is_grounded else "Grounded: FALSE"
+	%DragFactorLabel.text = "Drag Factor: " + str(floor(drag_factor))
 	
