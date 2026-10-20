@@ -26,19 +26,25 @@ extends VehicleBody3D
 @export_subgroup("Speed")
 @export var max_speed: float = 30.0
 @export var flight_speed_threshold: float = 20.0
-@export var throttle_charge_duration: float = 2
+@export var throttle_charge_duration: float = 2.0
 var throttle: float = 0.0
 var is_engine_on: bool = false
 
 @export_subgroup("Pitch")
-@export var pitch_torque: float = 6000
-@export var pitch_strength: float = 500
-var current_pitch_torque: float
+@export var pitch_torque: float = 6000.0
+@export var pitch_strength: float = 500.0
+var current_pitch_torque: float = 0.0
 
 @export_subgroup("Roll")
-@export var roll_torque: float = 10000
-@export var roll_strength: float = 1000
-var current_roll_torque: float
+@export var roll_torque: float = 10000.0
+@export var roll_strength: float = 1000.0
+var current_roll_torque: float = 0.0
+
+@export_subgroup("Yaw")
+@export var max_yaw_torque: float = 5000.0
+@export var min_yaw_torque: float = 500.0
+@export var yaw_strength: float = 500.0
+var current_yaw_torque: float = 0.0
 
 #drag
 const DRAG_FACTOR_TIME: float = 2.5
@@ -191,6 +197,8 @@ func _controls(delta: float) -> void:
 		#ROLL
 		current_roll_torque = move_toward(current_roll_torque, roll_torque * roll_input, roll_strength)
 		apply_torque(global_transform.basis.z * current_roll_torque)
+		
+		#YAW
 
 	if is_engine_on:
 		#ACCELERATION
