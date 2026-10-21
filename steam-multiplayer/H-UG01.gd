@@ -207,6 +207,12 @@ func _controls(delta: float) -> void:
 		apply_torque(global_transform.basis.y * current_yaw_torque)
 		
 		#rolling
+		if rotation.z > deg_to_rad(-yaw_roll_angle) and yaw_input < 0:
+			apply_torque(global_transform.basis.z * current_yaw_torque)
+			
+		if rotation.z < deg_to_rad(yaw_roll_angle) and yaw_input > 0:
+			apply_torque(global_transform.basis.z * current_yaw_torque)
+			print(rad_to_deg(rotation.z))
 
 	if is_engine_on:
 		#ACCELERATION
