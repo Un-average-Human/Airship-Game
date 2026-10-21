@@ -41,9 +41,11 @@ var current_pitch_torque: float = 0.0
 var current_roll_torque: float = 0.0
 
 @export_subgroup("Yaw")
-@export var max_yaw_torque: float = 5000.0
-@export var min_yaw_torque: float = 500.0
+@export var max_yaw_torque: float = 6000.0
+@export var min_yaw_torque: float = 1000.0
 @export var yaw_strength: float = 500.0
+@export var yaw_roll_angle: float = 15.0
+var current_yaw_roll_angle: float = 0.0
 var current_yaw_torque: float = 0.0
 
 #drag
@@ -136,7 +138,7 @@ func _physics_process(delta: float) -> void:
 	throttle_input = Input.get_axis("throttle_down", "throttle_up")
 	pitch_input = Input.get_axis("pitch_down", "pitch_up")
 	roll_input = Input.get_axis("roll_right", "roll_left")
-	yaw_input = Input.get_axis("yaw_left", "yaw_right")
+	yaw_input = Input.get_axis("yaw_right", "yaw_left")
 	steer_input = Input.get_axis("steer_left", "steer_right")
 	
 	_ground_state_manager()
@@ -149,7 +151,7 @@ func _physics_process(delta: float) -> void:
 	left_aileron.rotation.x = lerp(left_aileron.rotation.x, roll_input * deg_to_rad(angle), delta * 5)
 	right_aileron.rotation.x = -left_aileron.rotation.x
 	
-	rudder.rotation.y = lerp(rudder.rotation.y, yaw_input * deg_to_rad(angle), delta * 5)
+	rudder.rotation.y = lerp(rudder.rotation.y, yaw_input * deg_to_rad(-angle), delta * 5)
 	
 	##MULTIPLAYER
 	#if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
@@ -190,15 +192,21 @@ func _controls(delta: float) -> void:
 		steering = lerp(steering, steer_input * (MAX_STEER * speed_factor), delta * 5)
 	
 	else:
-		#PITCH
+		##PITCH
 		current_pitch_torque = move_toward(current_pitch_torque, pitch_torque * pitch_input, pitch_strength)
 		apply_torque(global_transform.basis.x * current_pitch_torque)
 		
-		#ROLL
+		##ROLL
 		current_roll_torque = move_toward(current_roll_torque, roll_torque * roll_input, roll_strength)
 		apply_torque(global_transform.basis.z * current_roll_torque)
 		
-		#YAW
+		##YAW
+		#turning
+		var yaw_torque = remap(linear_velocity.length(), 0.0, max_speed, max_yaw_torque, min_yaw_torque)
+		current_yaw_torque = move_toward(current_yaw_torque, yaw_torque * yaw_input, yaw_strength)
+		apply_torque(global_transform.basis.y * current_yaw_torque)
+		
+		#rolling
 
 	if is_engine_on:
 		#ACCELERATION
@@ -213,6 +221,7 @@ func _controls(delta: float) -> void:
 	var complete_drag_factor: float = mass * drag_factor * speed_factor
 	apply_central_force(-global_transform.basis.y * linear_velocity.dot(global_transform.basis.y) * complete_drag_factor)
 	apply_central_force(-global_transform.basis.x * linear_velocity.dot(global_transform.basis.x) * complete_drag_factor)
+		
 
 func _testing():
 	%ThrottleLabel.text = "Throttle: " + str(floor(throttle * 100)) + "%"
