@@ -16,11 +16,21 @@ extends RigidBody3D
 
 @export var min_lift: float = 9700
 @export var max_lift: float = 9900
-@export var max_capacity: int = 100
-@export var max_speed: float = 5.0
+@export var max_capacity: float = 100.0
+var current_capacity: float = 90.0
+var current_lift = min_lift
+var max_upward_thrust
 
 func _ready() -> void:
 	pass
 
+func _unhandled_input(event: InputEvent) -> void:
+	if Input.is_key_pressed(KEY_Q) and current_lift < max_lift:
+		current_lift += 40
+		print(current_lift)
+	if Input.is_key_pressed(KEY_E) and current_lift > min_lift:
+		current_lift -= 40
+		print(current_lift)
+
 func _physics_process(delta: float) -> void:
-	apply_central_force(Vector3.UP * max_lift)
+	apply_central_force(Vector3.UP * (current_lift))
