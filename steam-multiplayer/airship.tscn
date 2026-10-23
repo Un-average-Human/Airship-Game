@@ -92,6 +92,9 @@ top_radius = 0.016113281
 bottom_radius = 0.016113281
 height = 1.3408203
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_j8abd"]
+size = Vector3(1.5, 2.6000001, 5)
+
 [node name="Airship" type="RigidBody3D" unique_id=436115438 node_paths=PackedStringArray("rudder", "propeller", "helm")]
 mass = 1000.0
 script = ExtResource("1_jc30l")
@@ -258,3 +261,9 @@ mesh = SubResource("CylinderMesh_qmw4s")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1401018512]
 transform = Transform3D(0.7071068, 0, -0.7071068, 0, 1, 0, 0.7071068, 0, 0.7071068, -9, 6, 9)
+
+[node name="storage_area" type="Area3D" parent="." unique_id=1155092247]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="storage_area" unique_id=671156595]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3000001, -1.2000003)
+shape = SubResource("BoxShape3D_j8abd")

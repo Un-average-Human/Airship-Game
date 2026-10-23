@@ -3,9 +3,6 @@
 [ext_resource type="Script" uid="uid://bqx4ih5oftfmn" path="res://Player/Scripts/PlayerController.gd" id="1_ldje2"]
 [ext_resource type="Script" uid="uid://ca06ghrdq810d" path="res://Player/Scripts/StateMachine/StateMachine.gd" id="2_bacvh"]
 [ext_resource type="Texture2D" uid="uid://c1ajv64cojpom" path="res://icon.svg" id="2_ldje2"]
-[ext_resource type="Script" uid="uid://v8bu5xhu8iqi" path="res://Player/Scripts/StateMachine/FloorState.gd" id="3_bacvh"]
-[ext_resource type="Script" uid="uid://cespvcgu3ee6n" path="res://Player/Scripts/StateMachine/JumpState.gd" id="4_j8irr"]
-[ext_resource type="Script" uid="uid://daao05y4qi2lm" path="res://Player/Scripts/StateMachine/FallState.gd" id="5_mdtj2"]
 [ext_resource type="Script" uid="uid://u4r25gc10pi0" path="res://Player/Scripts/StateMachine/SittingState.gd" id="7_laaob"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j8abd"]
@@ -32,19 +29,14 @@ multiplayer_compatible = true
 
 [node name="StateMachine" type="Node" parent="." unique_id=1106026005 node_paths=PackedStringArray("starting_state")]
 script = ExtResource("2_bacvh")
-starting_state = NodePath("Floor")
-
-[node name="Floor" type="Node" parent="StateMachine" unique_id=394806617]
-script = ExtResource("3_bacvh")
-
-[node name="Jump" type="Node" parent="StateMachine" unique_id=1677315607]
-script = ExtResource("4_j8irr")
-
-[node name="Fall" type="Node" parent="StateMachine" unique_id=592346901]
-script = ExtResource("5_mdtj2")
+starting_state = NodePath("")
 
 [node name="Sitting" type="Node" parent="StateMachine" unique_id=750467208]
 script = ExtResource("7_laaob")
+
+[node name="Running" type="Node" parent="StateMachine" unique_id=99267804]
+
+[node name="Grabbing" type="Node" parent="StateMachine" unique_id=1343810587]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=840744841]
 shape = SubResource("CapsuleShape3D_j8abd")
