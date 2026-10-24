@@ -1,18 +1,25 @@
 extends CharacterBody3D
 
 # Camera
+@export_subgroup("Camera")
 @export var neck: Node3D
 @export var player_cam: Camera3D
 @export var interact_raycast: RayCast3D
 
+# Interaction
+@export_subgroup("Interaction")
+@export var interact_ray: RayCast3D
+
 # Multiplayer
+@export_subgroup("Multiplayer")
 @export var multiplayer_compatible: bool
 
 # Movement
+@export_subgroup("Movement")
 @export var walking_speed: float = 5.0
 @export var running_speed: float = 8.0
+@export var jump_velocity: float = 4.0
 var current_speed = walking_speed
-const JUMP_VELOCITY: float = 4.0
 
 func _enter_tree() -> void:
 	if multiplayer_compatible:
@@ -46,7 +53,7 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 
 	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+		velocity.y = jump_velocity
 
 	var input_dir := Input.get_vector("left", "right", "forward", "backward")
 	var direction := (transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)).normalized()
