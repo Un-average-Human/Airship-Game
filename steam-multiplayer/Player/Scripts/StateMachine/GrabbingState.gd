@@ -5,7 +5,7 @@ extends PlayerState
 @export var hand: Marker3D
 
 @export_subgroup("Weight Thresholds")
-@export var light_threshold: float = 30
+@export var light_threshold: float = 0.0
 @export var average_threshold: float = 50
 @export var heavy_threshold: float = 100
 
