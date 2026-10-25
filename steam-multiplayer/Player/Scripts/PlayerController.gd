@@ -16,6 +16,7 @@ extends CharacterBody3D
 
 # Movement
 @export_subgroup("Movement")
+@export var carrying_speed: float = 3.0
 @export var walking_speed: float = 5.0
 @export var running_speed: float = 8.0
 @export var jump_velocity: float = 4.0

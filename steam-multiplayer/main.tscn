@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://f2brq3aklygk" path="res://Singletons/Multiplayer/LobbyMain.gd" id="1_ig7tw"]
 [ext_resource type="Texture2D" uid="uid://c1ajv64cojpom" path="res://icon.svg" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://x7ltfoi06yml" path="res://airship.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://dmiakkcqld8lm" path="res://test_block.tscn" id="4_1bvp3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -95,10 +96,6 @@ height = 16.535645
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_0xm2m"]
 height = 16.535645
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_j8abd"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_j8abd"]
-
 [node name="Lobby" type="Node3D" unique_id=2035849254 node_paths=PackedStringArray("spawn_point")]
 script = ExtResource("1_ig7tw")
 spawn_point = NodePath("spawn")
@@ -156,15 +153,8 @@ shape = SubResource("CylinderShape3D_0xm2m")
 [node name="Airship" parent="." unique_id=436115438 instance=ExtResource("3_h2yge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 0)
 
-[node name="RigidBody3D" type="RigidBody3D" parent="." unique_id=1373576109 groups=["CanGrab"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 0)
-mass = 100.0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" unique_id=1122228268]
-shape = SubResource("BoxShape3D_j8abd")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D" unique_id=1732403213]
-mesh = SubResource("BoxMesh_j8abd")
+[node name="RigidBody3D" parent="." unique_id=2037213462 instance=ExtResource("4_1bvp3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0)
 
 [connection signal="pressed" from="Button" to="." method="_on_host_button_pressed"]
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

@@ -1,8 +1,20 @@
 extends PlayerState
 
+@export_subgroup("Interaction")
 @export var interact_ray: RayCast3D
 @export var hand: Marker3D
-@export var pull_strength: float = 300.0
+
+@export_subgroup("Weight Thresholds")
+@export var light_threshold: float = 30
+@export var average_threshold: float = 50
+@export var heavy_threshold: float = 100
+
+@export_subgroup("Pull Strength")
+@export var light_pull_strength: float = 3000.0
+@export var medium_pull_strength: float = 1500.0
+@export var heavy_pull_strength: float = 300
+var current_pull_strength: float = light_pull_strength
+
 @export var damping: float = 256.0
 
 var is_grabbing_toggleable: bool = false
@@ -15,8 +27,8 @@ func _unhandled_input(event: InputEvent) -> void:
 				grabbed_object = null
 			else:
 				_grab_manager()
-#changed mass to 100kg (from 60kg)
-func physics_update(delta: float) -> void:
+
+func _physics_process(delta: float) -> void:
 	if not is_grabbing_toggleable:
 		if Input.is_action_pressed("grab"):
 			if grabbed_object == null:
@@ -38,5 +50,5 @@ func _grab_manager():
 
 func _pull_object():
 	var dir = hand.global_position - grabbed_object.global_position
-	var pull_force = (dir * pull_strength) - (grabbed_object.linear_velocity * damping)
+	var pull_force = (dir * current_pull_strength) - (grabbed_object.linear_velocity * damping)
 	grabbed_object.apply_central_force(pull_force)

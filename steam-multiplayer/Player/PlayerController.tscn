@@ -24,14 +24,16 @@ properties/1/replication_mode = 1
 [node name="player" type="CharacterBody3D" unique_id=1082542328 node_paths=PackedStringArray("neck", "player_cam", "interact_raycast", "interact_ray")]
 script = ExtResource("1_ldje2")
 neck = NodePath("Neck")
-player_cam = NodePath("PlayerCamera")
+player_cam = NodePath("Neck/PlayerCamera")
 interact_raycast = NodePath("Neck/InteractRay")
 interact_ray = NodePath("Neck/InteractRay")
 multiplayer_compatible = true
 
-[node name="StateMachine" type="Node" parent="." unique_id=1106026005 node_paths=PackedStringArray("starting_state")]
+[node name="StateMachine" type="Node" parent="." unique_id=1106026005 node_paths=PackedStringArray("state_machine", "states", "player")]
 script = ExtResource("2_bacvh")
-starting_state = NodePath("Grabbing")
+state_machine = NodePath(".")
+states = [NodePath("Sitting"), NodePath("Grabbing")]
+player = NodePath("..")
 
 [node name="Sitting" type="Node" parent="StateMachine" unique_id=750467208]
 script = ExtResource("7_laaob")
@@ -63,5 +65,5 @@ target_position = Vector3(0, 0, -3)
 [node name="Marker3D" type="Marker3D" parent="Neck" unique_id=1901907171]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 
-[node name="PlayerCamera" type="Camera3D" parent="." unique_id=858006590]
-transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 1.5, 2)
+[node name="PlayerCamera" type="Camera3D" parent="Neck" unique_id=858006590]
+transform = Transform3D(1, 0, 0, 0, 1, 2.9802319e-08, 0, -2.9802319e-08, 1, 0, 0, 0)
