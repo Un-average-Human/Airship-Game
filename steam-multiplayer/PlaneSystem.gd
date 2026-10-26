@@ -1,4 +1,6 @@
+@icon("res://addons/at-icons/node3d/airplane.svg")
 extends VehicleBody3D
+class_name Airplane
 
 @export_category("Plane Parts")
 

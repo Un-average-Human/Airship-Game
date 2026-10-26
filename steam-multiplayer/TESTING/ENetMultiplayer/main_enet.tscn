@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://df8mltyesaef"]
 
-[ext_resource type="Script" uid="uid://rv3hl1eano17" path="res://EnetLobby.gd" id="1_7lx20"]
+[ext_resource type="Script" uid="uid://rv3hl1eano17" path="res://TESTING/ENetMultiplayer/EnetLobby.gd" id="1_7lx20"]
 [ext_resource type="Script" uid="uid://b64joqut1orvw" path="res://TESTING/ENetMultiplayer/multiplayer_spawner.gd" id="2_vprvq"]
 [ext_resource type="PackedScene" uid="uid://bxrtwet2knbel" path="res://Player/PlayerController.tscn" id="3_vprvq"]
 [ext_resource type="PackedScene" uid="uid://co7u7migct03b" path="res://H-UG01Plane.scn" id="4_x5t6k"]

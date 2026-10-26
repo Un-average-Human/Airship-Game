@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PackageStats" format=3 uid="uid://pbjcl8cg68xt"]
+
+[ext_resource type="Script" uid="uid://gxg24atqdc6r" path="res://Classes/ResourceClasses/PackageResource.gd" id="1_u1th7"]
+
+[resource]
+script = ExtResource("1_u1th7")
+package_type = 0
+sell_price = 100.0
+buy_price = 10.0
+weight = 50.0
+metadata/_custom_type_script = "uid://gxg24atqdc6r"

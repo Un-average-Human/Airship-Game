@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dmiakkcqld8lm"]
+
+[ext_resource type="Script" uid="uid://wutysbfbd5x6" path="res://Classes/Packages/Package.gd" id="1_qr08y"]
+[ext_resource type="Resource" uid="uid://pbjcl8cg68xt" path="res://Resources/Packages/TestPackage.tres" id="2_7oohr"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j8abd"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_j8abd"]
+
+[node name="Package" type="RigidBody3D" unique_id=105087648 groups=["CanGrab"]]
+mass = 50.0
+script = ExtResource("1_qr08y")
+stats_resource = ExtResource("2_7oohr")
+metadata/_custom_type_script = "uid://wutysbfbd5x6"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1078963526]
+shape = SubResource("BoxShape3D_j8abd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=220789324]
+mesh = SubResource("BoxMesh_j8abd")
