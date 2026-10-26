@@ -87,9 +87,6 @@ var pilot: CharacterBody3D
 
 func execute(player: CharacterBody3D):
 	pilot = player
-	
-	if player.has_node("StateMachine"):
-		player.get_node("StateMachine").change_state("sitting")
 		
 	_manage_authority.rpc(int(player.name))
 	_start_piloting()
@@ -155,9 +152,9 @@ func _physics_process(delta: float) -> void:
 	rudder.rotation.y = lerp(rudder.rotation.y, yaw_input * deg_to_rad(-angle), delta * 5)
 	
 	##MULTIPLAYER
-	#if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
-		#return
-	#
+	if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
+		return
+	
 	#pilot.global_position = pilot_seat.global_position
 	#pilot.global_rotation = pilot_seat.global_rotation
 	

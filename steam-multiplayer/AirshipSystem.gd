@@ -1,6 +1,6 @@
 @icon("uid://dkaeqim7alm7m")
 extends RigidBody3D
-class_name Dirigibles
+class_name Dirigible
 
 @export_category("Airship Parts")
 

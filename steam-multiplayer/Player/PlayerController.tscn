@@ -21,9 +21,13 @@ properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[node name="player" type="CharacterBody3D" unique_id=1082542328 node_paths=PackedStringArray("camera")]
+[node name="player" type="CharacterBody3D" unique_id=1082542328 node_paths=PackedStringArray("neck", "player_cam", "interact_raycast", "interact_ray")]
 script = ExtResource("1_ldje2")
-camera = NodePath("Neck/PlayerCamera")
+neck = NodePath("Neck")
+player_cam = NodePath("Neck/PlayerCamera")
+interact_raycast = NodePath("Neck/InteractRay")
+interact_ray = NodePath("Neck/InteractRay")
+multiplayer_compatible = true
 
 [node name="StateMachine" type="Node" parent="." unique_id=1106026005 node_paths=PackedStringArray("state_machine", "states", "player")]
 script = ExtResource("2_bacvh")

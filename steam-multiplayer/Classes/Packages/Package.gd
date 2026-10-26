@@ -18,3 +18,4 @@ func _ready() -> void:
 	#physical stats
 	weight = stats_resource.weight
 	package_mesh = stats_resource.package_mesh
+	mass = weight
