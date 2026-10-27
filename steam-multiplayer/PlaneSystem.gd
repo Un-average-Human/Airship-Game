@@ -64,11 +64,12 @@ var drag_factor: float = 0.0
 
 
 #input
-var throttle_input: float
-var pitch_input: float
-var roll_input: float
-var yaw_input: float
-var steer_input: float
+@export_subgroup("Input")
+@export var throttle_input: float
+@export var pitch_input: float
+@export var roll_input: float
+@export var yaw_input: float
+@export var steer_input: float
 
 
 
@@ -107,8 +108,10 @@ func _manage_authority(driver_id: int):
 
 
 func _start_piloting():
-	if pilot and pilot.has_node("CollisionShape3D"):
-		pilot.get_node("CollisionShape3D").disabled = true
+	print(pilot)
+	print(player_id)
+	#if pilot and pilot.has_node("CollisionShape3D"):
+		#pilot.get_node("CollisionShape3D").disabled = true
 
 func _stop_piloting():
 	if pilot:
@@ -132,6 +135,22 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	##VISUALS
+	elevators.rotation.x = lerp(elevators.rotation.x, pitch_input * deg_to_rad(-angle), delta * 5)
+	
+	left_aileron.rotation.x = lerp(left_aileron.rotation.x, roll_input * deg_to_rad(angle), delta * 5)
+	right_aileron.rotation.x = -left_aileron.rotation.x
+	
+	rudder.rotation.y = lerp(rudder.rotation.y, yaw_input * deg_to_rad(-angle), delta * 5)
+	
+	#STEERING
+	var speed_factor: float = remap(linear_velocity.length(), 0.0, flight_speed_threshold, 1.0, 0.05)
+	steering = lerp(steering, steer_input * (MAX_STEER * speed_factor), delta * 5)
+	
+	##MULTIPLAYER
+	if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
+		return
+	
 	##INPUTS
 	throttle_input = Input.get_axis("throttle_down", "throttle_up")
 	pitch_input = Input.get_axis("pitch_down", "pitch_up")
@@ -142,18 +161,6 @@ func _physics_process(delta: float) -> void:
 	_ground_state_manager()
 	_controls(delta)
 	_testing()
-	
-	##VISUALS
-	elevators.rotation.x = lerp(elevators.rotation.x, pitch_input * deg_to_rad(-angle), delta * 5)
-	
-	left_aileron.rotation.x = lerp(left_aileron.rotation.x, roll_input * deg_to_rad(angle), delta * 5)
-	right_aileron.rotation.x = -left_aileron.rotation.x
-	
-	rudder.rotation.y = lerp(rudder.rotation.y, yaw_input * deg_to_rad(-angle), delta * 5)
-	
-	##MULTIPLAYER
-	if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
-		return
 	
 	#pilot.global_position = pilot_seat.global_position
 	#pilot.global_rotation = pilot_seat.global_rotation
@@ -184,10 +191,6 @@ func _controls(delta: float) -> void:
 			brake = 50
 		else:
 			brake = 0
-		
-		#STEERING
-		var speed_factor: float = remap(linear_velocity.length(), 0.0, flight_speed_threshold, 1.0, 0.05)
-		steering = lerp(steering, steer_input * (MAX_STEER * speed_factor), delta * 5)
 	
 	else:
 		##PITCH

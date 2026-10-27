@@ -60,9 +60,9 @@ script = ExtResource("2_vprvq")
 network_player = ExtResource("3_vprvq")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=120457948]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5005, -23)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5005, -502.5)
 use_collision = true
-size = Vector3(22, 5, 51)
+size = Vector3(204, 5, 1010)
 
 [node name="H-UG01_plane" parent="." unique_id=203517724 instance=ExtResource("4_x5t6k")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4688709, -8.604207)
