@@ -2,19 +2,38 @@
 
 [ext_resource type="Script" uid="uid://wutysbfbd5x6" path="res://Classes/Packages/Package.gd" id="1_qr08y"]
 [ext_resource type="Resource" uid="uid://pbjcl8cg68xt" path="res://Resources/Packages/TestPackage.tres" id="2_7oohr"]
+[ext_resource type="Script" uid="uid://c32bammkpp58s" path="res://Classes/Multiplayer/TickInterpolation.gd" id="3_e4dnp"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j8abd"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vs22u"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
 [sub_resource type="BoxMesh" id="BoxMesh_j8abd"]
 
-[node name="Package" type="RigidBody3D" unique_id=105087648 groups=["CanGrab"]]
+[node name="Package" type="RigidBody3D" unique_id=105087648 node_paths=PackedStringArray("multiplayer_synchronizer") groups=["CanGrab"]]
 mass = 50.0
 script = ExtResource("1_qr08y")
 stats_resource = ExtResource("2_7oohr")
+multiplayer_synchronizer = NodePath("MultiplayerSynchronizer")
 metadata/_custom_type_script = "uid://wutysbfbd5x6"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1078963526]
 shape = SubResource("BoxShape3D_j8abd")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=220789324]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=106212303]
+replication_config = SubResource("SceneReplicationConfig_vs22u")
+
+[node name="TickInterpolation3D" type="Node3D" parent="." unique_id=1867245661 node_paths=PackedStringArray("object_updating", "multiplayer_synchronizer")]
+script = ExtResource("3_e4dnp")
+object_updating = NodePath("..")
+multiplayer_synchronizer = NodePath("../MultiplayerSynchronizer")
+metadata/_custom_type_script = "uid://c32bammkpp58s"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TickInterpolation3D" unique_id=220789324]
 mesh = SubResource("BoxMesh_j8abd")

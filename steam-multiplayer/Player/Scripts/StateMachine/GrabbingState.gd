@@ -24,6 +24,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if is_grabbing_toggleable:
 		if Input.is_action_just_pressed("grab"):
 			if grabbed_object != null:
+				grabbed_object.manage_package_authority.rpc(1)
 				grabbed_object = null
 			else:
 				_grab_manager()
@@ -47,6 +48,7 @@ func _grab_manager():
 		if collider.is_in_group("CanGrab"):
 			print("grabbed")
 			grabbed_object = collider
+			grabbed_object.manage_package_authority.rpc(int(player.name))
 
 func _pull_object():
 	var dir = hand.global_position - grabbed_object.global_position

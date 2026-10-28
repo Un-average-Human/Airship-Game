@@ -32,13 +32,16 @@ func _process(delta: float) -> void:
 	if object_updating.is_multiplayer_authority():
 		return
 	
+	#calculates the render time and gets rid of old dictionaries
 	var render_time: float = Time.get_ticks_msec() - interpolation_delay
 	if world_state_buffer.size() > 1:
 		while world_state_buffer.size() > 2 and render_time > world_state_buffer[1]["time"]:
 			world_state_buffer.remove_at(0)
+		
+		#calculate how long the interpolation will have to be
 		var interpolation_factor: float = (render_time - world_state_buffer[0]["time"]) / \
 		(world_state_buffer[1]["time"] - world_state_buffer[0]["time"])
 		
+		#clamp because you can only use 0 to 1 to interpolate, anything after that is extrapolate
 		interpolation_factor = clampf(interpolation_factor, 0.0, 1.0)
-		
 		global_transform = world_state_buffer[0]["transform"].interpolate_with(world_state_buffer[1]["transform"], interpolation_factor)
