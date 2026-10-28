@@ -22,8 +22,7 @@ func synchronizer_updated():
 	#take a snap of the current data and save it to the buffer
 	var data_snapshot: Dictionary = {
 		"time": Time.get_ticks_msec(),
-		"position": object_updating.global_position,
-		"rotation": object_updating.global_rotation
+		"transform": object_updating.global_transform
 	}
 	world_state_buffer.append(data_snapshot)
 
@@ -33,8 +32,13 @@ func _process(delta: float) -> void:
 	if object_updating.is_multiplayer_authority():
 		return
 	
-	
 	var render_time: float = Time.get_ticks_msec() - interpolation_delay
 	if world_state_buffer.size() > 1:
 		while world_state_buffer.size() > 2 and render_time > world_state_buffer[1]["time"]:
 			world_state_buffer.remove_at(0)
+		var interpolation_factor: float = (render_time - world_state_buffer[0]["time"]) / \
+		(world_state_buffer[1]["time"] - world_state_buffer[0]["time"])
+		
+		interpolation_factor = clampf(interpolation_factor, 0.0, 1.0)
+		
+		global_transform = world_state_buffer[0]["transform"].interpolate_with(world_state_buffer[1]["transform"], interpolation_factor)
