@@ -17,13 +17,14 @@ var current_pull_strength: float = light_pull_strength
 
 @export var damping: float = 256.0
 
-var is_grabbing_toggleable: bool = false
+var is_grabbing_toggleable: bool = true
 var grabbed_object: RigidBody3D = null
 
 func _unhandled_input(event: InputEvent) -> void:
 	if is_grabbing_toggleable:
 		if Input.is_action_just_pressed("grab"):
 			if grabbed_object != null:
+				grabbed_object.is_grabbed = false
 				grabbed_object.manage_package_authority.rpc(1)
 				grabbed_object = null
 			else:
@@ -35,8 +36,12 @@ func _physics_process(delta: float) -> void:
 			if grabbed_object == null:
 				_grab_manager()
 			else:
-				_pull_object()
+				if grabbed_object.is_grabbed == false:
+					_pull_object()
+				else:
+					print("someone is grabbing this object")
 		else:
+			grabbed_object.is_grabbed = false
 			grabbed_object = null
 	else:
 		if grabbed_object != null:
@@ -47,8 +52,12 @@ func _grab_manager():
 		var collider = interact_ray.get_collider()
 		if collider.is_in_group("CanGrab"):
 			print("grabbed")
-			grabbed_object = collider
-			grabbed_object.manage_package_authority.rpc(int(player.name))
+			if collider.is_grabbed == false:
+				grabbed_object = collider
+				grabbed_object.is_grabbed = true
+				grabbed_object.manage_package_authority.rpc(int(player.name))
+			else:
+				print("sopmeone is already grabbing it")
 
 func _pull_object():
 	var dir = hand.global_position - grabbed_object.global_position

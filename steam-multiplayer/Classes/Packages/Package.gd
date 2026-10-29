@@ -11,6 +11,8 @@ var sell_price: float
 var weight: float
 var package_mesh: Mesh
 
+@export var is_grabbed: bool
+
 func _ready() -> void:
 	sell_price = stats_resource.sell_price
 	buy_price = stats_resource.buy_price
@@ -18,7 +20,7 @@ func _ready() -> void:
 	package_mesh = stats_resource.package_mesh
 	mass = weight
 
-#manages the multiplayer authority, allowing it to properly synchronise 
+#manages the multiplayer authority, allowing it to properly synchronise across pleyerz
 @rpc("any_peer", "call_local", "reliable")
 func manage_package_authority(new_authority_id: int) -> void:
 	set_multiplayer_authority(new_authority_id)
