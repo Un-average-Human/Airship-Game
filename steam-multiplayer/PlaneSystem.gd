@@ -72,6 +72,7 @@ var drag_factor: float = 0.0
 @export var steer_input: float
 
 
+@onready var pilot_seat: Marker3D = $pilot_seat
 
 
 #grounded state
@@ -110,8 +111,10 @@ func _manage_authority(driver_id: int):
 func _start_piloting():
 	print(pilot)
 	print(player_id)
-	#if pilot and pilot.has_node("CollisionShape3D"):
-		#pilot.get_node("CollisionShape3D").disabled = true
+	if pilot and pilot.has_node("CollisionShape3D"):
+		pilot.get_node("CollisionShape3D").disabled = true
+	pilot.global_position = pilot_seat.global_position
+	pilot.global_rotation = pilot_seat.global_rotation
 
 func _stop_piloting():
 	if pilot:
@@ -162,8 +165,6 @@ func _physics_process(delta: float) -> void:
 	_controls(delta)
 	_testing()
 	
-	#pilot.global_position = pilot_seat.global_position
-	#pilot.global_rotation = pilot_seat.global_rotation
 	
 
 func _ground_state_manager():
