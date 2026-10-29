@@ -9,9 +9,6 @@ var world_state_buffer: Array[Dictionary] #stores packet data, such as when it a
 
 
 func _ready() -> void:
-	global_transform = object_updating.global_transform
-	
-	
 	#check if player is multiplayer authority and stop if they are (only want to update the movement from OTHER players)
 	#and if they are simply stop the code from running for them since it'll already be smooth for em
 	multiplayer_synchronizer.synchronized.connect(synchronizer_updated)
@@ -29,8 +26,6 @@ func synchronizer_updated():
 func _process(delta: float) -> void:
 	#mesh will automatically follow its parent and wont proceed if the player is the multiplayer authority
 	top_level = not object_updating.is_multiplayer_authority()
-	if top_level == true:
-		print("Is this the issue?")
 	if object_updating.is_multiplayer_authority():
 		return
 	
