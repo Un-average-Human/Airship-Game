@@ -29,6 +29,8 @@ func synchronizer_updated():
 func _process(delta: float) -> void:
 	#mesh will automatically follow its parent and wont proceed if the player is the multiplayer authority
 	top_level = not object_updating.is_multiplayer_authority()
+	if top_level == true:
+		print("Is this the issue?")
 	if object_updating.is_multiplayer_authority():
 		return
 	

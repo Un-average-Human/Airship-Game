@@ -29,7 +29,7 @@ func manage_package_authority(new_authority_id: int, can_grab: bool) -> void:
 	set_multiplayer_authority(new_authority_id)
 	if multiplayer_synchronizer:
 		multiplayer_synchronizer.set_multiplayer_authority(new_authority_id)
-	
+
 	if new_authority_id == multiplayer.get_unique_id():
 		freeze = false
 	else:
