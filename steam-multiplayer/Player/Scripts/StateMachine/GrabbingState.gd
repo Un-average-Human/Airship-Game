@@ -26,7 +26,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			_grab()
 		elif Input.is_action_just_released("grab"):
 			_drop()
-	
 	elif is_grabbing_toggleable:
 		if Input.is_action_just_pressed("grab"):
 			if grabbed_object == null:
@@ -34,29 +33,35 @@ func _unhandled_input(event: InputEvent) -> void:
 			else:
 				_drop()
 	
-	
 	if Input.is_action_just_pressed("interact"):
 		is_grabbing_toggleable = not is_grabbing_toggleable
 
-func _process(delta: float) -> void:
-	if grabbed_object != null:
-		_pull_object()
+func _physics_process(delta: float) -> void:
+	if grabbed_object != null and is_multiplayer_authority():
+		_pull_object.rpc(grabbed_object.get_path(), hand.global_position)
 
 func _grab():
 	if interact_ray.is_colliding():
 		var collider = interact_ray.get_collider()
 		if collider is Package:
-			if collider.is_grabbed == false:
+			if collider.is_grabbed == false and grabbed_object == null:
 				grabbed_object = collider
-				grabbed_object.manage_package_authority.rpc(int(player.name), true)
+				grabbed_object.is_grabbed = true
 
 func _drop():
 	if grabbed_object != null:
-		var object: RigidBody3D = grabbed_object
+		grabbed_object.is_grabbed = false
 		grabbed_object = null
-		object.manage_package_authority.rpc(1, false)
 
-func _pull_object():
-	var dir = hand.global_position - grabbed_object.global_position
-	var pull_force = (dir * current_pull_strength) - (grabbed_object.linear_velocity * damping)
-	grabbed_object.apply_central_force(pull_force)
+@rpc("any_peer", "call_local", "unreliable")
+func _pull_object(object_path: NodePath, hand_pos: Vector3):
+	var object: Package = get_node_or_null(object_path)
+	
+	if not multiplayer.is_server():
+		object.set_freeze_enabled(true)
+		object.set_freeze_mode(RigidBody3D.FREEZE_MODE_KINEMATIC)
+	
+	if object != null:
+		var dir = hand_pos - object.global_position
+		var pull_force = (dir * current_pull_strength) - (object.linear_velocity * damping)
+		object.apply_central_force(pull_force)

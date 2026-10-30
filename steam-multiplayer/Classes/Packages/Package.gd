@@ -11,28 +11,16 @@ var sell_price: float
 var weight: float
 var package_mesh: Mesh
 
-@export var is_grabbed: bool
+@export var is_grabbed: bool = false 
 
 func _ready() -> void:
-	#set all necessary variables as soon as possible
 	sell_price = stats_resource.sell_price
 	buy_price = stats_resource.buy_price
 	weight = stats_resource.weight
 	package_mesh = stats_resource.package_mesh
 	mass = weight
 
-#manages the multiplayer authority, allowing it to properly synchronise across pleyerz
 @rpc("any_peer", "call_local", "reliable")
-func manage_package_authority(new_authority_id: int, can_grab: bool) -> void:
-		
-	set_multiplayer_authority(new_authority_id)
-	if multiplayer_synchronizer:
-		multiplayer_synchronizer.set_multiplayer_authority(new_authority_id)
-	
-	is_grabbed = can_grab
-	
-	if new_authority_id == multiplayer.get_unique_id():
-		freeze = false
-	elif new_authority_id != multiplayer.get_unique_id() and is_grabbed:
-		freeze = true
-	
+func update_grab_state(grabbed: bool) -> void:
+	if multiplayer.is_server():
+		is_grabbed = grabbed
