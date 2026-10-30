@@ -9,7 +9,7 @@ const MAX_MEMBERS: int = 4
 var peer: SteamMultiplayerPeer
 
 func _ready():
-	#relay network that allows players to connect to the host's system while removing certain security risks.
+	#relay network that allzzows players to connect to the host's system while removing certain security risks.
 	#this line of code simply initialises the relay network
 	Steam.initRelayNetworkAccess()
 	

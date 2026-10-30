@@ -117,7 +117,7 @@ shortcut_in_tooltip = false
 text = "host"
 
 [node name="spawn" type="Node3D" parent="." unique_id=1949804315]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=680742946]
 _spawnable_scenes = PackedStringArray("uid://bxrtwet2knbel")

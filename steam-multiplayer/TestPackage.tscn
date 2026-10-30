@@ -16,11 +16,22 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath(".:rotation")
 properties/2/spawn = true
 properties/2/replication_mode = 1
+properties/3/path = NodePath(".:linear_velocity")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:angular_velocity")
+properties/4/spawn = true
+properties/4/replication_mode = 1
 
 [sub_resource type="BoxMesh" id="BoxMesh_j8abd"]
 
 [node name="Package" type="RigidBody3D" unique_id=105087648 node_paths=PackedStringArray("multiplayer_synchronizer") groups=["CanGrab"]]
 mass = 50.0
+can_sleep = false
+freeze_mode = 1
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 1
 script = ExtResource("1_qr08y")
 stats_resource = ExtResource("2_7oohr")
 multiplayer_synchronizer = NodePath("MultiplayerSynchronizer")
@@ -32,7 +43,7 @@ shape = SubResource("BoxShape3D_j8abd")
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=106212303]
 replication_config = SubResource("SceneReplicationConfig_vs22u")
 
-[node name="TickInterpolation3D" type="Node3D" parent="." unique_id=2100414882 node_paths=PackedStringArray("object_updating", "multiplayer_synchronizer")]
+[node name="TickInterpolation3D" type="Node3D" parent="." unique_id=389432985 node_paths=PackedStringArray("object_updating", "multiplayer_synchronizer")]
 script = ExtResource("3_e4dnp")
 object_updating = NodePath("..")
 multiplayer_synchronizer = NodePath("../MultiplayerSynchronizer")

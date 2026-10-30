@@ -24,14 +24,13 @@ func _ready() -> void:
 #manages the multiplayer authority, allowing it to properly synchronise across pleyerz
 @rpc("any_peer", "call_local", "reliable")
 func manage_package_authority(new_authority_id: int, can_grab: bool) -> void:
-	is_grabbed = can_grab
-	
-	set_multiplayer_authority(new_authority_id)
-	if multiplayer_synchronizer:
-		multiplayer_synchronizer.set_multiplayer_authority(new_authority_id)
-
 	if new_authority_id == multiplayer.get_unique_id():
 		freeze = false
 	else:
 		freeze = true
-		freeze_mode = RigidBody3D.FREEZE_MODE_KINEMATIC
+		
+	set_multiplayer_authority(new_authority_id)
+	if multiplayer_synchronizer:
+		multiplayer_synchronizer.set_multiplayer_authority(new_authority_id)
+	
+	is_grabbed = can_grab

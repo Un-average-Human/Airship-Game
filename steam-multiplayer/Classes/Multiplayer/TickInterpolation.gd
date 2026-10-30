@@ -16,12 +16,15 @@ func _ready() -> void:
 		top_level = true
 
 func synchronizer_updated():
-	#take a snap of the current data and save it to the buffer
+	#take a snap of the current data (aka transform) and saves it to the buffer array
 	var data_snapshot: Dictionary = {
 		"time": Time.get_ticks_msec(),
 		"transform": object_updating.global_transform
 	}
 	world_state_buffer.append(data_snapshot)
+	
+	#constantly prints 8-10, so rthe problem isnt the fact that the package runs out of buffers
+	print(world_state_buffer.size())
 
 func _process(delta: float) -> void:
 	#mesh will automatically follow its parent and wont proceed if the player is the multiplayer authority
