@@ -41,6 +41,8 @@ func initialize_player(player: CharacterBody3D) -> void:
 #what to do after clicking the host
 func _on_host_button_pressed() -> void:
 	SteamNetworking.host_lobby()
+	$Button.disabled
+	$Button.hide()
 
 func _on_multiplayer_spawner_spawned(node: Node) -> void:
 	if node is CharacterBody3D:
