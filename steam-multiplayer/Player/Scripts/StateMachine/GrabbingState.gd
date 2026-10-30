@@ -54,8 +54,7 @@ func _drop():
 	if grabbed_object != null:
 		var object: RigidBody3D = grabbed_object
 		grabbed_object = null
-		if object.get_colliding_bodies().size() > 0:
-			object.manage_package_authority.rpc(1, false)
+		object.manage_package_authority.rpc(1, false)
 
 func _pull_object():
 	var dir = hand.global_position - grabbed_object.global_position
