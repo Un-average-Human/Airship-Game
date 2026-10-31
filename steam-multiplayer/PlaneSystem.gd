@@ -17,6 +17,10 @@ class_name Airplane
 @export var guns: Array[MeshInstance3D]
 @export var wheels: Array[VehicleWheel3D]
 
+@export_subgroup("Propeller Stats")
+@export var target_propeller_rpm: float = 100
+@export var propeller_acceleration: float = 50
+var current_propeller_speed: float = 0.0
 
 
 
@@ -56,13 +60,6 @@ var drag_factor: float = 0.0
 
 
 
-
-
-
-
-
-
-
 #input
 @export_subgroup("Input")
 @export var throttle_input: float
@@ -71,13 +68,12 @@ var drag_factor: float = 0.0
 @export var yaw_input: float
 @export var steer_input: float
 
-
 @onready var pilot_seat: Marker3D = $pilot_seat
 
-
 #grounded state
-var gravity
 var is_grounded: bool = true
+
+
 
 @export_category("Multiplayer")
 @export var multiplayer_synchronizer: MultiplayerSynchronizer
@@ -131,6 +127,9 @@ func _stop_piloting():
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not is_multiplayer_authority():
+		return
+		
 	if Input.is_action_just_pressed("start_engine"):
 		is_engine_on = !is_engine_on
 
@@ -146,13 +145,18 @@ func _physics_process(delta: float) -> void:
 	
 	rudder.rotation.y = lerp(rudder.rotation.y, yaw_input * deg_to_rad(-angle), delta * 5)
 	
+	if is_engine_on:
+		current_propeller_speed = move_toward(current_propeller_speed, target_propeller_rpm, propeller_acceleration * delta)
+		for propeller in propellers:
+			propeller.rotate_z(current_propeller_speed * delta)
+	
 	#STEERING
 	var speed_factor: float = remap(linear_velocity.length(), 0.0, flight_speed_threshold, 1.0, 0.05)
 	steering = lerp(steering, steer_input * (MAX_STEER * speed_factor), delta * 5)
 	
 	##MULTIPLAYER
-	if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
-		return
+	#if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
+		#return
 	
 	##INPUTS
 	throttle_input = Input.get_axis("throttle_down", "throttle_up")
@@ -237,4 +241,6 @@ func _testing():
 	%SpeedLabel.text = "Speed: " + str(floor(linear_velocity.length()))
 	%GroundedLabel.text = "Grounded: TRUE" if is_grounded else "Grounded: FALSE"
 	%DragFactorLabel.text = "Drag Factor: " + str(floor(drag_factor))
+	%PropellerRPMLabel.text = "Propeller RPM: " + str(floor(current_propeller_speed))
+	
 	
