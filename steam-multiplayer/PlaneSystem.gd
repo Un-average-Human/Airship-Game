@@ -19,7 +19,8 @@ class_name Airplane
 
 @export_subgroup("Propeller Stats")
 @export var max_propeller_rpm: float = 50
-@export var propeller_acceleration: float = 25
+@export var propeller_acceleration: float = 2.2
+@export var propeller_acceleration_duration: float = 3.0
 var current_propeller_speed: float = 0.0
 
 
@@ -146,9 +147,12 @@ func _physics_process(delta: float) -> void:
 	rudder.rotation.y = lerp(rudder.rotation.y, yaw_input * deg_to_rad(-angle), delta * 5)
 	
 	var target_propeller_rpm = max_propeller_rpm if is_engine_on else 0.0
-	current_propeller_speed = move_toward(current_propeller_speed, target_propeller_rpm, propeller_acceleration * delta)
-	
-	
+	if is_engine_on:
+		current_propeller_speed = move_toward(current_propeller_speed, target_propeller_rpm, (1.0 / propeller_acceleration_duration) - exp(-delta * propeller_acceleration) * delta)
+	else:
+		current_propeller_speed = lerp(current_propeller_speed, target_propeller_rpm, (propeller_acceleration / propeller_acceleration_duration) * delta)
+		
+		
 	for propeller in propellers:
 		propeller.rotate_z(current_propeller_speed * delta)
 	
@@ -194,7 +198,7 @@ func _controls(delta: float) -> void:
 	throttle = clamp(throttle + ((delta / throttle_charge_duration) * throttle_input), 0.0, 1.0)
 	
 	if is_grounded:
-		if linear_velocity.length() > max_speed or throttle == 0:
+		if linear_velocity.length() > max_speed or throttle == 0 or not is_engine_on:
 			brake = 50
 		else:
 			brake = 0
