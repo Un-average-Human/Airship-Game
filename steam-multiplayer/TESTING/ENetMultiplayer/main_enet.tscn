@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://b64joqut1orvw" path="res://TESTING/ENetMultiplayer/multiplayer_spawner.gd" id="2_vprvq"]
 [ext_resource type="PackedScene" uid="uid://bxrtwet2knbel" path="res://Player/PlayerController.tscn" id="3_vprvq"]
 [ext_resource type="PackedScene" uid="uid://dmiakkcqld8lm" path="res://TestPackage.tscn" id="4_x5t6k"]
+[ext_resource type="PackedScene" uid="uid://co7u7migct03b" path="res://H-UG01Plane.scn" id="5_qg0e5"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -66,6 +67,9 @@ size = Vector3(204, 5, 1010)
 
 [node name="Package" parent="." unique_id=105087648 instance=ExtResource("4_x5t6k")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -8)
+
+[node name="H-UG01_plane" parent="." unique_id=382483973 instance=ExtResource("5_qg0e5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2, -7)
 
 [connection signal="pressed" from="server" to="." method="_on_server_pressed"]
 [connection signal="pressed" from="client" to="." method="_on_client_pressed"]

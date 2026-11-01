@@ -18,10 +18,12 @@ class_name Airplane
 @export var wheels: Array[VehicleWheel3D]
 
 @export_subgroup("Propeller Stats")
-@export var max_propeller_rpm: float = 50
+@export var max_propeller_rpm: float = 100
+@export var min_propeller_rpm: float = 25
 @export var propeller_acceleration: float = 2.2
 @export var propeller_acceleration_duration: float = 3.0
 var current_propeller_speed: float = 0.0
+var target_propeller_rpm: float = 0.0
 
 
 
@@ -35,7 +37,7 @@ var current_propeller_speed: float = 0.0
 @export var flight_speed_threshold: float = 20.0
 @export var throttle_charge_duration: float = 2.0
 var throttle: float = 0.0
-var is_engine_on: bool = false
+@export var is_engine_on: bool = false
 
 @export_subgroup("Pitch")
 @export var pitch_torque: float = 6000.0
@@ -107,11 +109,11 @@ func _manage_authority(driver_id: int):
 
 func _start_piloting():
 	print(pilot)
-	print(player_id)
-	if pilot and pilot.has_node("CollisionShape3D"):
-		pilot.get_node("CollisionShape3D").disabled = true
-	pilot.global_position = pilot_seat.global_position
-	pilot.global_rotation = pilot_seat.global_rotation
+	#print(player_id)
+	#if pilot and pilot.has_node("CollisionShape3D"):
+		#pilot.get_node("CollisionShape3D").disabled = true
+	#pilot.global_position = pilot_seat.global_position
+	#pilot.global_rotation = pilot_seat.global_rotation
 
 func _stop_piloting():
 	if pilot:
@@ -146,10 +148,13 @@ func _physics_process(delta: float) -> void:
 	
 	rudder.rotation.y = lerp(rudder.rotation.y, yaw_input * deg_to_rad(-angle), delta * 5)
 	
-	var target_propeller_rpm = max_propeller_rpm if is_engine_on else 0.0
+	#using lerp for stopping the propeller because it eases out while im using an easing function with move_toward because its linear
+	#cool thingn is dat you can also change how long the duration for the spinning thingmajig takes, really gud
 	if is_engine_on:
+		target_propeller_rpm = remap(throttle, 0.0, 1.0, min_propeller_rpm, max_propeller_rpm)
 		current_propeller_speed = move_toward(current_propeller_speed, target_propeller_rpm, (1.0 / propeller_acceleration_duration) - exp(-delta * propeller_acceleration) * delta)
 	else:
+		target_propeller_rpm = 0.0
 		current_propeller_speed = lerp(current_propeller_speed, target_propeller_rpm, (propeller_acceleration / propeller_acceleration_duration) * delta)
 		
 		
@@ -161,8 +166,8 @@ func _physics_process(delta: float) -> void:
 	steering = lerp(steering, steer_input * (MAX_STEER * speed_factor), delta * 5)
 	
 	##MULTIPLAYER
-	#if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
-		#return
+	if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
+		return
 	
 	##INPUTS
 	throttle_input = Input.get_axis("throttle_down", "throttle_up")
@@ -185,7 +190,7 @@ func _ground_state_manager():
 			if surface_normal.dot(Vector3.UP) > 0.5:
 				wheels_in_contact += 1
 	
-	if wheels_in_contact == 0 or linear_velocity.length() >= flight_speed_threshold:
+	if wheels_in_contact == 0 or linear_velocity.length() >= flight_speed_threshold and target_propeller_rpm >= max_propeller_rpm:
 		is_grounded = false
 	
 	elif wheels_in_contact >= 2:
