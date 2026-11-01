@@ -19,7 +19,9 @@ class_name Airplane
 
 @export_subgroup("Propeller Stats")
 @export var target_propeller_rpm: float = 100
-@export var propeller_acceleration: float = 50
+@export var accel_increment: float = 5
+@export var max_accel_increment: float = 50
+var propeller_acceleration: float = 0.0
 var current_propeller_speed: float = 0.0
 
 
@@ -132,6 +134,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 	if Input.is_action_just_pressed("start_engine"):
 		is_engine_on = !is_engine_on
+		accel_increment
 
 
 
@@ -146,9 +149,17 @@ func _physics_process(delta: float) -> void:
 	rudder.rotation.y = lerp(rudder.rotation.y, yaw_input * deg_to_rad(-angle), delta * 5)
 	
 	if is_engine_on:
+		if not propeller_acceleration >= max_accel_increment:
+			propeller_acceleration += accel_increment
 		current_propeller_speed = move_toward(current_propeller_speed, target_propeller_rpm, propeller_acceleration * delta)
-		for propeller in propellers:
-			propeller.rotate_z(current_propeller_speed * delta)
+	else:
+		if not propeller_acceleration <= max_accel_increment:
+			propeller_acceleration -= accel_increment
+		current_propeller_speed = move_toward(current_propeller_speed, 0.0, propeller_acceleration * delta)
+		
+		
+	for propeller in propellers:
+		propeller.rotate_z(current_propeller_speed * delta)
 	
 	#STEERING
 	var speed_factor: float = remap(linear_velocity.length(), 0.0, flight_speed_threshold, 1.0, 0.05)
@@ -168,8 +179,8 @@ func _physics_process(delta: float) -> void:
 	_ground_state_manager()
 	_controls(delta)
 	_testing()
-	
-	
+
+
 
 func _ground_state_manager():
 	var wheels_in_contact: int = 0
@@ -233,7 +244,8 @@ func _controls(delta: float) -> void:
 	var complete_drag_factor: float = mass * drag_factor * speed_factor
 	apply_central_force(-global_transform.basis.y * linear_velocity.dot(global_transform.basis.y) * complete_drag_factor)
 	apply_central_force(-global_transform.basis.x * linear_velocity.dot(global_transform.basis.x) * complete_drag_factor)
-		
+
+
 
 func _testing():
 	%ThrottleLabel.text = "Throttle: " + str(floor(throttle * 100)) + "%"
@@ -242,5 +254,3 @@ func _testing():
 	%GroundedLabel.text = "Grounded: TRUE" if is_grounded else "Grounded: FALSE"
 	%DragFactorLabel.text = "Drag Factor: " + str(floor(drag_factor))
 	%PropellerRPMLabel.text = "Propeller RPM: " + str(floor(current_propeller_speed))
-	
-	
