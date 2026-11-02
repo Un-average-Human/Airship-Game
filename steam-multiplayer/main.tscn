@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c1ajv64cojpom" path="res://icon.svg" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://dmiakkcqld8lm" path="res://TestPackage.tscn" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://co7u7migct03b" path="res://H-UG01Plane.scn" id="4_lquwl"]
+[ext_resource type="PackedScene" uid="uid://x7ltfoi06yml" path="res://Airship.tscn" id="5_lquwl"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -154,7 +155,10 @@ shape = SubResource("CylinderShape3D_0xm2m")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0)
 
 [node name="H-UG01_plane" parent="." unique_id=382483973 instance=ExtResource("4_lquwl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 2, 0)
+
+[node name="Airship" parent="." unique_id=436115438 instance=ExtResource("5_lquwl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
 
 [connection signal="pressed" from="Button" to="." method="_on_host_button_pressed"]
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

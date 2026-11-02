@@ -95,12 +95,13 @@ height = 1.3408203
 [sub_resource type="BoxShape3D" id="BoxShape3D_j8abd"]
 size = Vector3(1.5, 2.6000001, 5)
 
-[node name="Airship" type="RigidBody3D" unique_id=436115438 node_paths=PackedStringArray("rudder", "propeller", "helm")]
+[node name="Airship" type="RigidBody3D" unique_id=436115438 node_paths=PackedStringArray("rudder", "propeller", "helm", "storage_area")]
 mass = 1000.0
 script = ExtResource("1_jc30l")
 rudder = NodePath("Rudder")
 propeller = NodePath("Propeller")
 helm = NodePath("Helm")
+storage_area = NodePath("storage_area")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1568302423]
 transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, 0.0035856962, 5, -1.2035857)

@@ -20,7 +20,6 @@ properties/2/replication_mode = 1
 [sub_resource type="BoxMesh" id="BoxMesh_j8abd"]
 
 [node name="Package" type="RigidBody3D" unique_id=105087648 node_paths=PackedStringArray("multiplayer_synchronizer") groups=["CanGrab"]]
-mass = 50.0
 can_sleep = false
 freeze_mode = 1
 continuous_cd = true
