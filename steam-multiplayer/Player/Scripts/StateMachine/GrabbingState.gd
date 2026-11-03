@@ -39,7 +39,6 @@ func _unhandled_input(_event: InputEvent) -> void:
 
 func _physics_process(_delta: float) -> void:
 	if grabbed_object != null and is_multiplayer_authority():
-		_weight_threshold_manager(grabbed_object)
 		_pull_object.rpc(grabbed_object.get_path(), hand.global_position)
 
 func _grab() -> void:
@@ -56,6 +55,9 @@ func _drop() -> void:
 		grabbed_object = null
 
 func _weight_threshold_manager(object: RigidBody3D) -> void:
+	if object == null:
+		return
+		
 	if object.mass <= light_threshold:
 		current_pull_strength = light_pull_strength
 		current_weight_threshold = light_threshold
@@ -75,6 +77,7 @@ func _pull_object(object_path: NodePath, hand_pos: Vector3):
 		object.set_freeze_mode(RigidBody3D.FREEZE_MODE_KINEMATIC)
 	
 	if object != null:
+		_weight_threshold_manager(object)
 		#damping and force automatically adjusts to the object's weight
 		var mass_multiplier = object.mass / current_weight_threshold
 		var crit_damping = (2 * sqrt((current_pull_strength * mass_multiplier) * object.mass)) * damping
