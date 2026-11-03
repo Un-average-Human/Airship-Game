@@ -49,7 +49,7 @@ func _physics_process(_delta: float) -> void:
 	apply_central_force(Vector3.UP * (current_lift))
 
 func _entered_storage_area(package: Node3D):
-	print(package)
+	print(package.name)
 	if package is not Package:
 		return
 	var weight_multi: float = max_upward_thrust / max_capacity

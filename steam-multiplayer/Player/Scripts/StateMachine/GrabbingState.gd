@@ -39,6 +39,7 @@ func _unhandled_input(_event: InputEvent) -> void:
 
 func _physics_process(_delta: float) -> void:
 	if grabbed_object != null and is_multiplayer_authority():
+		_weight_threshold_manager(grabbed_object)
 		_pull_object.rpc(grabbed_object.get_path(), hand.global_position)
 
 func _grab() -> void:
@@ -72,8 +73,6 @@ func _pull_object(object_path: NodePath, hand_pos: Vector3):
 	if not multiplayer.is_server():
 		object.set_freeze_enabled(true)
 		object.set_freeze_mode(RigidBody3D.FREEZE_MODE_KINEMATIC)
-	
-	_weight_threshold_manager(grabbed_object)
 	
 	if object != null:
 		#damping and force automatically adjusts to the object's weight
