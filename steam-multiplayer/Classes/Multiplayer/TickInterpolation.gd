@@ -23,7 +23,7 @@ func synchronizer_updated():
 	}
 	world_state_buffer.append(data_snapshot)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	#mesh will automatically follow its parent and wont proceed if the player is the multiplayer authority
 	top_level = not object_updating.is_multiplayer_authority()
 	if object_updating.is_multiplayer_authority():

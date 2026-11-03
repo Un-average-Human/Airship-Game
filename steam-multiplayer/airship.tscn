@@ -95,6 +95,9 @@ height = 1.3408203
 [sub_resource type="BoxShape3D" id="BoxShape3D_j8abd"]
 size = Vector3(1.5, 2.6000001, 5)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_lka76"]
+size = Vector3(1, 1.7, 0.6)
+
 [node name="Airship" type="RigidBody3D" unique_id=436115438 node_paths=PackedStringArray("rudder", "propeller", "helm", "storage_area")]
 mass = 1000.0
 script = ExtResource("1_jc30l")
@@ -268,3 +271,11 @@ transform = Transform3D(0.7071068, 0, -0.7071068, 0, 1, 0, 0.7071068, 0, 0.70710
 [node name="CollisionShape3D" type="CollisionShape3D" parent="storage_area" unique_id=671156595]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3000001, -1.2000003)
 shape = SubResource("BoxShape3D_j8abd")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="." unique_id=481757668]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0.55)
+shape = SubResource("BoxShape3D_lka76")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="." unique_id=1318611692]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95000005, -2.5000002)
+shape = SubResource("BoxShape3D_lka76")

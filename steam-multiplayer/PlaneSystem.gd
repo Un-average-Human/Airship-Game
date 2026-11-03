@@ -129,7 +129,7 @@ func _stop_piloting():
 
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _unhandled_input(_event: InputEvent) -> void:
 	if not is_multiplayer_authority():
 		return
 		

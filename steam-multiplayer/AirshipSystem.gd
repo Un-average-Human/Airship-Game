@@ -19,8 +19,9 @@ class_name Dirigible
 @export_subgroup("Lift")
 @export var min_lift: float = 9700
 @export var max_lift: float = 9900
-var current_lift = min_lift
-var max_upward_thrust
+var current_lift: float = min_lift
+var lift_increment: float
+var max_upward_thrust: float
 
 @export_subgroup("Capacity")
 @export var storage_area: Area3D
@@ -29,18 +30,22 @@ var current_capacity: float = 0.0
 
 func _ready() -> void:
 	max_upward_thrust = (max_lift - mass * 9.8) / 9.8
+	lift_increment = (max_lift - min_lift) / 5
 	storage_area.body_entered.connect(_entered_storage_area)
 	storage_area.body_exited.connect(_exited_storage_area)
 
-func _unhandled_input(event: InputEvent) -> void:
+func _unhandled_input(_event: InputEvent) -> void:
+	if not is_multiplayer_authority():
+		return
+	
 	if Input.is_key_pressed(KEY_Q) and current_lift < max_lift:
-		current_lift += 40
+		current_lift += lift_increment
 		print(current_lift)
-	if Input.is_key_pressed(KEY_E) and current_lift > min_lift:
-		current_lift -= 40
+	if Input.is_key_pressed(KEY_Z) and current_lift > min_lift:
+		current_lift -= lift_increment
 		print(current_lift)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	apply_central_force(Vector3.UP * (current_lift))
 
 func _entered_storage_area(package: Node3D):

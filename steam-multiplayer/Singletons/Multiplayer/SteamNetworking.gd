@@ -24,9 +24,9 @@ func host_lobby() -> void:
 
 
 #called after creating a lobby
-func on_lobby_created(connect: int, lobby_id: int) -> void:
+func on_lobby_created(steam_connect: int, _lobby_id: int) -> void:
 	#make the responsible for creating the lobby a host
-	if connect == Steam.RESULT_OK:
+	if steam_connect == Steam.RESULT_OK:
 		peer = SteamMultiplayerPeer.new()
 		peer.server_relay = true
 		peer.create_host()
@@ -34,7 +34,7 @@ func on_lobby_created(connect: int, lobby_id: int) -> void:
 		host_created.emit()
 
 #called when joining a lobby, including after creating one
-func on_lobby_joined(lobby_id: int, permissions: int, locked: bool, response: int) -> void:
+func on_lobby_joined(lobby_id: int, _permissions: int, _locked: bool, response: int) -> void:
 	if response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
 		print("lobby joined successfully")
 		#ignore if we created the lobby
@@ -47,9 +47,9 @@ func on_lobby_joined(lobby_id: int, permissions: int, locked: bool, response: in
 
 
 #will be called when trying to join from the steam interface
-func on_join_requested(lobby_id: int, steam_id: int) -> void:
+func on_join_requested(lobby_id: int, _steam_id: int) -> void:
 	#will emit the lobby_joined signal
 	Steam.joinLobby(lobby_id)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	Steam.run_callbacks()
