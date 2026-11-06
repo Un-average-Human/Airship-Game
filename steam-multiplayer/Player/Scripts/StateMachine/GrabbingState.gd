@@ -7,7 +7,7 @@ extends PlayerState
 @export_subgroup("Weight Thresholds")
 @export var light_threshold: float = 50
 @export var medium_threshold: float = 100
-@export var heavy_threshold: float = 100
+@export var heavy_threshold: float = 200
 var current_weight_threshold
 
 @export_subgroup("Pull Strength")
@@ -55,7 +55,7 @@ func _drop() -> void:
 		grabbed_object = null
 
 func _weight_threshold_manager(object: RigidBody3D) -> void:
-	if object == null:
+	if object == null or current_weight_threshold != null:
 		return
 		
 	if object.mass <= light_threshold:
@@ -64,7 +64,7 @@ func _weight_threshold_manager(object: RigidBody3D) -> void:
 	elif object.mass <= medium_threshold:
 		current_pull_strength = medium_pull_strength
 		current_weight_threshold = medium_threshold
-	elif object.mass > heavy_threshold:
+	elif object.mass > medium_threshold:
 		current_pull_strength = heavy_pull_strength
 		current_weight_threshold = heavy_threshold
 

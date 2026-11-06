@@ -7,5 +7,5 @@ script = ExtResource("1_u1th7")
 package_type = 0
 sell_price = 100.0
 buy_price = 10.0
-weight = 1.0
+weight = 101.0
 metadata/_custom_type_script = "uid://gxg24atqdc6r"

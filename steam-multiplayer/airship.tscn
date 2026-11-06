@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://x7ltfoi06yml"]
 
 [ext_resource type="Script" uid="uid://b5k04yjwruc21" path="res://AirshipSystem.gd" id="1_jc30l"]
+[ext_resource type="PackedScene" uid="uid://co4muawqgfllb" path="res://Valve.tscn" id="2_ytpwu"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0eil0"]
 radius = 2.0
@@ -97,6 +98,9 @@ size = Vector3(1.5, 2.6000001, 5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lka76"]
 size = Vector3(1, 1.7, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8wd5n"]
+size = Vector3(0.1, 2.8, 0.1)
 
 [node name="Airship" type="RigidBody3D" unique_id=436115438 node_paths=PackedStringArray("rudder", "propeller", "helm", "storage_area")]
 mass = 1000.0
@@ -279,3 +283,10 @@ shape = SubResource("BoxShape3D_lka76")
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="." unique_id=1318611692]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95000005, -2.5000002)
 shape = SubResource("BoxShape3D_lka76")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=135333839]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.90000004, 2.25, -1)
+mesh = SubResource("BoxMesh_8wd5n")
+
+[node name="StaticBody3D" parent="." unique_id=294613386 instance=ExtResource("2_ytpwu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 1, -1)

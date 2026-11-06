@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://co4muawqgfllb"]
+
+[ext_resource type="Script" uid="uid://de0qsg8l7u2fb" path="res://Valve.gd" id="1_ujsv4"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0u0oj"]
+size = Vector3(0.1, 0.3671875, 0.013916016)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ytpwu"]
+size = Vector3(0.1, 0.3671875, 0.013916016)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ovxpy"]
+height = 0.2
+radius = 0.3
+
+[node name="StaticBody3D" type="StaticBody3D" unique_id=826185187 node_paths=PackedStringArray("valve_handle", "valve_mesh") groups=["interactable"]]
+script = ExtResource("1_ujsv4")
+valve_handle = NodePath("Marker3D")
+valve_mesh = NodePath("Node3D")
+
+[node name="Marker3D" type="Marker3D" parent="." unique_id=1546215220]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.19450045, 0)
+
+[node name="Node3D" type="Node3D" parent="." unique_id=2064155298]
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Node3D" unique_id=953136072]
+transform = Transform3D(0.20676392, 0, 0, 0, -0.7071068, 0.7071067, 0, -0.7071067, -0.7071068, 0, 0, 0)
+mesh = SubResource("BoxMesh_0u0oj")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Node3D" unique_id=604187719]
+transform = Transform3D(0.20676392, 0, 0, 0, -0.70710665, -0.7071069, 0, 0.7071069, -0.70710665, 0, 0, 0)
+mesh = SubResource("BoxMesh_ytpwu")
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Node3D" unique_id=786813031]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Node3D/CSGCombiner3D" unique_id=1494646952]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+radius = 0.21533203
+height = 0.04296875
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Node3D/CSGCombiner3D" unique_id=1043196625]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+operation = 2
+radius = 0.17626953
+height = 0.25390625
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="Node3D" unique_id=1275118740]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0.029052734, 0, 0)
+radius = 0.03515625
+height = 0.10107422
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=325159040]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("CylinderShape3D_ovxpy")

@@ -5,6 +5,7 @@ extends CharacterBody3D
 @export var neck: Node3D
 @export var player_cam: Camera3D
 @export var interact_raycast: RayCast3D
+var is_camera_locked: bool = false
 
 # Interaction
 @export_subgroup("Interaction")
@@ -35,12 +36,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	if multiplayer_compatible and not is_multiplayer_authority():
 		return
 
-	if event is InputEventMouseMotion:
+	if Input.is_key_pressed(KEY_ESCAPE):
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+	if event is InputEventMouseMotion and not is_camera_locked:
 		rotate_y(-event.relative.x * 0.005)
 		neck.rotate_x(-event.relative.y * 0.005)
 		neck.rotation.x = clamp(neck.rotation.x, deg_to_rad(-70), deg_to_rad(70))
 
-	if event.is_action_pressed("interact") and not event.is_echo():
+	if event.is_action_pressed("interact"):
 		if interact_raycast.is_colliding():
 			var collider := interact_raycast.get_collider()
 			if collider.is_in_group("interactable"):
