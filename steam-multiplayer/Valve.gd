@@ -2,22 +2,22 @@
 extends Node3D
 class_name Valve
 
-@export var valve_handle: Marker3D
+@export var hand_pos: Marker3D
+@export var crank_sensitivity: float = 0.00005
 @export var valve_mesh: Node3D
 
-var current_camera: Camera3D
+@export var min_rotation: float = -720
+@export var max_rotation: float = 720
+
 var is_grabbed: bool = false
 var player: CharacterBody3D
-
-# SOMA style tracking variables
 var virtual_mouse_pos: Vector2 = Vector2.ZERO
-@export var crank_sensitivity: float = 0.000015
 
 func execute(player_interacting: CharacterBody3D) -> void:
+	print("WHYYY")
 	player = player_interacting
 	
 	player.is_camera_locked = true
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	is_grabbed = true
 	
 	#changes the cur-SON position (aka offsets it, idk why i didnt js say that) so it wont get screwed up
@@ -41,8 +41,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			virtual_mouse_pos = virtual_mouse_pos.normalized() * 150.0
 		elif virtual_mouse_pos.length() < 50.0:
 			virtual_mouse_pos = virtual_mouse_pos.normalized() * 50.0
-			
-		valve_mesh.rotate_object_local(Vector3.RIGHT, change * crank_sensitivity)
+		
+		valve_mesh.rotation.z = clamp(valve_mesh.rotation.z + (change * crank_sensitivity), deg_to_rad(min_rotation), deg_to_rad(max_rotation))
 	
 	if Input.is_action_just_released("interact"):
 		is_grabbed = false
