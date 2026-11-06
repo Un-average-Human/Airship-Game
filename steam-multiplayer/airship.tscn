@@ -102,12 +102,14 @@ size = Vector3(1, 1.7, 0.6)
 [sub_resource type="BoxMesh" id="BoxMesh_8wd5n"]
 size = Vector3(0.1, 2.8, 0.1)
 
-[node name="Airship" type="RigidBody3D" unique_id=436115438 node_paths=PackedStringArray("rudder", "propeller", "helm", "storage_area")]
+[node name="Airship" type="RigidBody3D" unique_id=436115438 node_paths=PackedStringArray("gas_valve", "rudder", "propeller", "helm", "storage_area")]
 mass = 1000.0
 script = ExtResource("1_jc30l")
+gas_valve = NodePath("StaticBody3D2")
 rudder = NodePath("Rudder")
 propeller = NodePath("Propeller")
 helm = NodePath("Helm")
+max_lift = 10000.0
 storage_area = NodePath("storage_area")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1568302423]

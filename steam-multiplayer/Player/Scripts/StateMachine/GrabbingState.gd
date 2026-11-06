@@ -33,9 +33,6 @@ func _unhandled_input(_event: InputEvent) -> void:
 				_grab()
 			else:
 				_drop()
-	
-	if Input.is_action_just_pressed("interact"):
-		is_grabbing_toggleable = not is_grabbing_toggleable
 
 func _physics_process(_delta: float) -> void:
 	if grabbed_object != null and is_multiplayer_authority():
@@ -46,6 +43,7 @@ func _grab() -> void:
 		var collider = interact_ray.get_collider()
 		if collider is Package:
 			if collider.is_grabbed == false and grabbed_object == null:
+				print("grabbed object")
 				grabbed_object = collider
 				grabbed_object.is_grabbed = true
 
@@ -78,6 +76,7 @@ func _pull_object(object_path: NodePath, hand_pos: Vector3):
 	
 	if object != null:
 		_weight_threshold_manager(object)
+		
 		#damping and force automatically adjusts to the object's weight
 		var mass_multiplier = object.mass / current_weight_threshold
 		var crit_damping = (2 * sqrt((current_pull_strength * mass_multiplier) * object.mass)) * damping
