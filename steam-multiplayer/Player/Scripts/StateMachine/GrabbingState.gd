@@ -52,17 +52,18 @@ func _drop() -> void:
 		grabbed_object.is_grabbed = false
 		grabbed_object = null
 
+#assigns a weight threshold and pull strength based on the packages weight (crazy am i right)
 func _weight_threshold_manager(object: RigidBody3D) -> void:
-	if object == null or current_weight_threshold != null:
+	if object == null:
 		return
 		
-	if object.mass <= light_threshold:
+	if object.weight <= light_threshold:
 		current_pull_strength = light_pull_strength
 		current_weight_threshold = light_threshold
-	elif object.mass <= medium_threshold:
+	elif object.weight <= medium_threshold:
 		current_pull_strength = medium_pull_strength
 		current_weight_threshold = medium_threshold
-	elif object.mass > medium_threshold:
+	elif object.weight > medium_threshold:
 		current_pull_strength = heavy_pull_strength
 		current_weight_threshold = heavy_threshold
 
