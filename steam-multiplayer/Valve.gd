@@ -3,20 +3,25 @@ extends Node3D
 class_name Valve
 
 @export var hand_pos: Marker3D
-@export var crank_sensitivity: float = 0.00005
+@export var crank_sensitivity: float = 5.0
 @export var valve_mesh: Node3D
 
+@export var is_vent: bool = false
 @export var min_rotation: float = -720
 @export var max_rotation: float = 720
+@export var starting_rotation: float
 
 var value: float
+var sensitivity_multiplier: float = 0.00001
 
 var is_grabbed: bool = false
 var player: CharacterBody3D
 var virtual_mouse_pos: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
-	valve_mesh.rotation.z = deg_to_rad(min_rotation)
+	valve_mesh.rotation.z = deg_to_rad(starting_rotation)
+	if is_vent:
+		value = 1.0
 
 func execute(player_interacting: CharacterBody3D) -> void:
 	player = player_interacting
@@ -46,8 +51,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif virtual_mouse_pos.length() < 50.0:
 			virtual_mouse_pos = virtual_mouse_pos.normalized() * 50.0
 		
+		if is_vent:
+			valve_mesh.rotation.z = clamp(valve_mesh.rotation.z + (change * (crank_sensitivity * sensitivity_multiplier)), deg_to_rad(min_rotation), valve_mesh.rotation.z)
+		else:
+			valve_mesh.rotation.z = clamp(valve_mesh.rotation.z + (change * (crank_sensitivity * sensitivity_multiplier)), deg_to_rad(min_rotation), deg_to_rad(max_rotation))
 		value = clamp(remap(valve_mesh.rotation.z, deg_to_rad(min_rotation), deg_to_rad(max_rotation), 0.0, 1.0), 0.0, 1.0)
-		valve_mesh.rotation.z = clamp(valve_mesh.rotation.z + (change * crank_sensitivity), deg_to_rad(min_rotation), deg_to_rad(max_rotation))
+		print(value)
 	
 	if Input.is_action_just_released("interact"):
 		print(value)

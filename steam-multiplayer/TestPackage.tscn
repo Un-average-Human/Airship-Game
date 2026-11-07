@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://c32bammkpp58s" path="res://Classes/Multiplayer/TickInterpolation.gd" id="3_e4dnp"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j8abd"]
+size = Vector3(0.5, 0.5, 0.5)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vs22u"]
 properties/0/path = NodePath(".:is_grabbed")
@@ -18,6 +19,7 @@ properties/2/spawn = true
 properties/2/replication_mode = 1
 
 [sub_resource type="BoxMesh" id="BoxMesh_j8abd"]
+size = Vector3(0.5, 0.5, 0.5)
 
 [node name="Package" type="RigidBody3D" unique_id=105087648 node_paths=PackedStringArray("multiplayer_synchronizer") groups=["CanGrab"]]
 can_sleep = false

@@ -4,6 +4,7 @@ class_name Dirigible
 
 @export_category("Airship Parts")
 @export var gas_valve: Valve
+@export var vent_valve: Valve
 
 @export_subgroup("Aerodynamic Components")
 @export var rudder: Node3D
@@ -42,7 +43,9 @@ func _unhandled_input(_event: InputEvent) -> void:
 		return
 
 func _physics_process(_delta: float) -> void:
+	adjustable_lift = adjustable_lift * vent_valve.value
 	current_lift = min_lift + (gas_valve.value * adjustable_lift)
+	print("adjustable lift is: " + str(adjustable_lift * vent_valve.value) + "\n" + "current lift is: " + str(current_lift))
 	apply_central_force(Vector3.UP * (current_lift))
 
 func _entered_storage_area(package: Node3D):

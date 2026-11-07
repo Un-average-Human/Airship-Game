@@ -102,10 +102,11 @@ size = Vector3(1, 1.7, 0.6)
 [sub_resource type="BoxMesh" id="BoxMesh_8wd5n"]
 size = Vector3(0.1, 2.8, 0.1)
 
-[node name="Airship" type="RigidBody3D" unique_id=436115438 node_paths=PackedStringArray("gas_valve", "rudder", "propeller", "helm", "storage_area")]
+[node name="Airship" type="RigidBody3D" unique_id=436115438 node_paths=PackedStringArray("gas_valve", "vent_valve", "rudder", "propeller", "helm", "storage_area")]
 mass = 1000.0
 script = ExtResource("1_jc30l")
 gas_valve = NodePath("StaticBody3D2")
+vent_valve = NodePath("StaticBody3D3")
 rudder = NodePath("Rudder")
 propeller = NodePath("Propeller")
 helm = NodePath("Helm")
@@ -287,8 +288,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95000005, -2.5000002)
 shape = SubResource("BoxShape3D_lka76")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=135333839]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.90000004, 2.25, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.90000004, 2.25, -2)
 mesh = SubResource("BoxMesh_8wd5n")
 
 [node name="StaticBody3D2" parent="." unique_id=826185187 instance=ExtResource("2_ytpwu")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.8, 1, -1.0011892)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.8, 1, -2.0011892)
+starting_rotation = -720.0
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1471037707]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.90000004, 2.25, -1.5)
+mesh = SubResource("BoxMesh_8wd5n")
+
+[node name="StaticBody3D3" parent="." unique_id=66396342 instance=ExtResource("2_ytpwu")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.8, 1, -1.5011892)
+crank_sensitivity = 1.0
+is_vent = true
+min_rotation = 0.0
+starting_rotation = 720.0
