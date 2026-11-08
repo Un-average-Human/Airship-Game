@@ -52,11 +52,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			virtual_mouse_pos = virtual_mouse_pos.normalized() * 50.0
 		
 		if is_vent:
-			valve_mesh.rotation.z = clamp(valve_mesh.rotation.z + (change * (crank_sensitivity * sensitivity_multiplier)), deg_to_rad(min_rotation), valve_mesh.rotation.z)
+			valve_mesh.rotation.z = clamp(valve_mesh.rotation.z + (change * (crank_sensitivity * sensitivity_multiplier)), deg_to_rad(min_rotation), deg_to_rad(max_rotation))
+			var current_frame_value = clamp(remap(valve_mesh.rotation.z, deg_to_rad(max_rotation), deg_to_rad(min_rotation), 1.0, 0.0), 0.0, 1.0)
+			value = min(value, current_frame_value)
+			#print(value)
 		else:
 			valve_mesh.rotation.z = clamp(valve_mesh.rotation.z + (change * (crank_sensitivity * sensitivity_multiplier)), deg_to_rad(min_rotation), deg_to_rad(max_rotation))
-		value = clamp(remap(valve_mesh.rotation.z, deg_to_rad(min_rotation), deg_to_rad(max_rotation), 0.0, 1.0), 0.0, 1.0)
-		print(value)
+			value = clamp(remap(valve_mesh.rotation.z, deg_to_rad(min_rotation), deg_to_rad(max_rotation), 0.0, 1.0), 0.0, 1.0)
 	
 	if Input.is_action_just_released("interact"):
 		print(value)

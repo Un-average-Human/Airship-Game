@@ -22,6 +22,7 @@ class_name Dirigible
 @export var min_lift: float = 9700
 @export var max_lift: float = 9900
 var adjustable_lift: float
+var current_adjustable_lift: float
 var current_lift: float = min_lift
 var max_upward_thrust: float
 
@@ -43,9 +44,9 @@ func _unhandled_input(_event: InputEvent) -> void:
 		return
 
 func _physics_process(_delta: float) -> void:
-	adjustable_lift = adjustable_lift * vent_valve.value
-	current_lift = min_lift + (gas_valve.value * adjustable_lift)
-	print("adjustable lift is: " + str(adjustable_lift * vent_valve.value) + "\n" + "current lift is: " + str(current_lift))
+	current_adjustable_lift = adjustable_lift * vent_valve.value
+	current_lift = min_lift + (gas_valve.value * current_adjustable_lift)
+	print("adjustable lift is: " + str(current_adjustable_lift * vent_valve.value) + "\n" + "current lift is: " + str(current_lift))
 	apply_central_force(Vector3.UP * (current_lift))
 
 func _entered_storage_area(package: Node3D):

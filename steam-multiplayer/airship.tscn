@@ -301,7 +301,8 @@ mesh = SubResource("BoxMesh_8wd5n")
 
 [node name="StaticBody3D3" parent="." unique_id=66396342 instance=ExtResource("2_ytpwu")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.8, 1, -1.5011892)
-crank_sensitivity = 1.0
+crank_sensitivity = 2.5
 is_vent = true
-min_rotation = 0.0
-starting_rotation = 720.0
+min_rotation = -1440.0
+max_rotation = 1440.0
+starting_rotation = 1440.0
