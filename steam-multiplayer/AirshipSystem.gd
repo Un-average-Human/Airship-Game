@@ -44,6 +44,9 @@ func _unhandled_input(_event: InputEvent) -> void:
 		return
 
 func _physics_process(_delta: float) -> void:
+	_manage_lift()
+
+func _manage_lift():
 	current_adjustable_lift = adjustable_lift * vent_valve.value
 	current_lift = min_lift + (gas_valve.value * current_adjustable_lift)
 	print("adjustable lift is: " + str(current_adjustable_lift * vent_valve.value) + "\n" + "current lift is: " + str(current_lift))

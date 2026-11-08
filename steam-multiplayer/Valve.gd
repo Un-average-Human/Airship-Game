@@ -24,13 +24,28 @@ func _ready() -> void:
 		value = 1.0
 
 func execute(player_interacting: CharacterBody3D) -> void:
-	player = player_interacting
+	if player != null:
+		return
+	_multiplayer_manager.rpc(true, player_interacting.get_path())
+
+@rpc("any_peer", "call_local", "reliable")
+func _multiplayer_manager(grabbed: bool, player_interacting: NodePath) -> void:
+	is_grabbed = grabbed
 	
-	player.is_camera_locked = true
-	is_grabbed = true
-	
-	#changes the cur-SON position (aka offsets it, idk why i didnt js say that) so it wont get screwed up
-	virtual_mouse_pos = Vector2(100, 0)
+	if grabbed:
+		player = get_node(player_interacting)
+		var id = int(player.name)
+		
+		set_multiplayer_authority(id)
+		if is_multiplayer_authority():
+			player.is_camera_locked = true
+			virtual_mouse_pos = Vector2(100, 0)
+	else:
+		if is_multiplayer_authority() and player != null:
+			player.is_camera_locked = false
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		player = null
+		set_multiplayer_authority(1)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_grabbed:
@@ -61,7 +76,4 @@ func _unhandled_input(event: InputEvent) -> void:
 			value = clamp(remap(valve_mesh.rotation.z, deg_to_rad(min_rotation), deg_to_rad(max_rotation), 0.0, 1.0), 0.0, 1.0)
 	
 	if Input.is_action_just_released("interact"):
-		print(value)
-		is_grabbed = false
-		player.is_camera_locked = false
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		_multiplayer_manager.rpc(false, "")
