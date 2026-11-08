@@ -1,5 +1,5 @@
 @icon("res://addons/at-icons/node3d/wheel.svg")
-extends Node3D
+extends StaticBody3D
 class_name Valve
 
 @export var hand_pos: Marker3D

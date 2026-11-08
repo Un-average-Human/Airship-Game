@@ -15,13 +15,10 @@ radius = 0.3
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ujsv4"]
 properties/0/path = NodePath("Node3D:rotation")
 properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:is_grabbed")
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:value")
 properties/1/spawn = true
-properties/1/replication_mode = 1
-properties/2/path = NodePath(".:value")
-properties/2/spawn = true
-properties/2/replication_mode = 2
+properties/1/replication_mode = 2
 
 [node name="StaticBody3D" type="StaticBody3D" unique_id=826185187 node_paths=PackedStringArray("valve_mesh") groups=["interactable"]]
 script = ExtResource("1_ujsv4")
@@ -44,12 +41,14 @@ transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, -4.8
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
 radius = 0.21533203
 height = 0.04296875
+sides = 31
 
 [node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Node3D/CSGCombiner3D" unique_id=1043196625]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
 operation = 2
 radius = 0.17626953
 height = 0.25390625
+sides = 32
 
 [node name="CSGCylinder3D3" type="CSGCylinder3D" parent="Node3D" unique_id=1275118740]
 transform = Transform3D(-5.7320566e-15, -1.3113416e-07, -1, 1, -4.371139e-08, 0, -4.371139e-08, -1, 1.3113416e-07, 1.4424758e-09, 0, 0.011)
@@ -63,4 +62,5 @@ transform = Transform3D(1.9106855e-15, -4.371139e-08, 1, -1, -4.371139e-08, 0, 4
 shape = SubResource("CylinderShape3D_ovxpy")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1856288325]
+replication_interval = 0.05
 replication_config = SubResource("SceneReplicationConfig_ujsv4")

@@ -71,8 +71,6 @@ var drag_factor: float = 0.0
 @export var yaw_input: float
 @export var steer_input: float
 
-@onready var pilot_seat: Marker3D = $pilot_seat
-
 #grounded state
 var is_grounded: bool = true
 
@@ -81,7 +79,7 @@ var is_grounded: bool = true
 @export_category("Multiplayer")
 @export var multiplayer_synchronizer: MultiplayerSynchronizer
 @export var player_id: int
-
+@export var pilot_seat: Marker3D
 var pilot: CharacterBody3D
 
 
@@ -94,7 +92,6 @@ func execute(player: CharacterBody3D):
 
 
 
-
 @rpc("any_peer", "call_local", "reliable")
 func _manage_authority(driver_id: int):
 	player_id = driver_id
@@ -102,8 +99,6 @@ func _manage_authority(driver_id: int):
 	#update synchroniser so it sends data from the correct player
 	set_multiplayer_authority(driver_id)
 	multiplayer_synchronizer.set_multiplayer_authority(driver_id)
-
-
 
 
 
@@ -128,14 +123,12 @@ func _stop_piloting():
 
 
 
-
 func _unhandled_input(_event: InputEvent) -> void:
 	if not is_multiplayer_authority():
 		return
 		
 	if Input.is_action_just_pressed("start_engine"):
 		is_engine_on = !is_engine_on
-
 
 
 

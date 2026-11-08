@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://x7ltfoi06yml"]
 
 [ext_resource type="Script" uid="uid://b5k04yjwruc21" path="res://AirshipSystem.gd" id="1_jc30l"]
+[ext_resource type="PackedScene" uid="uid://b371poonqa366" path="res://helm.tscn" id="2_w4ouc"]
 [ext_resource type="PackedScene" uid="uid://co4muawqgfllb" path="res://Valve.tscn" id="2_ytpwu"]
 [ext_resource type="Script" uid="uid://c32bammkpp58s" path="res://Classes/Multiplayer/TickInterpolation.gd" id="3_ovxpy"]
 
@@ -37,26 +38,6 @@ height = 0.2
 [sub_resource type="CylinderMesh" id="CylinderMesh_nc3cx"]
 height = 0.041015625
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_a7hue"]
-top_radius = 0.125
-bottom_radius = 0.125
-height = 0.1
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_sxgjr"]
-top_radius = 0.016113281
-bottom_radius = 0.016113281
-height = 1.3704102
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_xe1ig"]
-top_radius = 0.034179688
-bottom_radius = 0.034179688
-height = 0.087621495
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_qmw4s"]
-top_radius = 0.016113281
-bottom_radius = 0.016113281
-height = 1.3408203
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_j8abd"]
 size = Vector3(1.5, 2.6000001, 5)
 
@@ -70,12 +51,6 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
-properties/2/path = NodePath(".:linear_velocity")
-properties/2/spawn = true
-properties/2/replication_mode = 1
-properties/3/path = NodePath(".:angular_velocity")
-properties/3/spawn = true
-properties/3/replication_mode = 1
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_j8abd"]
 radius = 2.0
@@ -106,25 +81,16 @@ top_radius = 0.33398438
 bottom_radius = 0.33398438
 height = 0.19873047
 
-[sub_resource type="BoxMesh" id="BoxMesh_j8abd"]
-size = Vector3(0.05, 1, 0.05)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_ltefo"]
-top_radius = 0.05
-bottom_radius = 0.05
-height = 0.2
-
 [sub_resource type="BoxMesh" id="BoxMesh_8wd5n"]
 size = Vector3(0.1, 2.8, 0.1)
 
-[node name="Airship" type="RigidBody3D" unique_id=436115438 node_paths=PackedStringArray("gas_valve", "vent_valve", "rudder", "propeller", "helm", "storage_area")]
+[node name="Airship" type="RigidBody3D" unique_id=436115438 node_paths=PackedStringArray("gas_valve", "vent_valve", "rudder", "propeller", "storage_area")]
 mass = 1000.0
 script = ExtResource("1_jc30l")
 gas_valve = NodePath("StaticBody3D2")
 vent_valve = NodePath("StaticBody3D3")
 rudder = NodePath("Rudder")
 propeller = NodePath("Propeller")
-helm = NodePath("Helm")
 max_lift = 10000.0
 storage_area = NodePath("storage_area")
 
@@ -164,44 +130,9 @@ mesh = SubResource("CylinderMesh_nc3cx")
 transform = Transform3D(1.3486285, 0, 0, -3.5527137e-15, 1.0000001, 0, 0, 0, 0.24917689, 0.6000004, -2.861023e-06, 0)
 mesh = SubResource("CylinderMesh_nc3cx")
 
-[node name="Helm" type="MeshInstance3D" parent="." unique_id=1440161409]
-transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, 0.0035858154, 1.1, -2.552065)
-mesh = SubResource("CylinderMesh_a7hue")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Helm" unique_id=964596632]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -0.014794946, 0, 0)
-mesh = SubResource("CylinderMesh_sxgjr")
-
-[node name="MeshInstance3D5" type="MeshInstance3D" parent="Helm" unique_id=438848927]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -0.59872746, -2.7418137e-06, 0)
-mesh = SubResource("CylinderMesh_xe1ig")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Helm" unique_id=1223236007]
-transform = Transform3D(4.3711392e-08, -4.3711385e-08, 1, -1, -8.742278e-08, 4.371139e-08, 8.742278e-08, -1, -4.371139e-08, 0, 0, 0)
-mesh = SubResource("CylinderMesh_qmw4s")
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="Helm" unique_id=32146327]
-transform = Transform3D(1.0552863e-07, -0.7071068, 0.7071067, -1, -1.183314e-07, 3.0908616e-08, 6.1817246e-08, -0.7071067, -0.7071068, 0, 0, 0)
-mesh = SubResource("CylinderMesh_qmw4s")
-
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="Helm" unique_id=1469024691]
-transform = Transform3D(1.0552864e-07, -0.70710665, -0.7071069, -1, -1.18331386e-07, -3.0908627e-08, -6.181723e-08, 0.7071069, -0.70710665, 0, 0, 0)
-mesh = SubResource("CylinderMesh_qmw4s")
-
-[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Helm" unique_id=432396951]
-transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 1.1999999, 1.3484792, 6.030314e-08)
-
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Helm/CSGCombiner3D" unique_id=2037150725]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1.3476074, 1.2, 0)
-height = 0.09003906
-sides = 32
-
-[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Helm/CSGCombiner3D" unique_id=503415346]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1.292627, 1.2, 0)
-operation = 2
-radius = 0.45410156
-height = 0.61621094
-sides = 32
+[node name="Helm" parent="." unique_id=1175643711 instance=ExtResource("2_w4ouc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0035858154, 1.1, -3.052065)
+visible = false
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1401018512]
 transform = Transform3D(0.7071068, 0, -0.7071068, 0, 1, 0, 0.7071068, 0, 0.7071068, -9, 6, 9)
@@ -217,15 +148,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0.55)
 shape = SubResource("BoxShape3D_lka76")
 
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="." unique_id=1318611692]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95000005, -2.5000002)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95000005, -3.0000002)
 shape = SubResource("BoxShape3D_lka76")
 
 [node name="StaticBody3D2" parent="." unique_id=826185187 instance=ExtResource("2_ytpwu")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.8, 1, -2.0011892)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.8, 1, -1.0011892)
 starting_rotation = -720.0
 
 [node name="StaticBody3D3" parent="." unique_id=66396342 instance=ExtResource("2_ytpwu")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.8, 1, -1.5011892)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.8, 1, -0.50118923)
 crank_sensitivity = 2.5
 is_vent = true
 min_rotation = -1440.0
@@ -233,6 +164,7 @@ max_rotation = 1440.0
 starting_rotation = 1440.0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=2073082866]
+replication_interval = 0.05
 replication_config = SubResource("SceneReplicationConfig_w4ouc")
 
 [node name="TickInterpolation3D" type="Node3D" parent="." unique_id=1191227001 node_paths=PackedStringArray("object_updating", "multiplayer_synchronizer")]
@@ -315,18 +247,13 @@ size = Vector3(1.8000001, 0.7, 1.515625)
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 1.3547363, 0.46477193, 0)
 mesh = SubResource("CylinderMesh_8wd5n")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="TickInterpolation3D/Visual" unique_id=1495892779]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.6, 0)
-mesh = SubResource("BoxMesh_j8abd")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="TickInterpolation3D/Visual/MeshInstance3D3" unique_id=972196173]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0.0015208721, 0.5, 0)
-mesh = SubResource("CylinderMesh_ltefo")
-
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="TickInterpolation3D/Visual" unique_id=135333839]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.79641426, 2.25, -0.89641434)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.20358574, 2.25, -0.8964144)
 mesh = SubResource("BoxMesh_8wd5n")
 
 [node name="MeshInstance3D5" type="MeshInstance3D" parent="TickInterpolation3D/Visual" unique_id=1471037707]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.29641426, 2.25, -0.89641434)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.7035857, 2.25, -0.8964144)
 mesh = SubResource("BoxMesh_8wd5n")
+
+[node name="Marker3D" type="Marker3D" parent="." unique_id=1890794341]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -2)

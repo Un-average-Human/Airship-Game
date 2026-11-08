@@ -39,6 +39,8 @@ func _ready() -> void:
 	storage_area.body_entered.connect(_entered_storage_area)
 	storage_area.body_exited.connect(_exited_storage_area)
 
+
+
 func _unhandled_input(_event: InputEvent) -> void:
 	if not is_multiplayer_authority():
 		return
@@ -52,6 +54,9 @@ func _manage_lift():
 	print("adjustable lift is: " + str(current_adjustable_lift * vent_valve.value) + "\n" + "current lift is: " + str(current_lift))
 	apply_central_force(Vector3.UP * (current_lift))
 
+
+
+#package weight stuff :money_mouth_face:
 func _entered_storage_area(package: Node3D):
 	print(package.name)
 	if package is not Package:
