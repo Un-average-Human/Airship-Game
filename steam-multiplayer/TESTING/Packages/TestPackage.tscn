@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dmiakkcqld8lm"]
 
 [ext_resource type="Script" uid="uid://wutysbfbd5x6" path="res://Classes/Packages/Package.gd" id="1_qr08y"]
-[ext_resource type="Resource" uid="uid://pbjcl8cg68xt" path="res://Resources/Packages/TestPackage.tres" id="2_7oohr"]
+[ext_resource type="Resource" uid="uid://pbjcl8cg68xt" path="res://TESTING/Packages/TestPackage.tres" id="2_7oohr"]
 [ext_resource type="Script" uid="uid://c32bammkpp58s" path="res://Classes/Multiplayer/TickInterpolation.gd" id="3_e4dnp"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j8abd"]

@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://f2brq3aklygk" path="res://Singletons/Multiplayer/LobbyMain.gd" id="1_ig7tw"]
 [ext_resource type="Texture2D" uid="uid://c1ajv64cojpom" path="res://icon.svg" id="2_h2yge"]
-[ext_resource type="PackedScene" uid="uid://dmiakkcqld8lm" path="res://TestPackage.tscn" id="4_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://co7u7migct03b" path="res://H-UG01Plane.scn" id="4_lquwl"]
+[ext_resource type="PackedScene" uid="uid://dmiakkcqld8lm" path="res://TESTING/Packages/TestPackage.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://co7u7migct03b" path="res://Game/Planes/H-UG01Plane.scn" id="4_lquwl"]
 [ext_resource type="PackedScene" uid="uid://x7ltfoi06yml" path="res://Airship.tscn" id="5_lquwl"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]

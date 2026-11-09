@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://x7ltfoi06yml"]
 
-[ext_resource type="Script" uid="uid://b5k04yjwruc21" path="res://AirshipSystem.gd" id="1_jc30l"]
-[ext_resource type="PackedScene" uid="uid://b371poonqa366" path="res://helm.tscn" id="2_w4ouc"]
-[ext_resource type="PackedScene" uid="uid://co4muawqgfllb" path="res://Valve.tscn" id="2_ytpwu"]
+[ext_resource type="Script" uid="uid://b5k04yjwruc21" path="res://Classes/Vehicles/Airship/AirshipSystem.gd" id="1_jc30l"]
+[ext_resource type="PackedScene" uid="uid://b371poonqa366" path="res://Game/AirshipParts/Helm.tscn" id="2_w4ouc"]
+[ext_resource type="PackedScene" uid="uid://co4muawqgfllb" path="res://Game/AirshipParts/Valve.tscn" id="2_ytpwu"]
 [ext_resource type="Script" uid="uid://c32bammkpp58s" path="res://Classes/Multiplayer/TickInterpolation.gd" id="3_ovxpy"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0eil0"]

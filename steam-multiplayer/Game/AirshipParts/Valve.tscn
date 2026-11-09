@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://co4muawqgfllb"]
 
-[ext_resource type="Script" uid="uid://de0qsg8l7u2fb" path="res://Valve.gd" id="1_ujsv4"]
+[ext_resource type="Script" uid="uid://de0qsg8l7u2fb" path="res://Classes/Vehicles/Airship/Valve.gd" id="1_ujsv4"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_0u0oj"]
 size = Vector3(0.1, 0.3671875, 0.013916016)
