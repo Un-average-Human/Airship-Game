@@ -22,6 +22,7 @@ var is_camera_locked: bool = false
 @export var running_speed: float = 8.0
 @export var jump_velocity: float = 4.0
 var current_speed = walking_speed
+var can_move: bool = true
 
 func _enter_tree() -> void:
 	if multiplayer_compatible:
@@ -70,4 +71,5 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0.0, walking_speed)
 		velocity.z = move_toward(velocity.z, 0.0, walking_speed)
 
-	move_and_slide()
+	if can_move:
+		move_and_slide()

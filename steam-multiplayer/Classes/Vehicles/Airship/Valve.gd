@@ -39,9 +39,11 @@ func _multiplayer_manager(grabbed: bool, player_interacting: NodePath) -> void:
 		set_multiplayer_authority(id)
 		if is_multiplayer_authority():
 			player.is_camera_locked = true
+			player.can_move = false
 			virtual_mouse_pos = Vector2(100, 0)
 	else:
 		if is_multiplayer_authority() and player != null:
+			player.can_move = true
 			player.is_camera_locked = false
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		player = null
