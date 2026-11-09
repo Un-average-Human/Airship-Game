@@ -3,7 +3,7 @@ extends CharacterBody3D
 # Camera
 @export_subgroup("Camera")
 @export var neck: Node3D
-@export var player_cam: Camera3D
+@export var camera: Camera3D
 @export var interact_raycast: RayCast3D
 var is_camera_locked: bool = false
 
@@ -17,7 +17,6 @@ var is_camera_locked: bool = false
 
 # Movement
 @export_subgroup("Movement")
-@export var carrying_speed: float = 3.0
 @export var walking_speed: float = 5.0
 @export var running_speed: float = 8.0
 @export var jump_velocity: float = 4.0
@@ -30,7 +29,7 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	if multiplayer_compatible and is_multiplayer_authority():
-		player_cam.make_current()
+		camera.make_current()
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -50,6 +49,15 @@ func _unhandled_input(event: InputEvent) -> void:
 			var collider := interact_raycast.get_collider()
 			if collider.is_in_group("interactable"):
 				collider.execute(self)
+
+
+##TO FINISH
+func _rigidbody_interaction():
+	for collision_id in get_slide_collision_count():
+		var collision = get_slide_collision(collision_id)
+		if collision.get_collider() is RigidBody3D:
+			var push_dir = -collision.get_normal()
+			var vel_diff_in_push_dir
 
 func _physics_process(delta: float) -> void:
 	if multiplayer_compatible and not is_multiplayer_authority():

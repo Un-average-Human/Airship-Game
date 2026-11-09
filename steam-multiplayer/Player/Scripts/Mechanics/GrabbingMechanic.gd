@@ -1,6 +1,7 @@
-extends PlayerState
+extends Node
 
 @export_subgroup("Interaction")
+@export var carrying_speed: float = 3.0
 @export var interact_ray: RayCast3D
 @export var hand: Marker3D
 
@@ -38,6 +39,8 @@ func _physics_process(_delta: float) -> void:
 	if grabbed_object != null and is_multiplayer_authority():
 		_pull_object.rpc(grabbed_object.get_path(), hand.global_position)
 
+
+
 func _grab() -> void:
 	if interact_ray.is_colliding():
 		var collider = interact_ray.get_collider()
@@ -51,6 +54,8 @@ func _drop() -> void:
 	if grabbed_object != null:
 		grabbed_object.is_grabbed = false
 		grabbed_object = null
+
+
 
 #assigns a weight threshold and pull strength based on the packages weight (crazy am i right)
 func _weight_threshold_manager(object: RigidBody3D) -> void:

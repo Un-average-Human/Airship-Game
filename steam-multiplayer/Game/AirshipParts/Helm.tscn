@@ -33,10 +33,11 @@ top_radius = 0.05
 bottom_radius = 0.05
 height = 0.2
 
-[node name="Helm" type="AnimatableBody3D" unique_id=2065176023 node_paths=PackedStringArray("pilot_seat") groups=["interactable"]]
+[node name="Helm" type="AnimatableBody3D" unique_id=2065176023 node_paths=PackedStringArray("pilot_seat", "camera") groups=["interactable"]]
 sync_to_physics = false
 script = ExtResource("1_5adci")
 pilot_seat = NodePath("Marker3D/RemoteTransform3D")
+camera = NodePath("Camera3D")
 
 [node name="Node3D" type="Node3D" parent="." unique_id=1111675510]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 8.38582e-08, 0, 0.10032472)
@@ -96,3 +97,7 @@ mesh = SubResource("CylinderMesh_0bgn6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="Marker3D" unique_id=1274551969]
+update_rotation = false
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1807466934]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1)

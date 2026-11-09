@@ -3,8 +3,9 @@
 [ext_resource type="Script" uid="uid://bqx4ih5oftfmn" path="res://Player/Scripts/PlayerController.gd" id="1_ldje2"]
 [ext_resource type="Script" uid="uid://ca06ghrdq810d" path="res://Player/Scripts/StateMachine/StateMachine.gd" id="2_bacvh"]
 [ext_resource type="Texture2D" uid="uid://c1ajv64cojpom" path="res://icon.svg" id="2_ldje2"]
-[ext_resource type="Script" uid="uid://c6gjh12dpxa8f" path="res://Player/Scripts/StateMachine/GrabbingState.gd" id="4_j8irr"]
+[ext_resource type="Script" uid="uid://c6gjh12dpxa8f" path="res://Player/Scripts/Mechanics/GrabbingMechanic.gd" id="4_j8irr"]
 [ext_resource type="Script" uid="uid://c32bammkpp58s" path="res://Classes/Multiplayer/TickInterpolation.gd" id="5_mdtj2"]
+[ext_resource type="Script" uid="uid://joqw06u5sr4d" path="res://Player/Scripts/StateMachine/WalkState.gd" id="5_vn67c"]
 [ext_resource type="Script" uid="uid://u4r25gc10pi0" path="res://Player/Scripts/StateMachine/SittingState.gd" id="7_laaob"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j8abd"]
@@ -22,29 +23,32 @@ albedo_texture = ExtResource("2_ldje2")
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_j8abd"]
 
-[node name="player" type="CharacterBody3D" unique_id=1082542328 node_paths=PackedStringArray("neck", "player_cam", "interact_raycast", "interact_ray")]
+[node name="player" type="CharacterBody3D" unique_id=1082542328 node_paths=PackedStringArray("neck", "camera", "interact_raycast", "interact_ray")]
 script = ExtResource("1_ldje2")
 neck = NodePath("Neck")
-player_cam = NodePath("Neck/PlayerCamera")
+camera = NodePath("Neck/PlayerCamera")
 interact_raycast = NodePath("Neck/InteractRay")
 interact_ray = NodePath("Neck/InteractRay")
 multiplayer_compatible = true
 
-[node name="StateMachine" type="Node" parent="." unique_id=1106026005 node_paths=PackedStringArray("state_machine", "states", "player")]
-script = ExtResource("2_bacvh")
-state_machine = NodePath(".")
-states = [NodePath("Sitting"), NodePath("Grabbing")]
-player = NodePath("..")
+[node name="Mechanics" type="Node" parent="." unique_id=1744217233]
 
-[node name="Sitting" type="Node" parent="StateMachine" unique_id=750467208]
-script = ExtResource("7_laaob")
-
-[node name="Running" type="Node" parent="StateMachine" unique_id=99267804]
-
-[node name="Grabbing" type="Node" parent="StateMachine" unique_id=1343810587 node_paths=PackedStringArray("interact_ray", "hand")]
+[node name="Grabbing" type="Node" parent="Mechanics" unique_id=1343810587 node_paths=PackedStringArray("interact_ray", "hand")]
 script = ExtResource("4_j8irr")
 interact_ray = NodePath("../../Neck/InteractRay")
 hand = NodePath("../../Neck/Marker3D")
+
+[node name="StateMachine" type="Node" parent="." unique_id=1106026005 node_paths=PackedStringArray("state_machine", "states", "player")]
+script = ExtResource("2_bacvh")
+state_machine = NodePath(".")
+states = [null, null]
+player = NodePath("..")
+
+[node name="Piloting" type="Node" parent="StateMachine" unique_id=750467208]
+script = ExtResource("7_laaob")
+
+[node name="MovementState" type="Node" parent="StateMachine" unique_id=308264425]
+script = ExtResource("5_vn67c")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=840744841]
 shape = SubResource("CapsuleShape3D_j8abd")

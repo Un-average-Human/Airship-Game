@@ -9,11 +9,3 @@ class_name StateMachine
 var active_state: PlayerState
 
 @export var player: CharacterBody3D
-
-func _ready() -> void:
-	for state in states:
-		state.player = player
-		state.state_machine = self
-
-func _state_manager():
-	pass
