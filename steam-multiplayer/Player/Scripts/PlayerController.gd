@@ -1,5 +1,9 @@
 extends CharacterBody3D
 
+# Physics
+@export var mass_ratio_multi: float = 5.0
+const MASS: float = 80
+
 # Camera
 @export_subgroup("Camera")
 @export var neck: Node3D
@@ -55,9 +59,18 @@ func _unhandled_input(event: InputEvent) -> void:
 func _rigidbody_interaction():
 	for collision_id in get_slide_collision_count():
 		var collision = get_slide_collision(collision_id)
-		if collision.get_collider() is RigidBody3D:
+		if collision.get_collider() is RigidBody3D and not collision.get_collider() is Dirigible:
 			var push_dir = -collision.get_normal()
-			var vel_diff_in_push_dir
+			#how much velocity the object needs to increase to match the player's velocity in the push direction
+			var vel_diff_in_push_dir = velocity.dot(push_dir) - collision.get_collider().linear_velocity.dot(push_dir)
+			#only count velocity towards push dir, aka away from the player
+			vel_diff_in_push_dir = max(0, vel_diff_in_push_dir)
+			#objects with more mass should be harder to push
+			var mass_ratio = min(1, MASS / collision.get_collider().mass)
+			#dont push em from above/below
+			push_dir.y = 0
+			var push_force = mass_ratio * mass_ratio_multi
+			collision.get_collider().apply_impulse(push_dir * vel_diff_in_push_dir * push_force, collision.get_position() - collision.get_collider().global_position)
 
 func _physics_process(delta: float) -> void:
 	if multiplayer_compatible and not is_multiplayer_authority():
@@ -68,9 +81,12 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = jump_velocity
-
-	var input_dir := Input.get_vector("left", "right", "forward", "backward")
-	var direction := (transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)).normalized()
+	
+	var input_dir
+	var direction
+	if can_move:
+		input_dir = Input.get_vector("left", "right", "forward", "backward")
+		direction = (transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)).normalized()
 
 	if direction:
 		velocity.x = direction.x * current_speed
@@ -79,5 +95,5 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0.0, walking_speed)
 		velocity.z = move_toward(velocity.z, 0.0, walking_speed)
 
-	if can_move:
-		move_and_slide()
+	_rigidbody_interaction()
+	move_and_slide()

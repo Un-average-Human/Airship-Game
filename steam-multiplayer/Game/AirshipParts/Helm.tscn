@@ -23,7 +23,7 @@ bottom_radius = 0.016113281
 height = 1.3408203
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kiic0"]
-size = Vector3(1.4, 1.6, 1)
+size = Vector3(1.4, 1.4, 0.1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_kiic0"]
 size = Vector3(0.05, 1, 0.05)
@@ -82,7 +82,7 @@ height = 0.61621094
 sides = 32
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=823931158]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.511592e-08, -0.099999994, 0.30032474)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.511592e-08, 2.9802322e-08, 0.10032473)
 shape = SubResource("BoxShape3D_kiic0")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=833950409]

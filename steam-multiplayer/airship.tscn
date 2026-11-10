@@ -10,7 +10,7 @@ radius = 2.0
 height = 10.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1fisk"]
-size = Vector3(0.1, 5, 1)
+size = Vector3(0.1, 5, 1.5)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_d5eqk"]
 top_radius = 0.05
@@ -39,7 +39,7 @@ height = 0.2
 height = 0.041015625
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j8abd"]
-size = Vector3(1.5, 2.6000001, 5)
+size = Vector3(1.5, 2.4987307, 5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lka76"]
 size = Vector3(1, 1.7, 0.6)
@@ -85,6 +85,7 @@ height = 0.19873047
 size = Vector3(0.1, 2.8, 0.1)
 
 [node name="Airship" type="RigidBody3D" unique_id=436115438 node_paths=PackedStringArray("gas_valve", "vent_valve", "rudder", "propeller", "storage_area")]
+collision_layer = 4
 mass = 1000.0
 can_sleep = false
 script = ExtResource("1_jc30l")
@@ -140,7 +141,7 @@ transform = Transform3D(0.7071068, 0, -0.7071068, 0, 1, 0, 0.7071068, 0, 0.70710
 [node name="storage_area" type="Area3D" parent="." unique_id=1155092247]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="storage_area" unique_id=671156595]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3000001, -1.2000003)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3506348, -1.2000003)
 shape = SubResource("BoxShape3D_j8abd")
 
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="." unique_id=481757668]
