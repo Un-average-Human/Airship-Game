@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://dmmy5stkv2oy7"]
+
+[ext_resource type="Script" uid="uid://c32bammkpp58s" path="res://Classes/Multiplayer/TickInterpolation.gd" id="1_upcpk"]
+[ext_resource type="Texture2D" uid="uid://c1ajv64cojpom" path="res://icon.svg" id="2_hwpw2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2u6s1"]
+albedo_texture = ExtResource("2_hwpw2")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_1ai2n"]
+
+[node name="PlayerVisual" type="Node3D" unique_id=1516174046]
+
+[node name="Neck" type="Node3D" parent="." unique_id=230486422]
+
+[node name="InteractRay" type="RayCast3D" parent="Neck" unique_id=1979639501]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+target_position = Vector3(0, 0, -3)
+collision_mask = 15
+
+[node name="Marker3D" type="Marker3D" parent="Neck" unique_id=911931070]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -2)
+
+[node name="PlayerCamera" type="Camera3D" parent="Neck" unique_id=856334428]
+transform = Transform3D(1, 0, 0, 0, 1, 2.9802319e-08, 0, -2.9802319e-08, 1, 0, 0.5, 0)
+
+[node name="TickInterpolation3D" type="Node3D" parent="." unique_id=648256461 node_paths=PackedStringArray("object_updating", "multiplayer_synchronizer")]
+script = ExtResource("1_upcpk")
+object_updating = NodePath("")
+multiplayer_synchronizer = NodePath("")
+metadata/_custom_type_script = "uid://c32bammkpp58s"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TickInterpolation3D" unique_id=1701852600]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_2u6s1")
+mesh = SubResource("CapsuleMesh_1ai2n")
