@@ -11,9 +11,8 @@ const MASS: float = 80
 @export var interact_raycast: RayCast3D
 var is_camera_locked: bool = false
 
-# Interaction
-@export_subgroup("Interaction")
-@export var interact_ray: RayCast3D
+@export_subgroup("Visuals")
+@export var player_visuals: Node3D
 
 # Multiplayer
 @export_subgroup("Multiplayer")

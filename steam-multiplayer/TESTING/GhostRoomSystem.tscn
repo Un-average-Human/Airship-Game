@@ -34,6 +34,9 @@ size = Vector3(5, 0.1, 5)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nc3cx"]
 albedo_color = Color(0, 0, 0.28627452, 1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_qttsa"]
+size = Vector3(4.5, 4, 4.5)
+
 [sub_resource type="Animation" id="Animation_qttsa"]
 length = 0.001
 loop_mode = 1
@@ -109,6 +112,14 @@ shape = SubResource("BoxShape3D_j8abd")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=141841342]
 mesh = SubResource("BoxMesh_lka76")
 surface_material_override/0 = SubResource("StandardMaterial3D_nc3cx")
+
+[node name="Area3D" type="Area3D" parent="StaticBody3D" unique_id=1265590505]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D/Area3D" unique_id=971182329]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0489259, 0)
+shape = SubResource("BoxShape3D_qttsa")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=652972401]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 0, 0)

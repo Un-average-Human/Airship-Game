@@ -23,14 +23,15 @@ albedo_texture = ExtResource("2_ldje2")
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_j8abd"]
 
-[node name="player" type="CharacterBody3D" unique_id=1082542328 node_paths=PackedStringArray("neck", "camera", "interact_raycast")]
+[node name="player" type="CharacterBody3D" unique_id=1082542328 node_paths=PackedStringArray("neck", "camera", "interact_raycast", "player_visuals")]
 collision_layer = 2
 collision_mask = 13
 floor_constant_speed = true
 script = ExtResource("1_ldje2")
 neck = NodePath("Neck")
-camera = NodePath("Neck/PlayerCamera")
+camera = NodePath("PlayerVisual/VisualNeck/PlayerCamera")
 interact_raycast = NodePath("Neck/InteractRay")
+player_visuals = NodePath("PlayerVisual")
 multiplayer_compatible = true
 
 [node name="Mechanics" type="Node" parent="." unique_id=1744217233]
@@ -65,11 +66,9 @@ collision_mask = 15
 [node name="Marker3D" type="Marker3D" parent="Neck" unique_id=1901907171]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 
-[node name="PlayerCamera" type="Camera3D" parent="Neck" unique_id=858006590]
-transform = Transform3D(1, 0, 0, 0, 1, 2.9802319e-08, 0, -2.9802319e-08, 1, 0, 0, 0)
-
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="Neck" unique_id=726931343]
 remote_path = NodePath("../../PlayerVisual/VisualNeck")
+update_position = false
 update_scale = false
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1836853694]
