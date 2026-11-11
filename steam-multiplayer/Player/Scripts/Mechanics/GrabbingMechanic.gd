@@ -3,6 +3,7 @@ extends Node
 @export_subgroup("Interaction")
 @export var carrying_speed: float = 3.0
 @export var interact_ray: RayCast3D
+@export var visual_interact_ray: RayCast3D
 @export var hand: Marker3D
 
 @export_subgroup("Weight Thresholds")
@@ -38,8 +39,6 @@ func _unhandled_input(_event: InputEvent) -> void:
 func _physics_process(_delta: float) -> void:
 	if grabbed_object != null and is_multiplayer_authority():
 		_pull_object.rpc(grabbed_object.get_path(), hand.global_position)
-
-
 
 func _grab() -> void:
 	if interact_ray.is_colliding():

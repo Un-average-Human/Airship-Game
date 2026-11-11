@@ -9,6 +9,8 @@ const MASS: float = 80
 @export var neck: Node3D
 @export var camera: Camera3D
 @export var interact_raycast: RayCast3D
+@export var visual_interact_ray: RayCast3D
+
 var is_camera_locked: bool = false
 
 @export_subgroup("Visuals")
