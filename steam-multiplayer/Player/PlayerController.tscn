@@ -59,10 +59,6 @@ shape = SubResource("CapsuleShape3D_j8abd")
 [node name="Neck" type="Node3D" parent="." unique_id=1019611577]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="InteractRay" type="RayCast3D" parent="Neck" unique_id=1572390967]
-target_position = Vector3(0, 0, -3)
-collision_mask = 15
-
 [node name="Marker3D" type="Marker3D" parent="Neck" unique_id=1901907171]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 
@@ -70,6 +66,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 remote_path = NodePath("../../PlayerVisual/VisualNeck")
 update_position = false
 update_scale = false
+
+[node name="InteractRay" type="RayCast3D" parent="Neck" unique_id=1572390967]
+target_position = Vector3(0, 0, -3)
+collision_mask = 15
+collide_with_areas = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1836853694]
 replication_interval = 0.05

@@ -52,3 +52,10 @@ metadata/_custom_type_script = "uid://c32bammkpp58s"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="PackageVisuals/TickInterpolation3D" unique_id=220789324]
 mesh = SubResource("BoxMesh_j8abd")
+
+[node name="Area3D" type="Area3D" parent="PackageVisuals" unique_id=1088666335]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PackageVisuals/Area3D" unique_id=1136679101]
+shape = SubResource("BoxShape3D_j8abd")
