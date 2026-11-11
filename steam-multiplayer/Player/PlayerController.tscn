@@ -23,7 +23,7 @@ albedo_texture = ExtResource("2_ldje2")
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_j8abd"]
 
-[node name="player" type="CharacterBody3D" unique_id=1082542328 node_paths=PackedStringArray("neck", "camera", "interact_raycast", "player_visuals")]
+[node name="player" type="CharacterBody3D" unique_id=1082542328 node_paths=PackedStringArray("neck", "camera", "interact_raycast", "visuals")]
 collision_layer = 2
 collision_mask = 13
 floor_constant_speed = true
@@ -31,7 +31,7 @@ script = ExtResource("1_ldje2")
 neck = NodePath("Neck")
 camera = NodePath("PlayerVisual/VisualNeck/PlayerCamera")
 interact_raycast = NodePath("Neck/InteractRay")
-player_visuals = NodePath("PlayerVisual")
+visuals = NodePath("PlayerVisual")
 multiplayer_compatible = true
 
 [node name="Mechanics" type="Node" parent="." unique_id=1744217233]

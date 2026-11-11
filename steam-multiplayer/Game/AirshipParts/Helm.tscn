@@ -33,10 +33,9 @@ top_radius = 0.05
 bottom_radius = 0.05
 height = 0.2
 
-[node name="Helm" type="AnimatableBody3D" unique_id=2065176023 node_paths=PackedStringArray("pilot_seat", "camera") groups=["interactable"]]
+[node name="Helm" type="AnimatableBody3D" unique_id=2065176023 node_paths=PackedStringArray("camera") groups=["interactable"]]
 sync_to_physics = false
 script = ExtResource("1_5adci")
-pilot_seat = NodePath("Marker3D/RemoteTransform3D")
 camera = NodePath("Camera3D")
 
 [node name="Node3D" type="Node3D" parent="." unique_id=1111675510]

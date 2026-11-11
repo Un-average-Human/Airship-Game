@@ -2,6 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://bxrtwet2knbel" path="res://Player/PlayerController.tscn" id="1_i1mvt"]
 [ext_resource type="Script" uid="uid://ub2p52ts8khx" path="res://TESTING/GhostRoomSystem.gd" id="1_qttsa"]
+[ext_resource type="Script" uid="uid://oj55eqv32tas" path="res://Classes/Vehicles/Airship/Helm.gd" id="3_xu5ya"]
+[ext_resource type="PackedScene" uid="uid://dmiakkcqld8lm" path="res://TESTING/Packages/TestPackage.tscn" id="4_58mk7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_i1mvt"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -15,6 +17,34 @@ background_mode = 2
 sky = SubResource("Sky_qttsa")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_a7hue"]
+top_radius = 0.125
+bottom_radius = 0.125
+height = 0.1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_sxgjr"]
+top_radius = 0.016113281
+bottom_radius = 0.016113281
+height = 1.3704102
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_xe1ig"]
+top_radius = 0.034179688
+bottom_radius = 0.034179688
+height = 0.087621495
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_qmw4s"]
+top_radius = 0.016113281
+bottom_radius = 0.016113281
+height = 1.3408203
+
+[sub_resource type="BoxMesh" id="BoxMesh_kiic0"]
+size = Vector3(0.05, 1, 0.05)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_0bgn6"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j8abd"]
 size = Vector3(5, 0.1, 5)
@@ -55,18 +85,19 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_xu5ya"]
 resource_name = "new_animation"
+length = 2.0
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.26666668, 0.5, 0.76666665, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(-3, 0, 0), Vector3(-3, 0, 2), Vector3(-3, 0, 0), Vector3(-3, 0, -2), Vector3(-3, 0, 0)]
+"values": [Vector3(-3, 0, 2), Vector3(-3, 0, -2)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_58mk7"]
@@ -74,6 +105,9 @@ _data = {
 &"RESET": SubResource("Animation_qttsa"),
 &"new_animation": SubResource("Animation_xu5ya")
 }
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kiic0"]
+size = Vector3(1.4, 1.4, 0.1)
 
 [node name="Node3D" type="Node3D" unique_id=2121431271]
 
@@ -88,6 +122,56 @@ environment = SubResource("Environment_xu5ya")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
 script = ExtResource("1_qttsa")
 
+[node name="Node3D" type="Node3D" parent="AnimatableBody3D" unique_id=1111675510]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1, -1.8996753)
+
+[node name="Helm" type="MeshInstance3D" parent="AnimatableBody3D/Node3D" unique_id=1175643711]
+transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_a7hue")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AnimatableBody3D/Node3D/Helm" unique_id=308962020]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -0.014794946, 0, 0)
+mesh = SubResource("CylinderMesh_sxgjr")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="AnimatableBody3D/Node3D/Helm" unique_id=1928451303]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -0.59872746, -2.7418137e-06, 0)
+mesh = SubResource("CylinderMesh_xe1ig")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="AnimatableBody3D/Node3D/Helm" unique_id=767305591]
+transform = Transform3D(4.3711392e-08, -4.3711385e-08, 1, -1, -8.742278e-08, 4.371139e-08, 8.742278e-08, -1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_qmw4s")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="AnimatableBody3D/Node3D/Helm" unique_id=1087068555]
+transform = Transform3D(1.0552863e-07, -0.7071068, 0.7071067, -1, -1.183314e-07, 3.0908616e-08, 6.1817246e-08, -0.7071067, -0.7071068, 0, 0, 0)
+mesh = SubResource("CylinderMesh_qmw4s")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="AnimatableBody3D/Node3D/Helm" unique_id=498802064]
+transform = Transform3D(1.0552864e-07, -0.70710665, -0.7071069, -1, -1.18331386e-07, -3.0908627e-08, -6.181723e-08, 0.7071069, -0.70710665, 0, 0, 0)
+mesh = SubResource("CylinderMesh_qmw4s")
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="AnimatableBody3D/Node3D/Helm" unique_id=1298799110]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 1.1999999, 1.3484792, 6.030314e-08)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="AnimatableBody3D/Node3D/Helm/CSGCombiner3D" unique_id=1008316200]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1.3476074, 1.2, 0)
+height = 0.09003906
+sides = 32
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="AnimatableBody3D/Node3D/Helm/CSGCombiner3D" unique_id=292622695]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1.292627, 1.2, 0)
+operation = 2
+radius = 0.45410156
+height = 0.61621094
+sides = 32
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="AnimatableBody3D" unique_id=833950409]
+transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 0, 0.5, -2.0501623)
+mesh = SubResource("BoxMesh_kiic0")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="AnimatableBody3D/MeshInstance3D3" unique_id=1208618510]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0.0015208721, 0.5, 0)
+mesh = SubResource("CylinderMesh_0bgn6")
+
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="AnimatableBody3D" unique_id=1031620653]
 shape = SubResource("BoxShape3D_j8abd")
 
@@ -97,11 +181,14 @@ surface_material_override/0 = SubResource("StandardMaterial3D_lka76")
 
 [node name="Area3D" type="Area3D" parent="AnimatableBody3D" unique_id=811221168]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 10
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D/Area3D" unique_id=1340137150]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0489259, 0)
 shape = SubResource("BoxShape3D_lka76")
+
+[node name="Camera3D" type="Camera3D" parent="AnimatableBody3D" unique_id=1807466934]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -1)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1553310123]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
@@ -115,24 +202,45 @@ surface_material_override/0 = SubResource("StandardMaterial3D_nc3cx")
 
 [node name="Area3D" type="Area3D" parent="StaticBody3D" unique_id=1265590505]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 10
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D/Area3D" unique_id=971182329]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0489259, 0)
 shape = SubResource("BoxShape3D_qttsa")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=652972401]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0, 0)
 use_collision = true
-size = Vector3(2, 0.1, 2)
+size = Vector3(4, 0.1, 5)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=454599752]
 root_node = NodePath("../AnimatableBody3D")
 libraries/ = SubResource("AnimationLibrary_58mk7")
 autoplay = &"new_animation"
+speed_scale = 0.25
 
 [node name="player" parent="." unique_id=1082542328 instance=ExtResource("1_i1mvt")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -7, 1, 0)
 collision_mask = 15
 platform_on_leave = 1
 multiplayer_compatible = false
+
+[node name="Helm" type="AnimatableBody3D" parent="." unique_id=2065176023 node_paths=PackedStringArray("pilot_seat", "camera") groups=["interactable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, -2)
+sync_to_physics = false
+script = ExtResource("3_xu5ya")
+pilot_seat = NodePath("Marker3D/RemoteTransform3D")
+camera = NodePath("../AnimatableBody3D/Camera3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Helm" unique_id=823931158]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.511592e-08, 2.9802322e-08, 0.10032473)
+shape = SubResource("BoxShape3D_kiic0")
+
+[node name="Marker3D" type="Marker3D" parent="Helm" unique_id=925958676]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Helm/Marker3D" unique_id=1274551969]
+update_rotation = false
+
+[node name="Package" parent="." unique_id=105087648 instance=ExtResource("4_58mk7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.3, 0)

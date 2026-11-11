@@ -3,6 +3,7 @@ extends RigidBody3D
 class_name Package
 
 @export var stats_resource: PackageStats
+@export var visuals: Node3D
 @export var multiplayer_synchronizer: MultiplayerSynchronizer
 
 var buy_price: float

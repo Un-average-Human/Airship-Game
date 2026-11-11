@@ -12,7 +12,7 @@ const MASS: float = 80
 var is_camera_locked: bool = false
 
 @export_subgroup("Visuals")
-@export var player_visuals: Node3D
+@export var visuals: Node3D
 
 # Multiplayer
 @export_subgroup("Multiplayer")
