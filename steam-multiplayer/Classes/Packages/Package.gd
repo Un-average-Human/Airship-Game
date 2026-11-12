@@ -13,6 +13,7 @@ var weight: float
 var package_mesh: Mesh
 
 @export var is_grabbed: bool = false 
+@export var holder: NodePath = ""
 
 func _ready() -> void:
 	if not multiplayer.is_server():

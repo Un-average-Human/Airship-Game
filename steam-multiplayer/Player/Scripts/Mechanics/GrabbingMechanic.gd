@@ -1,6 +1,7 @@
 extends Node
 
 @export_subgroup("Interaction")
+@export var player: CharacterBody3D
 @export var carrying_speed: float = 3.0
 @export var interact_ray: RayCast3D
 @export var visual_interact_ray: RayCast3D
@@ -43,16 +44,21 @@ func _physics_process(_delta: float) -> void:
 func _grab() -> void:
 	if interact_ray.is_colliding():
 		var collider = interact_ray.get_collider()
-		var pkg: Package = collider if collider is Package else collider.owner as Package
-		if pkg != null:
-			if pkg.is_grabbed == false and grabbed_object == null:
+		var package: Package = collider if collider is Package else collider.owner as Package
+		if package != null:
+			if package.is_grabbed == false and grabbed_object == null:
 				print("grabbed object")
-				grabbed_object = pkg
+				grabbed_object = package
+				
 				grabbed_object.is_grabbed = true
+				grabbed_object.holder = player.get_path()
+				print(grabbed_object.holder)
 
 func _drop() -> void:
 	if grabbed_object != null:
 		grabbed_object.is_grabbed = false
+		grabbed_object.holder = ""
+		print(grabbed_object.holder)
 		grabbed_object = null
 
 

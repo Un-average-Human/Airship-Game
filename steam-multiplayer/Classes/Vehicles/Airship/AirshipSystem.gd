@@ -21,6 +21,7 @@ class_name Dirigible
 @export_subgroup("Lift")
 @export var min_lift: float = 9700
 @export var max_lift: float = 9900
+@export var extra_lift = 50
 var adjustable_lift: float
 var current_adjustable_lift: float
 var current_lift: float = min_lift
@@ -52,7 +53,12 @@ func _manage_lift():
 	current_adjustable_lift = adjustable_lift * vent_valve.value
 	current_lift = min_lift + (gas_valve.value * current_adjustable_lift)
 	#print("adjustable lift is: " + str(current_adjustable_lift * vent_valve.value) + "\n" + "current lift is: " + str(current_lift))
-	apply_central_force(Vector3.UP * (current_lift))
+	var weight_multi: float = max_upward_thrust / max_capacity
+	var cargo_force: float = (current_capacity * weight_multi) * 9.8
+	if current_capacity <= max_capacity:
+		apply_central_force(Vector3.UP * (extra_lift + current_lift - cargo_force))
+	else:
+		apply_central_force(Vector3.UP * (current_lift - cargo_force))
 
 
 
@@ -61,15 +67,11 @@ func _entered_storage_area(package: Node3D):
 	print(package.name)
 	if package is not Package:
 		return
-	var weight_multi: float = max_upward_thrust / max_capacity
-	print("max upwards thrust: " + str(max_upward_thrust) + "\n" + "weight multi: " + str(weight_multi))
-	var new_weight = package.mass * weight_multi
-	package.mass = new_weight
-	print("weight is: " + str(package.mass) + " It should be: " + str(new_weight))
+	current_capacity += package.weight
+	print("weight is: " + str(current_capacity))
 
 func _exited_storage_area(package: Node3D):
 	print(package)
 	if package is not Package:
 		return
-		
-	package.mass = package.weight
+	current_capacity -= package.weight

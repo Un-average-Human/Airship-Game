@@ -5,12 +5,8 @@
 [ext_resource type="Script" uid="uid://c32bammkpp58s" path="res://Classes/Multiplayer/TickInterpolation.gd" id="3_ovxpy"]
 [ext_resource type="Script" uid="uid://de0qsg8l7u2fb" path="res://Classes/Vehicles/Airship/Valve.gd" id="3_w4ouc"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0eil0"]
-radius = 2.0
-height = 10.0
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_1fisk"]
-size = Vector3(0.1, 5, 1.5)
+[sub_resource type="BoxShape3D" id="BoxShape3D_nc3cx"]
+size = Vector3(4, 7, 10)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_d5eqk"]
 top_radius = 0.05
@@ -40,9 +36,6 @@ height = 0.041015625
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j8abd"]
 size = Vector3(1.5, 2.4987307, 5)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_lka76"]
-size = Vector3(1, 1.7, 0.6)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ovxpy"]
 height = 0.2
@@ -108,9 +101,18 @@ height = 0.19873047
 [sub_resource type="BoxMesh" id="BoxMesh_8wd5n"]
 size = Vector3(0.1, 2.8, 0.1)
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0eil0"]
+radius = 2.0
+height = 10.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1fisk"]
+size = Vector3(0.1, 5, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lka76"]
+size = Vector3(1, 1.7, 0.6)
+
 [node name="Airship" type="RigidBody3D" unique_id=11995041 node_paths=PackedStringArray("gas_valve", "vent_valve", "rudder", "propeller", "storage_area")]
-collision_layer = 4
-collision_mask = 9
+collision_layer = 0
 mass = 1000.0
 script = ExtResource("1_jc30l")
 gas_valve = NodePath("StaticBody3D2")
@@ -121,13 +123,9 @@ max_lift = 10000.0
 storage_area = NodePath("storage_area")
 metadata/_custom_type_script = "uid://b5k04yjwruc21"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1568302423]
-transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, 0.0035856962, 5, -1.2035857)
-shape = SubResource("CapsuleShape3D_0eil0")
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1337767876]
-transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, 0.0035856962, 0.049999952, -1.203586)
-shape = SubResource("BoxShape3D_1fisk")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1052367004]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, -1.1999998)
+shape = SubResource("BoxShape3D_nc3cx")
 
 [node name="Rudder" type="MeshInstance3D" parent="." unique_id=195814643]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.003585577, 1.9680177, 1.8714143)
@@ -159,6 +157,8 @@ mesh = SubResource("CylinderMesh_nc3cx")
 
 [node name="Helm" parent="." unique_id=1175643711 instance=ExtResource("2_w4ouc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0035858154, 1.1000001, -3.052065)
+collision_layer = 0
+collision_mask = 16
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1401018512]
 transform = Transform3D(0.7071068, 0, -0.7071068, 0, 1, 0, 0.7071068, 0, 0.7071068, -9, 6, 9)
@@ -171,12 +171,10 @@ collision_mask = 8
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3506348, -1.2000003)
 shape = SubResource("BoxShape3D_j8abd")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="." unique_id=481757668]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0.55)
-shape = SubResource("BoxShape3D_lka76")
-
 [node name="StaticBody3D2" type="StaticBody3D" parent="." unique_id=826185187 node_paths=PackedStringArray("valve_mesh", "multiplayer_synchroniser") groups=["interactable"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.8, 1, -1.0011892)
+collision_layer = 16
+collision_mask = 0
 script = ExtResource("3_w4ouc")
 valve_mesh = NodePath("TickInterpolation3D/Node3D")
 multiplayer_synchroniser = NodePath("MultiplayerSynchronizer")
@@ -231,6 +229,8 @@ height = 0.10107422
 
 [node name="StaticBody3D3" type="StaticBody3D" parent="." unique_id=66396342 node_paths=PackedStringArray("valve_mesh", "multiplayer_synchroniser") groups=["interactable"]]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.8, 1, -0.50118923)
+collision_layer = 16
+collision_mask = 0
 script = ExtResource("3_w4ouc")
 valve_mesh = NodePath("TickInterpolation3D/Node3D")
 multiplayer_synchroniser = NodePath("MultiplayerSynchronizer")
@@ -378,3 +378,22 @@ mesh = SubResource("BoxMesh_8wd5n")
 [node name="MeshInstance3D5" type="MeshInstance3D" parent="TickInterpolation3D/Visual" unique_id=1471037707]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.7035857, 2.25, -0.8964144)
 mesh = SubResource("BoxMesh_8wd5n")
+
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="." unique_id=1728637781]
+collision_layer = 4
+collision_mask = 10
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D" unique_id=1568302423]
+transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, 0.0035856962, 5, -1.2035857)
+shape = SubResource("CapsuleShape3D_0eil0")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="AnimatableBody3D" unique_id=1337767876]
+transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, 0.0035856962, 0.049999952, -1.203586)
+shape = SubResource("BoxShape3D_1fisk")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="AnimatableBody3D" unique_id=481757668]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0.55)
+shape = SubResource("BoxShape3D_lka76")
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="." unique_id=1302133398]
+remote_path = NodePath("../AnimatableBody3D")

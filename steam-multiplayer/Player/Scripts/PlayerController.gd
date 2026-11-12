@@ -13,9 +13,6 @@ const MASS: float = 80
 
 var is_camera_locked: bool = false
 
-@export_subgroup("Visuals")
-@export var visuals: Node3D
-
 # Multiplayer
 @export_subgroup("Multiplayer")
 @export var multiplayer_compatible: bool
@@ -59,7 +56,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _rigidbody_interaction():
 	for collision_id in get_slide_collision_count():
 		var collision = get_slide_collision(collision_id)
-		if collision.get_collider() is RigidBody3D and not collision.get_collider() is Dirigible:
+		if collision.get_collider() is RigidBody3D:
 			var push_dir = -collision.get_normal()
 			#how much velocity the object needs to increase to match the player's velocity in the push direction
 			var vel_diff_in_push_dir = velocity.dot(push_dir) - collision.get_collider().linear_velocity.dot(push_dir)
@@ -70,6 +67,7 @@ func _rigidbody_interaction():
 			#dont push em from above/below
 			push_dir.y = 0
 			var push_force = mass_ratio * mass_ratio_multi
+			print(push_force)
 			collision.get_collider().apply_impulse(push_dir * vel_diff_in_push_dir * push_force, collision.get_position() - collision.get_collider().global_position)
 
 func _physics_process(delta: float) -> void:
