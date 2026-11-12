@@ -33,8 +33,8 @@ var target_propeller_rpm: float = 0.0
 @export var ENGINE_POWER: float = 8000
 
 @export_subgroup("Speed")
-@export var max_speed: float = 30.0
-@export var flight_speed_threshold: float = 20.0
+@export var max_speed: float = 15.0
+@export var flight_speed_threshold: float = 10.0
 @export var throttle_charge_duration: float = 2.0
 var throttle: float = 0.0
 @export var is_engine_on: bool = false
@@ -159,8 +159,8 @@ func _physics_process(delta: float) -> void:
 	steering = lerp(steering, steer_input * (MAX_STEER * speed_factor), delta * 5)
 	
 	##MULTIPLAYER
-	if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
-		return
+	#if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
+		#return
 	
 	##INPUTS
 	throttle_input = Input.get_axis("throttle_down", "throttle_up")

@@ -5,7 +5,6 @@
 [ext_resource type="Script" uid="uid://c32bammkpp58s" path="res://Classes/Multiplayer/TickInterpolation.gd" id="3_e4dnp"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j8abd"]
-size = Vector3(0.5, 0.5, 0.5)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vs22u"]
 properties/0/path = NodePath(".:is_grabbed")
@@ -19,7 +18,6 @@ properties/2/spawn = true
 properties/2/replication_mode = 1
 
 [sub_resource type="BoxMesh" id="BoxMesh_j8abd"]
-size = Vector3(0.5, 0.5, 0.5)
 
 [node name="Package" type="RigidBody3D" unique_id=105087648 node_paths=PackedStringArray("visuals", "multiplayer_synchronizer") groups=["CanGrab"]]
 collision_layer = 8
@@ -30,7 +28,7 @@ contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_qr08y")
 stats_resource = ExtResource("2_7oohr")
-visuals = NodePath("PackageVisuals")
+visuals = NodePath("")
 multiplayer_synchronizer = NodePath("MultiplayerSynchronizer")
 metadata/_custom_type_script = "uid://wutysbfbd5x6"
 
@@ -41,20 +39,11 @@ shape = SubResource("BoxShape3D_j8abd")
 replication_interval = 0.05
 replication_config = SubResource("SceneReplicationConfig_vs22u")
 
-[node name="PackageVisuals" type="Node3D" parent="." unique_id=554128523]
-
-[node name="TickInterpolation3D" type="Node3D" parent="PackageVisuals" unique_id=389432985 node_paths=PackedStringArray("object_updating", "multiplayer_synchronizer")]
+[node name="TickInterpolation3D" type="Node3D" parent="." unique_id=389432985 node_paths=PackedStringArray("object_updating", "multiplayer_synchronizer")]
 script = ExtResource("3_e4dnp")
-object_updating = NodePath("../..")
-multiplayer_synchronizer = NodePath("../../MultiplayerSynchronizer")
+object_updating = NodePath("..")
+multiplayer_synchronizer = NodePath("../MultiplayerSynchronizer")
 metadata/_custom_type_script = "uid://c32bammkpp58s"
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="PackageVisuals/TickInterpolation3D" unique_id=220789324]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TickInterpolation3D" unique_id=220789324]
 mesh = SubResource("BoxMesh_j8abd")
-
-[node name="Area3D" type="Area3D" parent="PackageVisuals" unique_id=1088666335]
-collision_layer = 8
-collision_mask = 0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="PackageVisuals/Area3D" unique_id=1136679101]
-shape = SubResource("BoxShape3D_j8abd")

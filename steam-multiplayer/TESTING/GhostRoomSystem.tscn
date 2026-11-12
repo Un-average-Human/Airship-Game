@@ -217,7 +217,7 @@ size = Vector3(4, 0.1, 5)
 root_node = NodePath("../AnimatableBody3D")
 libraries/ = SubResource("AnimationLibrary_58mk7")
 autoplay = &"new_animation"
-speed_scale = 0.25
+speed_scale = 0.5
 
 [node name="player" parent="." unique_id=1082542328 instance=ExtResource("1_i1mvt")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -7, 1, 0)
@@ -244,3 +244,4 @@ update_rotation = false
 
 [node name="Package" parent="." unique_id=105087648 instance=ExtResource("4_58mk7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.3, 0)
+collision_mask = 31

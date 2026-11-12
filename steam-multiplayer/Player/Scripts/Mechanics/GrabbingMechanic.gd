@@ -77,8 +77,10 @@ func _pull_object(object_path: NodePath, hand_pos: Vector3):
 	var object: Package = get_node_or_null(object_path)
 	
 	if not multiplayer.is_server():
-		object.set_freeze_enabled(true)
-		object.set_freeze_mode(RigidBody3D.FREEZE_MODE_KINEMATIC)
+		if not object.freeze:
+			object.set_freeze_enabled(true)
+			object.set_freeze_mode(RigidBody3D.FREEZE_MODE_KINEMATIC)
+		return
 	
 	if object != null:
 		_weight_threshold_manager(object)
