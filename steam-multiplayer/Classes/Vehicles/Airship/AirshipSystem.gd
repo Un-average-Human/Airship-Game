@@ -20,7 +20,7 @@ class_name Dirigible
 
 @export_subgroup("Lift")
 @export var min_lift: float = 9700
-@export var max_lift: float = 9900
+@export var max_lift: float = 10000
 @export var extra_lift = 50
 var adjustable_lift: float
 var current_adjustable_lift: float
@@ -63,12 +63,11 @@ func _manage_lift():
 
 
 #package weight stuff :money_mouth_face:
-func _entered_storage_area(package: Node3D):
-	print(package.name)
-	if package is not Package:
-		return
-	current_capacity += package.weight
-	print("weight is: " + str(current_capacity))
+func _entered_storage_area(body: Node3D):
+	print(body.name)
+	if body is Package:
+		current_capacity += body.weight
+		print("weight is: " + str(current_capacity))
 
 func _exited_storage_area(package: Node3D):
 	print(package)

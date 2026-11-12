@@ -22,7 +22,7 @@ properties/3/replication_mode = 2
 
 [sub_resource type="BoxMesh" id="BoxMesh_j8abd"]
 
-[node name="Package" type="RigidBody3D" unique_id=105087648 node_paths=PackedStringArray("visuals", "multiplayer_synchronizer") groups=["CanGrab"]]
+[node name="Package" type="RigidBody3D" unique_id=105087648 node_paths=PackedStringArray("multiplayer_synchronizer") groups=["CanGrab"]]
 collision_layer = 8
 collision_mask = 15
 mass = 100.0
@@ -32,7 +32,6 @@ contact_monitor = true
 max_contacts_reported = 4
 script = ExtResource("1_qr08y")
 stats_resource = ExtResource("2_7oohr")
-visuals = NodePath("")
 multiplayer_synchronizer = NodePath("MultiplayerSynchronizer")
 metadata/_custom_type_script = "uid://wutysbfbd5x6"
 

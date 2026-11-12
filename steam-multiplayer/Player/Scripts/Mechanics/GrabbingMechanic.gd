@@ -44,21 +44,19 @@ func _physics_process(_delta: float) -> void:
 func _grab() -> void:
 	if interact_ray.is_colliding():
 		var collider = interact_ray.get_collider()
-		var package: Package = collider if collider is Package else collider.owner as Package
-		if package != null:
-			if package.is_grabbed == false and grabbed_object == null:
+		if collider is Package:
+			if collider.is_grabbed == false and grabbed_object == null:
 				print("grabbed object")
-				grabbed_object = package
+				grabbed_object = collider
 				
 				grabbed_object.is_grabbed = true
 				grabbed_object.holder = player.get_path()
-				print(grabbed_object.holder)
 
 func _drop() -> void:
 	if grabbed_object != null:
 		grabbed_object.is_grabbed = false
 		grabbed_object.holder = ""
-		print(grabbed_object.holder)
+
 		grabbed_object = null
 
 

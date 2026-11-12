@@ -3,7 +3,6 @@ extends RigidBody3D
 class_name Package
 
 @export var stats_resource: PackageStats
-@export var visuals: Node3D
 @export var multiplayer_synchronizer: MultiplayerSynchronizer
 
 var buy_price: float
@@ -12,6 +11,7 @@ var sell_price: float
 var weight: float
 var package_mesh: Mesh
 
+@export_subgroup("To Be Synced")
 @export var is_grabbed: bool = false 
 @export var holder: NodePath = ""
 
