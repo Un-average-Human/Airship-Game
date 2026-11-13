@@ -51,6 +51,7 @@ func _grab() -> void:
 				
 				grabbed_object.is_grabbed = true
 				grabbed_object.holder = player.get_path()
+				print(grabbed_object.holder)
 
 func _drop() -> void:
 	if grabbed_object != null:

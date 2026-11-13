@@ -1,8 +1,10 @@
 extends CharacterBody3D
+class_name Player
 
 # Physics
 @export var mass_ratio_multi: float = 5.0
-const MASS: float = 80
+@export var mass: float
+const PHYSICS_MASS: float = 80
 
 # Camera
 @export_subgroup("Camera")
@@ -63,11 +65,10 @@ func _rigidbody_interaction():
 			#only count velocity towards push dir, aka away from the player
 			vel_diff_in_push_dir = max(0, vel_diff_in_push_dir)
 			#objects with more mass should be harder to push
-			var mass_ratio = min(1, MASS / collision.get_collider().mass)
+			var mass_ratio = min(1, PHYSICS_MASS / collision.get_collider().mass)
 			#dont push em from above/below
 			push_dir.y = 0
 			var push_force = mass_ratio * mass_ratio_multi
-			print(push_force)
 			collision.get_collider().apply_impulse(push_dir * vel_diff_in_push_dir * push_force, collision.get_position() - collision.get_collider().global_position)
 
 func _physics_process(delta: float) -> void:

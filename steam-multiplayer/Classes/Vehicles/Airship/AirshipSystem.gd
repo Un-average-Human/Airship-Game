@@ -31,6 +31,8 @@ var max_upward_thrust: float
 @export var storage_area: Area3D
 @export var max_capacity: float = 100.0
 var current_capacity: float = 0.0
+var packages: Array[Package]
+var players: Array[Player]
 
 func _ready() -> void:
 	max_upward_thrust = (max_lift - mass * 9.8) / 9.8
@@ -48,6 +50,7 @@ func _unhandled_input(_event: InputEvent) -> void:
 
 func _physics_process(_delta: float) -> void:
 	_manage_lift()
+	_manage_package_weight()
 
 func _manage_lift():
 	current_adjustable_lift = adjustable_lift * vent_valve.value
@@ -56,7 +59,7 @@ func _manage_lift():
 	var weight_multi: float = max_upward_thrust / max_capacity
 	var cargo_force: float = (current_capacity * weight_multi) * 9.8
 	if current_capacity <= max_capacity:
-		apply_central_force(Vector3.UP * (extra_lift + current_lift - cargo_force))
+		apply_central_force(Vector3.UP * ((extra_lift + current_lift) - cargo_force))
 	else:
 		apply_central_force(Vector3.UP * (current_lift - cargo_force))
 
@@ -66,11 +69,22 @@ func _manage_lift():
 func _entered_storage_area(body: Node3D):
 	print(body.name)
 	if body is Package:
-		current_capacity += body.weight
-		print("weight is: " + str(current_capacity))
+		packages.append(body)
+	if body is Player:
+		players.append(body)
 
-func _exited_storage_area(package: Node3D):
-	print(package)
-	if package is not Package:
-		return
-	current_capacity -= package.weight
+func _exited_storage_area(body: Node3D):
+	print(body.name)
+	if body is Package:
+		packages.erase(body)
+	if body is Player:
+		players.erase(body)
+
+func _manage_package_weight():
+	var total_weight = 0.0
+	for package in packages:
+		if players.has(get_node(package.holder)) or package.get_colliding_bodies().size() >= 1:
+			total_weight += package.weight
+			current_capacity = total_weight
+			print(get_node(package.holder))
+			print(current_capacity)

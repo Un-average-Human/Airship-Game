@@ -182,6 +182,8 @@ surface_material_override/0 = SubResource("StandardMaterial3D_lka76")
 [node name="Area3D" type="Area3D" parent="AnimatableBody3D" unique_id=811221168]
 collision_layer = 0
 collision_mask = 10
+monitoring = false
+monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D/Area3D" unique_id=1340137150]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0489259, 0)
@@ -217,11 +219,9 @@ size = Vector3(4, 0.1, 5)
 root_node = NodePath("../AnimatableBody3D")
 libraries/ = SubResource("AnimationLibrary_58mk7")
 autoplay = &"new_animation"
-speed_scale = 0.5
 
 [node name="player" parent="." unique_id=1082542328 instance=ExtResource("1_i1mvt")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -7, 1, 0)
-collision_mask = 15
 platform_on_leave = 1
 multiplayer_compatible = false
 

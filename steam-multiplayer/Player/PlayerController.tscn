@@ -23,7 +23,7 @@ albedo_texture = ExtResource("2_ldje2")
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_j8abd"]
 
-[node name="player" type="CharacterBody3D" unique_id=1082542328 node_paths=PackedStringArray("neck", "camera", "interact_raycast", "visual_interact_ray")]
+[node name="player" type="CharacterBody3D" unique_id=1082542328 node_paths=PackedStringArray("neck", "camera", "interact_raycast")]
 collision_layer = 2
 collision_mask = 15
 floor_constant_speed = true
@@ -31,16 +31,15 @@ script = ExtResource("1_ldje2")
 neck = NodePath("Neck")
 camera = NodePath("Neck/PlayerCamera")
 interact_raycast = NodePath("Neck/InteractRay")
-visual_interact_ray = NodePath("")
 multiplayer_compatible = true
 
 [node name="Mechanics" type="Node" parent="." unique_id=1744217233]
 
-[node name="Grabbing" type="Node" parent="Mechanics" unique_id=1343810587 node_paths=PackedStringArray("player", "interact_ray", "visual_interact_ray", "hand")]
+[node name="Grabbing" type="Node" parent="Mechanics" unique_id=1343810587 node_paths=PackedStringArray("player", "interact_ray", "hand")]
+unique_name_in_owner = true
 script = ExtResource("4_j8irr")
 player = NodePath("../..")
 interact_ray = NodePath("../../Neck/InteractRay")
-visual_interact_ray = NodePath("")
 hand = NodePath("../../Neck/Marker3D")
 
 [node name="StateMachine" type="Node" parent="." unique_id=1106026005 node_paths=PackedStringArray("state_machine", "states", "player")]
