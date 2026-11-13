@@ -51,12 +51,14 @@ func _grab() -> void:
 				
 				grabbed_object.is_grabbed = true
 				grabbed_object.holder = player.get_path()
+				player.mass += grabbed_object.weight
 				print(grabbed_object.holder)
 
 func _drop() -> void:
 	if grabbed_object != null:
 		grabbed_object.is_grabbed = false
 		grabbed_object.holder = ""
+		player.mass -= grabbed_object.weight
 
 		grabbed_object = null
 

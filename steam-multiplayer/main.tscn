@@ -128,6 +128,7 @@ spawn_path = NodePath("..")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5005, -473)
 material_override = SubResource("StandardMaterial3D_1bvp3")
 use_collision = true
+collision_mask = 15
 size = Vector3(100, 5, 1000)
 
 [node name="le_titan_celeste" type="StaticBody3D" parent="." unique_id=619446052]

@@ -29,7 +29,7 @@ var max_upward_thrust: float
 
 @export_subgroup("Capacity")
 @export var storage_area: Area3D
-@export var max_capacity: float = 100.0
+@export var max_capacity: float = 200.0
 var current_capacity: float = 0.0
 var packages: Array[Package]
 var players: Array[Player]
@@ -83,8 +83,10 @@ func _exited_storage_area(body: Node3D):
 func _manage_package_weight():
 	var total_weight = 0.0
 	for package in packages:
-		if players.has(get_node(package.holder)) or package.get_colliding_bodies().size() >= 1:
+		if package.get_colliding_bodies().size() >= 1 and not package.is_grabbed:
 			total_weight += package.weight
-			current_capacity = total_weight
-			print(get_node(package.holder))
-			print(current_capacity)
+	for player in players:
+		total_weight += player.mass
+	
+	current_capacity = total_weight
+	print(current_capacity)

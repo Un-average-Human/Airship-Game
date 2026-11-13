@@ -3,7 +3,7 @@ class_name Player
 
 # Physics
 @export var mass_ratio_multi: float = 5.0
-@export var mass: float
+@export var mass: float = 80
 const PHYSICS_MASS: float = 80
 
 # Camera
