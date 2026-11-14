@@ -18,6 +18,8 @@ class_name Dirigible
 
 @export_category("Stats")
 
+@export var sd: Resource
+
 @export_subgroup("Lift")
 @export var min_lift: float = 9700
 @export var max_lift: float = 10000
@@ -33,6 +35,8 @@ var max_upward_thrust: float
 var current_capacity: float = 0.0
 var packages: Array[Package]
 var players: Array[Player]
+
+@export_subgroup("Steering")
 
 func _ready() -> void:
 	max_upward_thrust = (max_lift - mass * 9.8) / 9.8
@@ -62,6 +66,9 @@ func _manage_lift():
 		apply_central_force(Vector3.UP * ((extra_lift + current_lift) - cargo_force))
 	else:
 		apply_central_force(Vector3.UP * (current_lift - cargo_force))
+
+func _manage_throttle():
+	pass
 
 
 
