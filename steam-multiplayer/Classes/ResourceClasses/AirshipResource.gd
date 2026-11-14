@@ -19,3 +19,21 @@ class_name AirshipStats
 @export var max_capacity: float = 200.0
 ##The airship's mass.
 @export var airship_mass: float
+
+
+
+@export_subgroup("Steering")
+##Force that will rotate the airship when steering.
+@export var yaw_torque: float
+##Angle the rudder will rotate in degrees.
+@export var rudder_angle: float = 30
+
+
+
+@export_subgroup("Banking")
+##Stiffness controls how aggressively the aircraft rolls into the bank.
+@export var stiffness: float = 2000
+##Damping stops the airship from rotating past the target angle.
+@export var damping: float = 3000
+##Angle the airship will rotate to when banking.
+@export var target_tilt_angle: float

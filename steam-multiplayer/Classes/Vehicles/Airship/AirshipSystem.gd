@@ -21,8 +21,8 @@ class_name Dirigible
 @export var sd: Resource
 
 @export_subgroup("Lift")
-@export var min_lift: float = 9700
-@export var max_lift: float = 10000
+@export var min_lift: float = 9700.0
+@export var max_lift: float = 10000.0
 @export var extra_lift = 50
 var adjustable_lift: float
 var current_adjustable_lift: float
@@ -37,6 +37,15 @@ var packages: Array[Package]
 var players: Array[Player]
 
 @export_subgroup("Steering")
+@export var yaw_torque: float
+@export var rudder_angle: float = 30
+
+@export_subgroup("Banking")
+##Stiffness controls how aggressively the aircraft rolls into the bank.
+@export var stiffness: float = 2000
+##Damping stops the airship from rotating past the target angle.
+@export var damping: float = 3000
+@export var target_tilt_angle: float = 30
 
 func _ready() -> void:
 	max_upward_thrust = (max_lift - mass * 9.8) / 9.8
@@ -66,6 +75,11 @@ func _manage_lift():
 		apply_central_force(Vector3.UP * ((extra_lift + current_lift) - cargo_force))
 	else:
 		apply_central_force(Vector3.UP * (current_lift - cargo_force))
+
+func _steering():
+	#banking
+	var angle_diff: float = angle_difference(global_rotation.z, deg_to_rad(target_tilt_angle))
+	var banking_torque: float = (angle_diff * stiffness) - (angular_velocity.z * damping)
 
 func _manage_throttle():
 	pass
