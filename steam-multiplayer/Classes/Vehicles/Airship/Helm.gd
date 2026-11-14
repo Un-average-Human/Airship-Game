@@ -4,10 +4,18 @@ class_name Helm
 
 @export var pilot_seat: RemoteTransform3D
 @export var camera: Camera3D
+@export var helm_mesh: Node3D
+
+
+@export var rotation_speed: float = 2.5
+@export var max_helm_rot: float = 360
+@export var min_helm_rot: float = -360
 
 var is_grabbed: bool = false
 var player: CharacterBody3D
 var player_pos_tween
+
+var value: float
 
 func _ready() -> void:
 	pass # Replace with function body.
@@ -48,3 +56,15 @@ func _manage_player_pos(is_leaving: bool):
 		camera.make_current()
 		
 		is_grabbed = true
+
+func _physics_process(delta: float) -> void:
+	if not is_grabbed:
+		return
+	
+	var steer_input = Input.get_axis("steer_left", "steer_right")
+	helm_mesh.rotation.z = clampf(helm_mesh.rotation.z + (deg_to_rad(rotation_speed) * steer_input), deg_to_rad(min_helm_rot), deg_to_rad(max_helm_rot))
+	
+	value = remap(helm_mesh.rotation.z, deg_to_rad(min_helm_rot), deg_to_rad(max_helm_rot), 1, -1)
+	if absf(value) < 0.02:
+		value = 0.0
+	print(value)

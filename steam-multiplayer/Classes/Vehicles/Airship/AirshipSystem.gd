@@ -37,15 +37,15 @@ var packages: Array[Package]
 var players: Array[Player]
 
 @export_subgroup("Steering")
-@export var yaw_torque: float
-@export var rudder_angle: float = 30
+@export var yaw_torque: float = 10.0
+@export var rudder_angle: float = 30.0
 
 @export_subgroup("Banking")
 ##Stiffness controls how aggressively the aircraft rolls into the bank.
-@export var stiffness: float = 2000
+@export var stiffness: float = 2
 ##Damping stops the airship from rotating past the target angle.
-@export var damping: float = 3000
-@export var target_tilt_angle: float = 30
+@export var damping: float = 3
+@export var target_tilt_angle: float = 10.0
 
 func _ready() -> void:
 	max_upward_thrust = (max_lift - mass * 9.8) / 9.8
@@ -62,6 +62,7 @@ func _unhandled_input(_event: InputEvent) -> void:
 		return
 
 func _physics_process(_delta: float) -> void:
+	_steering()
 	_manage_lift()
 	_manage_package_weight()
 
@@ -78,8 +79,13 @@ func _manage_lift():
 
 func _steering():
 	#banking
-	var angle_diff: float = angle_difference(global_rotation.z, deg_to_rad(target_tilt_angle))
+	var angle_diff: float = angle_difference(global_rotation.z, deg_to_rad(target_tilt_angle * helm.value))
 	var banking_torque: float = (angle_diff * stiffness) - (angular_velocity.z * damping)
+	
+	apply_torque(global_transform.basis.z * banking_torque * mass)
+	
+	#yaw
+	apply_torque(global_transform.basis.y * (yaw_torque * helm.value) * mass)
 
 func _manage_throttle():
 	pass
@@ -110,4 +116,4 @@ func _manage_package_weight():
 		total_weight += player.mass
 	
 	current_capacity = total_weight
-	print(current_capacity)
+	#print(current_capacity)

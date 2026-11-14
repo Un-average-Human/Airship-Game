@@ -111,14 +111,16 @@ size = Vector3(0.1, 10, 1.5)
 [sub_resource type="BoxShape3D" id="BoxShape3D_lka76"]
 size = Vector3(1, 1.7, 0.6)
 
-[node name="Airship" type="RigidBody3D" unique_id=11995041 node_paths=PackedStringArray("gas_valve", "vent_valve", "rudder", "propeller", "storage_area")]
+[node name="Airship" type="RigidBody3D" unique_id=11995041 node_paths=PackedStringArray("gas_valve", "vent_valve", "rudder", "propeller", "helm", "storage_area")]
 collision_layer = 0
 mass = 1000.0
+angular_damp = 2.0
 script = ExtResource("1_jc30l")
 gas_valve = NodePath("StaticBody3D2")
 vent_valve = NodePath("StaticBody3D3")
 rudder = NodePath("Rudder")
 propeller = NodePath("Propeller")
+helm = NodePath("Helm")
 storage_area = NodePath("storage_area")
 metadata/_custom_type_script = "uid://b5k04yjwruc21"
 
@@ -156,8 +158,7 @@ mesh = SubResource("CylinderMesh_nc3cx")
 
 [node name="Helm" parent="." unique_id=1175643711 instance=ExtResource("2_w4ouc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0035858154, 1.1000001, -8.052065)
-collision_layer = 0
-collision_mask = 16
+collision_mask = 2
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1401018512]
 transform = Transform3D(0.7071068, 0, -0.7071068, 0, 1, 0, 0.7071068, 0, 0.7071068, -9, 6, 9)
