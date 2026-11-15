@@ -380,6 +380,7 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.70
 mesh = SubResource("BoxMesh_8wd5n")
 
 [node name="AnimatableBody3D" type="AnimatableBody3D" parent="." unique_id=1728637781]
+top_level = true
 collision_layer = 4
 collision_mask = 10
 

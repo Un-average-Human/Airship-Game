@@ -24,6 +24,7 @@ var is_camera_locked: bool = false
 @export var walking_speed: float = 5.0
 @export var running_speed: float = 8.0
 @export var jump_velocity: float = 4.0
+
 var current_speed = walking_speed
 var can_move: bool = true
 

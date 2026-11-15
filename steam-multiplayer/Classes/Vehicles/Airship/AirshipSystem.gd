@@ -45,7 +45,7 @@ var players: Array[Player]
 @export var stiffness: float = 2
 ##Damping stops the airship from rotating past the target angle.
 @export var damping: float = 3
-@export var target_tilt_angle: float = 10.0
+@export var target_tilt_angle: float = 20.0
 
 func _ready() -> void:
 	max_upward_thrust = (max_lift - mass * 9.8) / 9.8
@@ -58,6 +58,8 @@ func _ready() -> void:
 
 
 func _unhandled_input(_event: InputEvent) -> void:
+	if Input.is_action_just_pressed("start_engine"):
+		apply_central_force(-global_transform.basis.z * 30000)
 	if not is_multiplayer_authority():
 		return
 
