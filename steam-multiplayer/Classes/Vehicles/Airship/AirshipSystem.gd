@@ -41,17 +41,20 @@ var players: Array[Player]
 @export var rudder_angle: float = 30.0
 
 @export_subgroup("Banking")
-##Stiffness controls how aggressively the aircraft rolls into the bank.
-@export var stiffness: float = 2
+##Controls how aggressively the aircraft rolls into the bank.
+@export var roll_stiffness: float = 20.0
 ##Damping stops the airship from rotating past the target angle.
-@export var damping: float = 3
-@export var target_tilt_angle: float = 20.0
+@export var damping: float = 2.0
+##Controls how aggressively the aircraft pitches back to 0 degrees.
+@export var pitch_stiffness: float = 200.0
+
+@export var target_tilt_angle: float = 10.0
 
 @export var can_accelerate: bool = false
-var last_pos: Vector3
+var last_transform: Transform3D
 
 func _ready() -> void:
-	last_pos = global_position
+	last_transform = global_transform
 	max_upward_thrust = (max_lift - mass * 9.8) / 9.8
 	adjustable_lift = max_lift - min_lift
 	
@@ -71,6 +74,8 @@ func _physics_process(_delta: float) -> void:
 	_manage_player_velocity()
 	if can_accelerate:
 		apply_central_force(-global_transform.basis.z * 5000)
+	
+	_balance_airship()
 	_steering()
 	_manage_lift()
 	_manage_package_weight()
@@ -88,8 +93,8 @@ func _manage_lift():
 
 func _steering():
 	#banking
-	var angle_diff: float = angle_difference(global_rotation.z, deg_to_rad(target_tilt_angle * helm.value))
-	var banking_torque: float = (angle_diff * stiffness) - (angular_velocity.z * damping)
+	var angle_diff: float = angle_difference(rotation.z, deg_to_rad(target_tilt_angle * helm.value))
+	var banking_torque: float = (angle_diff * roll_stiffness) - (angular_velocity.z * damping)
 	
 	apply_torque(global_transform.basis.z * banking_torque * mass)
 	
@@ -112,12 +117,19 @@ func _manage_package_weight():
 	#print(current_capacity)
 
 func _manage_player_velocity():
-	var ship_delta := global_position - last_pos
-	last_pos = global_position
+	var yaw_delta := angle_difference(last_transform.basis.get_euler().y, global_rotation.y)
 	for player in players:
-		if is_instance_valid(player):
-			if not player.multiplayer_compatible or player.is_multiplayer_authority():
-				player.global_position += ship_delta
+		if is_instance_valid(player) and (not player.multiplayer_compatible or player.is_multiplayer_authority()):
+			player.global_position = to_global(last_transform.affine_inverse() * player.global_position)
+			player.rotate_y(yaw_delta)
+
+	last_transform = global_transform
+
+func _balance_airship():
+	var angle_diff: float = angle_difference(rotation.x, deg_to_rad(0))
+	var banking_torque: float = (angle_diff * pitch_stiffness) - (angular_velocity.x * damping)
+	
+	apply_torque(global_transform.basis.x * banking_torque * mass)
 
 
 

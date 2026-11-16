@@ -96,7 +96,7 @@ gas_valve = NodePath("TickInterpolation3D/Visual/gas_valve")
 vent_valve = NodePath("TickInterpolation3D/Visual/vent_valve")
 rudder = NodePath("Rudder")
 propeller = NodePath("Propeller")
-helm = NodePath("Helm")
+helm = NodePath("TickInterpolation3D/Visual/Helm")
 airship_area = NodePath("storage_area")
 metadata/_custom_type_script = "uid://b5k04yjwruc21"
 
@@ -131,10 +131,6 @@ mesh = SubResource("CylinderMesh_nc3cx")
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Propeller/MeshInstance3D9" unique_id=130771634]
 transform = Transform3D(1.3486285, 0, 0, -3.5527137e-15, 1.0000001, 0, 0, 0, 0.24917689, 0.6000004, -2.861023e-06, 0)
 mesh = SubResource("CylinderMesh_nc3cx")
-
-[node name="Helm" parent="." unique_id=1175643711 instance=ExtResource("2_w4ouc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0035858154, 1.1000001, -8.052065)
-collision_mask = 2
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1401018512]
 transform = Transform3D(0.7071068, 0, -0.7071068, 0, 1, 0, 0.7071068, 0, 0.7071068, -9, 6, 9)
@@ -250,6 +246,10 @@ min_rotation = -1440.0
 max_rotation = 1440.0
 starting_rotation = 1440.0
 crank_sensitivity = 2.5
+
+[node name="Helm" parent="TickInterpolation3D/Visual" unique_id=1175643711 instance=ExtResource("2_w4ouc")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.8484793, 1.1000001, 1.8021092e-07)
+collision_mask = 2
 
 [node name="AnimatableBody3D" type="AnimatableBody3D" parent="." unique_id=1728637781]
 top_level = true

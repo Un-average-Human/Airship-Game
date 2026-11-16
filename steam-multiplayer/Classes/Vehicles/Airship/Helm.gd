@@ -41,7 +41,8 @@ func _manage_player_pos(is_leaving: bool):
 		player.camera.make_current()
 		is_grabbed = false
 		pilot_seat.remote_path = ""
-		player.rotation = Vector3.ZERO
+		player.rotation.z = 0.0
+		player.rotation.x = 0.0
 		
 		player.can_move = true
 		player.is_camera_locked = false
@@ -51,8 +52,9 @@ func _manage_player_pos(is_leaving: bool):
 		player.is_camera_locked = true
 		player.rotation = Vector3.ZERO
 		
-		player.global_position = pilot_seat.global_position
 		pilot_seat.remote_path = player.get_path()
+		player.neck.rotation = Vector3.ZERO
+		player.global_transform = pilot_seat.global_transform
 		camera.make_current()
 		
 		is_grabbed = true
@@ -68,3 +70,8 @@ func _physics_process(delta: float) -> void:
 	if absf(value) < 0.02:
 		value = 0.0
 	print(value)
+
+@rpc("any_peer", "call_local", "unreliable_ordered")
+func _sync_helm(rot_z: float, new_val: float) -> void:
+	helm_mesh.rotation.z = rot_z
+	value = new_val
