@@ -87,21 +87,12 @@ func _physics_process(delta: float) -> void:
 		input_dir = Input.get_vector("left", "right", "forward", "backward")
 		direction = (transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)).normalized()
 
-	if is_on_floor():
-		platform_vel = get_platform_velocity()
-		if direction:
-			velocity.x = direction.x * current_speed
-			velocity.z = direction.z * current_speed
-		else:
-			velocity.x = move_toward(velocity.x, 0.0, walking_speed)
-			velocity.z = move_toward(velocity.z, 0.0, walking_speed)
+	if direction:
+		velocity.x = direction.x * current_speed
+		velocity.z = direction.z * current_speed
 	else:
-		if direction:
-			velocity.x = platform_vel.x + (direction.x * current_speed)
-			velocity.z = platform_vel.z + (direction.z * current_speed)
-		else:
-			velocity.x = move_toward(velocity.x, platform_vel.x, walking_speed)
-			velocity.z = move_toward(velocity.z, platform_vel.z, walking_speed)
+		velocity.x = move_toward(velocity.x, 0.0, current_speed)
+		velocity.z = move_toward(velocity.z, 0.0, current_speed)
 
 	_rigidbody_interaction()
 	move_and_slide()

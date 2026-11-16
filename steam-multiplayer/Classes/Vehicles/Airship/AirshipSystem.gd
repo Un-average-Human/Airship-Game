@@ -30,7 +30,7 @@ var current_lift: float = min_lift
 var max_upward_thrust: float
 
 @export_subgroup("Capacity")
-@export var storage_area: Area3D
+@export var airship_area: Area3D
 @export var max_capacity: float = 200.0
 var current_capacity: float = 0.0
 var packages: Array[Package]
@@ -47,15 +47,17 @@ var players: Array[Player]
 @export var damping: float = 3
 @export var target_tilt_angle: float = 20.0
 
-var can_accelerate: bool = false
+@export var can_accelerate: bool = false
+var last_pos: Vector3
 
 func _ready() -> void:
+	last_pos = global_position
 	max_upward_thrust = (max_lift - mass * 9.8) / 9.8
 	adjustable_lift = max_lift - min_lift
 	
 	#signals
-	storage_area.body_entered.connect(_entered_storage_area)
-	storage_area.body_exited.connect(_exited_storage_area)
+	airship_area.body_entered.connect(_entered_airship)
+	airship_area.body_exited.connect(_exited_airship)
 
 
 
@@ -66,6 +68,7 @@ func _unhandled_input(_event: InputEvent) -> void:
 		return
 
 func _physics_process(_delta: float) -> void:
+	_manage_player_velocity()
 	if can_accelerate:
 		apply_central_force(-global_transform.basis.z * 5000)
 	_steering()
@@ -96,23 +99,7 @@ func _steering():
 func _manage_throttle():
 	pass
 
-
-
 #package weight stuff :money_mouth_face:
-func _entered_storage_area(body: Node3D):
-	print(body.name)
-	if body is Package:
-		packages.append(body)
-	if body is Player:
-		players.append(body)
-
-func _exited_storage_area(body: Node3D):
-	print(body.name)
-	if body is Package:
-		packages.erase(body)
-	if body is Player:
-		players.erase(body)
-
 func _manage_package_weight():
 	var total_weight = 0.0
 	for package in packages:
@@ -123,3 +110,29 @@ func _manage_package_weight():
 	
 	current_capacity = total_weight
 	#print(current_capacity)
+
+func _manage_player_velocity():
+	var ship_delta := global_position - last_pos
+	last_pos = global_position
+	for player in players:
+		if is_instance_valid(player):
+			if not player.multiplayer_compatible or player.is_multiplayer_authority():
+				player.global_position += ship_delta
+
+
+
+func _entered_airship(body: Node3D):
+	print(body.name)
+	if body is Package:
+		packages.append(body)
+	if body is Player:
+		players.append(body)
+
+func _exited_airship(body: Node3D):
+	print(body.name)
+	if body is Package:
+		packages.erase(body)
+	if body is Player:
+		players.erase(body)
+		if body.is_multiplayer_authority():
+			body.velocity += linear_velocity
