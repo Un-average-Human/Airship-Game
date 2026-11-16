@@ -32,11 +32,16 @@ func execute(player_interacting: CharacterBody3D):
 	player = player_interacting
 	
 	if not is_grabbed:
+		var id = int(player.name)
+		set_multiplayer_authority(id)
+		
 		_manage_player_pos(false)
 	else:
 		_manage_player_pos(true)
 
 func _manage_player_pos(is_leaving: bool):
+	if not is_multiplayer_authority():
+		return
 	if is_leaving:
 		player.camera.make_current()
 		is_grabbed = false
@@ -47,6 +52,7 @@ func _manage_player_pos(is_leaving: bool):
 		player.can_move = true
 		player.is_camera_locked = false
 		player = null
+		set_multiplayer_authority(1)
 	else:
 		player.can_move = false
 		player.is_camera_locked = true
@@ -70,6 +76,7 @@ func _physics_process(delta: float) -> void:
 	if absf(value) < 0.02:
 		value = 0.0
 	print(value)
+	_sync_helm.rpc(helm_mesh.rotation.z, value)
 
 @rpc("any_peer", "call_local", "unreliable_ordered")
 func _sync_helm(rot_z: float, new_val: float) -> void:
