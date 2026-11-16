@@ -62,10 +62,10 @@ func _ready() -> void:
 
 
 func _unhandled_input(_event: InputEvent) -> void:
-	if Input.is_action_just_pressed("start_engine"):
-		can_accelerate = !can_accelerate
 	if not is_multiplayer_authority():
 		return
+	if Input.is_action_just_pressed("start_engine"):
+		can_accelerate = !can_accelerate
 
 func _physics_process(_delta: float) -> void:
 	_manage_player_velocity()

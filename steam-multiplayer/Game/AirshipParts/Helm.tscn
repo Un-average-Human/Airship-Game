@@ -2,6 +2,17 @@
 
 [ext_resource type="Script" uid="uid://oj55eqv32tas" path="res://Classes/Vehicles/Airship/Helm.gd" id="1_5adci"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_kiic0"]
+size = Vector3(1.4, 1.4, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_kiic0"]
+size = Vector3(0.05, 1, 0.05)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_0bgn6"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.2
+
 [sub_resource type="CylinderMesh" id="CylinderMesh_a7hue"]
 top_radius = 0.125
 bottom_radius = 0.125
@@ -22,17 +33,6 @@ top_radius = 0.016113281
 bottom_radius = 0.016113281
 height = 1.3408203
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_kiic0"]
-size = Vector3(1.4, 1.4, 0.1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_kiic0"]
-size = Vector3(0.05, 1, 0.05)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_0bgn6"]
-top_radius = 0.05
-bottom_radius = 0.05
-height = 0.2
-
 [node name="Helm" type="AnimatableBody3D" unique_id=2065176023 node_paths=PackedStringArray("pilot_seat", "camera", "helm_mesh") groups=["interactable"]]
 collision_layer = 4
 collision_mask = 15
@@ -41,6 +41,27 @@ script = ExtResource("1_5adci")
 pilot_seat = NodePath("Marker3D/RemoteTransform3D")
 camera = NodePath("Camera3D")
 helm_mesh = NodePath("Node3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=823931158]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.511592e-08, 2.9802322e-08, 0.10032473)
+shape = SubResource("BoxShape3D_kiic0")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=833950409]
+transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, -4.8507093e-08, -0.49999997, -0.05016236)
+mesh = SubResource("BoxMesh_kiic0")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D3" unique_id=1208618510]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0.0015208721, 0.5, 0)
+mesh = SubResource("CylinderMesh_0bgn6")
+
+[node name="Marker3D" type="Marker3D" parent="." unique_id=925958676]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Marker3D" unique_id=1274551969]
+update_scale = false
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1807466934]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1)
 
 [node name="Node3D" type="Node3D" parent="." unique_id=1111675510]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 8.38582e-08, 0, 0.10032472)
@@ -83,24 +104,3 @@ operation = 2
 radius = 0.45410156
 height = 0.61621094
 sides = 32
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=823931158]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.511592e-08, 2.9802322e-08, 0.10032473)
-shape = SubResource("BoxShape3D_kiic0")
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=833950409]
-transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, -4.8507093e-08, -0.49999997, -0.05016236)
-mesh = SubResource("BoxMesh_kiic0")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D3" unique_id=1208618510]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0.0015208721, 0.5, 0)
-mesh = SubResource("CylinderMesh_0bgn6")
-
-[node name="Marker3D" type="Marker3D" parent="." unique_id=925958676]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
-
-[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Marker3D" unique_id=1274551969]
-update_scale = false
-
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1807466934]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1)

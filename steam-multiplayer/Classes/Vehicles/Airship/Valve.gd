@@ -5,7 +5,6 @@ class_name Valve
 @export_subgroup("Nodes")
 @export var hand_pos: Marker3D
 @export var valve_mesh: Node3D
-@export var multiplayer_synchroniser: MultiplayerSynchronizer
 
 @export_subgroup("Stats")
 @export var is_vent: bool = false
@@ -40,7 +39,6 @@ func _multiplayer_manager(grabbed: bool, player_interacting: NodePath) -> void:
 		var id = int(player.name)
 		
 		set_multiplayer_authority(id)
-		multiplayer_synchroniser.set_multiplayer_authority(id)
 		if is_multiplayer_authority():
 			player.is_camera_locked = true
 			player.can_move = false
@@ -52,7 +50,6 @@ func _multiplayer_manager(grabbed: bool, player_interacting: NodePath) -> void:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		player = null
 		set_multiplayer_authority(1)
-		multiplayer_synchroniser.set_multiplayer_authority(1)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_grabbed or not is_multiplayer_authority():
@@ -81,6 +78,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			valve_mesh.rotation.z = clamp(valve_mesh.rotation.z + (change * (crank_sensitivity * sensitivity_multiplier)), deg_to_rad(min_rotation), deg_to_rad(max_rotation))
 			value = clamp(remap(valve_mesh.rotation.z, deg_to_rad(min_rotation), deg_to_rad(max_rotation), 0.0, 1.0), 0.0, 1.0)
+		
+		_sync_valve.rpc(valve_mesh.rotation.z, value)
 	
 	if Input.is_action_just_released("interact"):
 		_multiplayer_manager.rpc(false, "")
+
+@rpc("any_peer", "call_local", "unreliable_ordered")
+func _sync_valve(rot_z: float, new_val: float) -> void:
+	valve_mesh.rotation.z = rot_z
+	value = new_val

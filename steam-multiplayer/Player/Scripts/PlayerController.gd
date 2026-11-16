@@ -34,8 +34,9 @@ func _enter_tree() -> void:
 		set_multiplayer_authority(name.to_int())
 
 func _ready() -> void:
-	camera.make_current()
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	if is_multiplayer_authority():
+		camera.make_current()
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if multiplayer_compatible and not is_multiplayer_authority():
