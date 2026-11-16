@@ -47,6 +47,8 @@ var players: Array[Player]
 @export var damping: float = 3
 @export var target_tilt_angle: float = 20.0
 
+var can_accelerate: bool = false
+
 func _ready() -> void:
 	max_upward_thrust = (max_lift - mass * 9.8) / 9.8
 	adjustable_lift = max_lift - min_lift
@@ -59,11 +61,13 @@ func _ready() -> void:
 
 func _unhandled_input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("start_engine"):
-		apply_central_force(-global_transform.basis.z * 30000)
+		can_accelerate = !can_accelerate
 	if not is_multiplayer_authority():
 		return
 
 func _physics_process(_delta: float) -> void:
+	if can_accelerate:
+		apply_central_force(-global_transform.basis.z * 5000)
 	_steering()
 	_manage_lift()
 	_manage_package_weight()

@@ -27,6 +27,7 @@ var is_camera_locked: bool = false
 
 var current_speed = walking_speed
 var can_move: bool = true
+var platform_vel: Vector3
 
 func _enter_tree() -> void:
 	if multiplayer_compatible:
@@ -54,8 +55,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			if collider.is_in_group("interactable"):
 				collider.execute(self)
 
-
-##TO FINISH
 func _rigidbody_interaction():
 	for collision_id in get_slide_collision_count():
 		var collision = get_slide_collision(collision_id)
@@ -88,12 +87,21 @@ func _physics_process(delta: float) -> void:
 		input_dir = Input.get_vector("left", "right", "forward", "backward")
 		direction = (transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)).normalized()
 
-	if direction:
-		velocity.x = direction.x * current_speed
-		velocity.z = direction.z * current_speed
+	if is_on_floor():
+		platform_vel = get_platform_velocity()
+		if direction:
+			velocity.x = direction.x * current_speed
+			velocity.z = direction.z * current_speed
+		else:
+			velocity.x = move_toward(velocity.x, 0.0, walking_speed)
+			velocity.z = move_toward(velocity.z, 0.0, walking_speed)
 	else:
-		velocity.x = move_toward(velocity.x, 0.0, walking_speed)
-		velocity.z = move_toward(velocity.z, 0.0, walking_speed)
+		if direction:
+			velocity.x = platform_vel.x + (direction.x * current_speed)
+			velocity.z = platform_vel.z + (direction.z * current_speed)
+		else:
+			velocity.x = move_toward(velocity.x, platform_vel.x, walking_speed)
+			velocity.z = move_toward(velocity.z, platform_vel.z, walking_speed)
 
 	_rigidbody_interaction()
 	move_and_slide()
