@@ -88,6 +88,8 @@ size = Vector3(0.1, 10, 1.5)
 size = Vector3(1, 1.7, 0.6)
 
 [node name="Airship" type="RigidBody3D" unique_id=11995041 node_paths=PackedStringArray("gas_valve", "vent_valve", "rudder", "propeller", "helm", "airship_area")]
+process_priority = -1
+process_physics_priority = -1
 collision_layer = 0
 mass = 1000.0
 angular_damp = 2.0
@@ -255,7 +257,6 @@ collision_mask = 2
 top_level = true
 collision_layer = 4
 collision_mask = 10
-sync_to_physics = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D" unique_id=1568302423]
 transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, 0.0035856962, 5, -1.2035857)

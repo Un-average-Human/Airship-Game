@@ -23,6 +23,8 @@ properties/3/replication_mode = 2
 [sub_resource type="BoxMesh" id="BoxMesh_j8abd"]
 
 [node name="Package" type="RigidBody3D" unique_id=105087648 node_paths=PackedStringArray("multiplayer_synchronizer") groups=["CanGrab"]]
+process_priority = -2
+process_physics_priority = -2
 collision_layer = 8
 collision_mask = 15
 mass = 100.0

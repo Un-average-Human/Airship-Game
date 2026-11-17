@@ -42,9 +42,9 @@ var players: Array[Player]
 
 @export_subgroup("Banking")
 ##Controls how aggressively the aircraft rolls into the bank.
-@export var roll_stiffness: float = 20.0
+@export var roll_stiffness: float = 50.0
 ##Damping stops the airship from rotating past the target angle.
-@export var damping: float = 2.0
+@export var damping: float = 0.2
 ##Controls how aggressively the aircraft pitches back to 0 degrees.
 @export var pitch_stiffness: float = 200.0
 
@@ -71,9 +71,9 @@ func _unhandled_input(_event: InputEvent) -> void:
 		can_accelerate = !can_accelerate
 
 func _physics_process(_delta: float) -> void:
-	_manage_player_velocity()
+	_manage_object_velocity()
 	if can_accelerate:
-		apply_central_force(-global_transform.basis.z * 5000)
+		apply_central_force(-global_transform.basis.z * 3000)
 	
 	_balance_airship()
 	_steering()
@@ -116,12 +116,16 @@ func _manage_package_weight():
 	current_capacity = total_weight
 	#print(current_capacity)
 
-func _manage_player_velocity():
+func _manage_object_velocity():
 	var yaw_delta := angle_difference(last_transform.basis.get_euler().y, global_rotation.y)
 	for player in players:
 		if is_instance_valid(player) and (not player.multiplayer_compatible or player.is_multiplayer_authority()):
 			player.global_position = to_global(last_transform.affine_inverse() * player.global_position)
 			player.rotate_y(yaw_delta)
+	for package in packages:
+		if is_instance_valid(package):
+			package.global_position = to_global(last_transform.affine_inverse() * package.global_position)
+			package.rotate_y(yaw_delta)
 
 	last_transform = global_transform
 
