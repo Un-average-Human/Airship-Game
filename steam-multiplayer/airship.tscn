@@ -253,25 +253,25 @@ crank_sensitivity = 2.5
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.8484793, 1.1000001, 1.8021092e-07)
 collision_mask = 2
 
-[node name="AnimatableBody3D" type="AnimatableBody3D" parent="." unique_id=1728637781]
+[node name="walkable" type="AnimatableBody3D" parent="." unique_id=1728637781]
 top_level = true
 collision_layer = 4
 collision_mask = 10
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D" unique_id=1568302423]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="walkable" unique_id=1568302423]
 transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, 0.0035856962, 5, -1.2035857)
 shape = SubResource("CapsuleShape3D_0eil0")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="AnimatableBody3D" unique_id=1337767876]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="walkable" unique_id=1337767876]
 transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, 0.0035858054, 0.05000006, -3.703586)
 shape = SubResource("BoxShape3D_1fisk")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="AnimatableBody3D" unique_id=481757668]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="walkable" unique_id=481757668]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0.55)
 shape = SubResource("BoxShape3D_lka76")
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="." unique_id=1302133398]
-remote_path = NodePath("../AnimatableBody3D")
+remote_path = NodePath("../walkable")
 
 [editable path="TickInterpolation3D/Visual/gas_valve"]
 [editable path="TickInterpolation3D/Visual/vent_valve"]

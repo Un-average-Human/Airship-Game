@@ -4,6 +4,8 @@
 [ext_resource type="Resource" uid="uid://pbjcl8cg68xt" path="res://TESTING/Packages/TestPackage.tres" id="2_7oohr"]
 [ext_resource type="Script" uid="uid://c32bammkpp58s" path="res://Classes/Multiplayer/TickInterpolation.gd" id="3_e4dnp"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lquwl"]
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_j8abd"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vs22u"]
@@ -28,6 +30,8 @@ process_physics_priority = -2
 collision_layer = 8
 collision_mask = 15
 mass = 100.0
+physics_material_override = SubResource("PhysicsMaterial_lquwl")
+can_sleep = false
 freeze_mode = 1
 continuous_cd = true
 contact_monitor = true
