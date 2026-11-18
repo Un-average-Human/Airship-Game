@@ -23,6 +23,7 @@ var current_pull_strength: float = light_pull_strength
 
 var is_grabbing_toggleable: bool = false
 var grabbed_object: RigidBody3D = null
+var last_player_pos: Vector3 = Vector3.ZERO
 
 func _unhandled_input(_event: InputEvent) -> void:
 	if not is_grabbing_toggleable:
@@ -37,9 +38,15 @@ func _unhandled_input(_event: InputEvent) -> void:
 			else:
 				_drop()
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	#calculates the player speed to use as a variable, allowing
+	var player_vel = Vector3.ZERO
+	if last_player_pos != Vector3.ZERO:
+		player_vel = (player.global_position - last_player_pos) / delta
+	last_player_pos = player.global_position
+
 	if grabbed_object != null and is_multiplayer_authority():
-		_pull_object.rpc(grabbed_object.get_path(), hand.global_position)
+		_pull_object.rpc(grabbed_object.get_path(), hand.global_position, player_vel)
 
 func _grab() -> void:
 	if interact_ray.is_colliding():
@@ -80,8 +87,10 @@ func _weight_threshold_manager(object: RigidBody3D) -> void:
 		current_weight_threshold = heavy_threshold
 
 @rpc("any_peer", "call_local", "unreliable")
-func _pull_object(object_path: NodePath, hand_pos: Vector3):
+func _pull_object(object_path: NodePath, hand_pos: Vector3, player_vel: Vector3):
 	var object: Package = get_node_or_null(object_path)
+	if object == null:
+		return
 	
 	if not multiplayer.is_server():
 		if not object.freeze:
@@ -97,6 +106,8 @@ func _pull_object(object_path: NodePath, hand_pos: Vector3):
 		var crit_damping = (2 * sqrt((current_pull_strength * mass_multiplier) * object.mass)) * damping
 		
 		#rest of da stuff (makes the packages go to the hand)
+		var relative_velocity = object.linear_velocity - player_vel
+		
 		var dir = hand_pos - object.global_position
-		var pull_force = (dir * (current_pull_strength * mass_multiplier)) - (object.linear_velocity * crit_damping)
+		var pull_force = (dir * (current_pull_strength * mass_multiplier)) - (relative_velocity * crit_damping)
 		object.apply_central_force(pull_force)

@@ -144,8 +144,6 @@ func _exited_airship(body: Node3D):
 	print(body.name)
 	if body is Package:
 		packages.erase(body)
-		if multiplayer.is_server():
-			body.linear_velocity += linear_velocity
 	if body is Player:
 		players.erase(body)
 		if body.is_multiplayer_authority():

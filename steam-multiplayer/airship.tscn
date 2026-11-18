@@ -49,6 +49,12 @@ properties/1/replication_mode = 1
 radius = 2.0
 height = 15.0
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_w4ouc"]
+load_path = "res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dpckw"]
+albedo_texture = SubResource("CompressedTexture2D_w4ouc")
+
 [sub_resource type="BoxMesh" id="BoxMesh_lka76"]
 size = Vector3(0.1, 10, 1.5)
 
@@ -184,6 +190,7 @@ size = Vector3(4.4, 0.12133789, 0.1)
 [node name="MeshInstance3D" type="MeshInstance3D" parent="TickInterpolation3D/Visual" unique_id=1039697008]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -2.5, 5, 0)
 mesh = SubResource("CapsuleMesh_j8abd")
+surface_material_override/0 = SubResource("StandardMaterial3D_dpckw")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="TickInterpolation3D/Visual" unique_id=1861201467]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -2.5, 0.050000105, 0)
