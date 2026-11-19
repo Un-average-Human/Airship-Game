@@ -19,3 +19,5 @@ Q and E to yaw
 you wont get on the plane, i havent added that functionality yet so youll move with the inputs you use for the plane
 
 MULTIPLAYER IS EXCLUSIVE TO STEAM! to play with others the host must click the host button and invite other players ALREADY IN THE GAME (in the menu screen, not hosting)
+
+ONLY RUN THE EXE! No other files (you can run the debug version ig)
