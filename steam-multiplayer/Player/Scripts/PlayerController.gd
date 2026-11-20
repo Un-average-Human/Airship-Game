@@ -70,7 +70,13 @@ func _rigidbody_interaction():
 			#dont push em from above/below
 			push_dir.y = 0
 			var push_force = mass_ratio * mass_ratio_multi
-			collision.get_collider().apply_impulse(push_dir * vel_diff_in_push_dir * push_force, collision.get_position() - collision.get_collider().global_position)
+			_push_rigidbody.rpc(collision.get_collider().get_path(), push_dir * vel_diff_in_push_dir * push_force, collision.get_position() - collision.get_collider().global_position)
+			#collision.get_collider().apply_impulse(push_dir * vel_diff_in_push_dir * push_force, collision.get_position() - collision.get_collider().global_position)
+
+@rpc("authority", "call_local", "unreliable")
+func _push_rigidbody(collider_path: NodePath, dir: Vector3, target_pos: Vector3):
+	var collider = get_node_or_null(collider_path)
+	collider.apply_impulse(dir, target_pos)
 
 func _physics_process(delta: float) -> void:
 	if multiplayer_compatible and not is_multiplayer_authority():
