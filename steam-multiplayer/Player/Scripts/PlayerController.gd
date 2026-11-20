@@ -95,5 +95,5 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0.0, current_speed)
 		velocity.z = move_toward(velocity.z, 0.0, current_speed)
 
-	#_rigidbody_interaction()
+	_rigidbody_interaction()
 	move_and_slide()
