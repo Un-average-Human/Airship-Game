@@ -80,15 +80,19 @@ var is_grounded: bool = true
 @export var multiplayer_synchronizer: MultiplayerSynchronizer
 @export var player_id: int
 @export var pilot_seat: Marker3D
+@export var seat_remote_transform: RemoteTransform3D
 var pilot: Player
 
 
 
 func execute(player: Player):
-	pilot = player
 		
 	_manage_authority.rpc(int(player.name))
-	_start_piloting()
+	if pilot and pilot == player:
+		_stop_piloting()
+	else:
+		pilot = player
+		_start_piloting()
 
 
 
@@ -105,21 +109,25 @@ func _manage_authority(driver_id: int):
 func _start_piloting():
 	print(pilot)
 	#print(player_id)
-	#if pilot and pilot.has_node("CollisionShape3D"):
-		#pilot.get_node("CollisionShape3D").disabled = true
-	#pilot.global_position = pilot_seat.global_position
-	#pilot.global_rotation = pilot_seat.global_rotation
+	if pilot and pilot.has_node("CollisionShape3D"):
+		pilot.get_node("CollisionShape3D").disabled = true
+	pilot.can_move = false
+	pilot.is_camera_locked = true
+	seat_remote_transform.remote_path = pilot.get_path()
+	#$Camera3D.current = true
+	$Camera3D2.make_current()
 
 func _stop_piloting():
-	if pilot:
-		if pilot.has_node("CollisionShape3D"):
-			pilot.get_node("CollisionShape3D").disabled = false
-		if pilot.has_node("StateMachine"):
-			pilot.get_node("StateMachine").change_state("idle")
+	if pilot.has_node("CollisionShape3D"):
+		pilot.get_node("CollisionShape3D").disabled = false
 		
-		pilot.reparent(get_parent())
-		pilot = null
-		player_id = 0
+	seat_remote_transform.remote_path = ""
+	pilot.camera.make_current()
+	pilot.can_move = true
+	pilot.is_camera_locked = false
+		
+	pilot = null
+	player_id = 0
 
 
 
@@ -159,8 +167,8 @@ func _physics_process(delta: float) -> void:
 	steering = lerp(steering, steer_input * (MAX_STEER * speed_factor), delta * 5)
 	
 	##MULTIPLAYER
-	#if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
-		#return
+	if not player_id or get_multiplayer_authority() != player_id or not is_multiplayer_authority():
+		return
 	
 	##INPUTS
 	throttle_input = Input.get_axis("throttle_down", "throttle_up")
