@@ -3,6 +3,9 @@
 [ext_resource type="Script" uid="uid://d38nihi776aod" path="res://PhysicsPlayerController.gd" id="1_d30y4"]
 [ext_resource type="Script" uid="uid://c6gjh12dpxa8f" path="res://Player/Scripts/Mechanics/GrabbingMechanic.gd" id="2_esr8d"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vdvg3"]
+friction = 0.0
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nc3cx"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_j8abd"]
@@ -21,7 +24,7 @@ collision_mask = 15
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
-mass = 80.0
+physics_material_override = SubResource("PhysicsMaterial_vdvg3")
 can_sleep = false
 script = ExtResource("1_d30y4")
 camera = NodePath("Head/Neck/PlayerCamera")

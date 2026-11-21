@@ -106,18 +106,7 @@ rudder = NodePath("Rudder")
 propeller = NodePath("Propeller")
 helm = NodePath("TickInterpolation3D/Visual/Helm")
 helm_angle = null
-min_lift = null
-max_lift = null
-extra_lift = null
 airship_area = NodePath("storage_area")
-max_capacity = null
-yaw_torque = null
-rudder_angle = null
-roll_stiffness = null
-damping = null
-pitch_stiffness = null
-target_tilt_angle = null
-can_accelerate = null
 metadata/_custom_type_script = "uid://b5k04yjwruc21"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1052367004]

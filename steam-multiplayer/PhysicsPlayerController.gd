@@ -52,12 +52,10 @@ func _physics_process(_delta: float) -> void:
 
 	if Input.is_action_just_pressed("jump") and is_grounded:
 		apply_central_impulse(Vector3.UP * jump_velocity * mass)
-		
 	var direction := Vector3.ZERO
 	if can_move:
 		var input_dir := Input.get_vector("left", "right", "forward", "backward")
 		direction = (head.global_transform.basis * Vector3(input_dir.x, 0.0, input_dir.y)).normalized()
-
 
 	var target_vel := direction * speed
 	var vel_diff := target_vel - linear_velocity
