@@ -121,7 +121,7 @@ text = "host"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=680742946]
-_spawnable_scenes = PackedStringArray("uid://dh37arl8pdixe")
+_spawnable_scenes = PackedStringArray("uid://bxrtwet2knbel")
 spawn_path = NodePath("..")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=984972397]

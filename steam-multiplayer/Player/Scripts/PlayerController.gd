@@ -1,5 +1,5 @@
 extends CharacterBody3D
-
+#class_name Player
 
 # Physics
 @export var mass_ratio_multi: float = 1.4

@@ -12,7 +12,7 @@ class_name Helm
 @export var min_helm_rot: float = -360
 
 var is_grabbed: bool = false
-var player: Player
+var player: PhysicsBody3D
 var player_pos_tween
 
 var value: float
@@ -48,17 +48,21 @@ func _manage_player_pos(is_leaving: bool):
 		pilot_seat.remote_path = ""
 		player.rotation.z = 0.0
 		player.rotation.x = 0.0
-		player.freeze = false
+		
+		if player is RigidBody3D:
+			player.freeze = false
 		
 		player.can_move = true
 		player.is_camera_locked = false
 		player = null
 		set_multiplayer_authority(1)
 	else:
-		player.freeze = true
+		if player is RigidBody3D:
+			player.freeze = true
+			
 		player.can_move = false
 		player.is_camera_locked = true
-		player.head.rotation = Vector3.ZERO
+		player.rotation = Vector3.ZERO
 		
 		pilot_seat.remote_path = player.get_path()
 		player.neck.rotation = Vector3.ZERO

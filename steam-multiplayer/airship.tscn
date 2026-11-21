@@ -83,8 +83,6 @@ height = 0.19873047
 [sub_resource type="BoxMesh" id="BoxMesh_8wd5n"]
 size = Vector3(0.1, 2.8, 0.1)
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_esr8d"]
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0eil0"]
 radius = 2.0
 height = 10.0
@@ -107,7 +105,19 @@ vent_valve = NodePath("TickInterpolation3D/Visual/vent_valve")
 rudder = NodePath("Rudder")
 propeller = NodePath("Propeller")
 helm = NodePath("TickInterpolation3D/Visual/Helm")
+helm_angle = null
+min_lift = null
+max_lift = null
+extra_lift = null
 airship_area = NodePath("storage_area")
+max_capacity = null
+yaw_torque = null
+rudder_angle = null
+roll_stiffness = null
+damping = null
+pitch_stiffness = null
+target_tilt_angle = null
+can_accelerate = null
 metadata/_custom_type_script = "uid://b5k04yjwruc21"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1052367004]
@@ -266,7 +276,6 @@ collision_mask = 2
 top_level = true
 collision_layer = 4
 collision_mask = 10
-physics_material_override = SubResource("PhysicsMaterial_esr8d")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="walkable" unique_id=1568302423]
 transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, 0.0035856962, 5, -1.2035857)

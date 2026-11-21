@@ -1,7 +1,7 @@
 extends Node3D
 
 @export var spawn_point: Node3D
-const PLAYER_CONTROLLER = preload("uid://dh37arl8pdixe")
+const PLAYER_CONTROLLER = preload("uid://bxrtwet2knbel") #uid://bxrtwet2knbel for characterbody and uid://dh37arl8pdixe for physics
 var players: Array[PhysicsBody3D]
 
 # Called when the node enters the scene tree for the first time.
