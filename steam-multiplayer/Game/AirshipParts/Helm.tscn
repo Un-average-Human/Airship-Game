@@ -58,7 +58,6 @@ mesh = SubResource("CylinderMesh_0bgn6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="Marker3D" unique_id=1274551969]
-use_global_coordinates = false
 update_scale = false
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1807466934]

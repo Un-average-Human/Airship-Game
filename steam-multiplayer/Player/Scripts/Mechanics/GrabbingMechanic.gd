@@ -4,7 +4,6 @@ extends Node
 @export var player: Player
 @export var carrying_speed: float = 3.0
 @export var interact_ray: RayCast3D
-@export var visual_interact_ray: RayCast3D
 @export var hand: Marker3D
 
 @export_subgroup("Weight Thresholds")

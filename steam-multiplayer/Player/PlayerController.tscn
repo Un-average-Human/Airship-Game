@@ -23,53 +23,34 @@ albedo_texture = ExtResource("2_ldje2")
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_j8abd"]
 
-[node name="player" type="CharacterBody3D" unique_id=1750545086 node_paths=PackedStringArray("neck", "camera", "interact_raycast")]
+[node name="player" type="CharacterBody3D" unique_id=863670502 node_paths=PackedStringArray("neck", "camera", "interact_raycast")]
 collision_layer = 2
 collision_mask = 15
 script = ExtResource("1_ldje2")
-neck = NodePath("Neck")
-camera = NodePath("Neck/PlayerCamera")
-interact_raycast = NodePath("Neck/InteractRay")
+neck = NodePath("Head/Neck")
+camera = NodePath("Head/Neck/PlayerCamera")
+interact_raycast = NodePath("Head/Neck/InteractRay")
 multiplayer_compatible = true
 
-[node name="Mechanics" type="Node" parent="." unique_id=1744217233]
+[node name="Head" type="Node3D" parent="." unique_id=386823222]
 
-[node name="Grabbing" type="Node" parent="Mechanics" unique_id=1343810587 node_paths=PackedStringArray("player", "interact_ray", "hand")]
-unique_name_in_owner = true
-script = ExtResource("4_j8irr")
-player = NodePath("../..")
-interact_ray = NodePath("../../Neck/InteractRay")
-hand = NodePath("../../Neck/Marker3D")
-
-[node name="StateMachine" type="Node" parent="." unique_id=1106026005 node_paths=PackedStringArray("state_machine", "states", "player")]
-script = ExtResource("2_bacvh")
-state_machine = NodePath(".")
-states = [null, null]
-player = NodePath("")
-
-[node name="Piloting" type="Node" parent="StateMachine" unique_id=750467208]
-script = ExtResource("7_laaob")
-
-[node name="MovementState" type="Node" parent="StateMachine" unique_id=308264425]
-script = ExtResource("5_vn67c")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=840744841]
-shape = SubResource("CapsuleShape3D_j8abd")
-
-[node name="Neck" type="Node3D" parent="." unique_id=1019611577]
+[node name="Neck" type="Node3D" parent="Head" unique_id=1019611577]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="InteractRay" type="RayCast3D" parent="Neck" unique_id=1572390967]
+[node name="InteractRay" type="RayCast3D" parent="Head/Neck" unique_id=1572390967]
 target_position = Vector3(0, 0, -3)
 collision_mask = 31
 collide_with_areas = true
 
-[node name="PlayerCamera" type="Camera3D" parent="Neck" unique_id=1385574841]
+[node name="PlayerCamera" type="Camera3D" parent="Head/Neck" unique_id=1385574841]
 transform = Transform3D(1, 0, 0, 0, 1, 2.9802319e-08, 0, -2.9802319e-08, 1, 0, 0, 0)
 current = true
 
-[node name="Marker3D" type="Marker3D" parent="Neck" unique_id=1901907171]
+[node name="Marker3D" type="Marker3D" parent="Head/Neck" unique_id=1901907171]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=840744841]
+shape = SubResource("CapsuleShape3D_j8abd")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1836853694]
 replication_interval = 0.05
@@ -84,3 +65,30 @@ metadata/_custom_type_script = "uid://c32bammkpp58s"
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_f0yg5")
 mesh = SubResource("CapsuleMesh_j8abd")
+
+[node name="Mechanics" type="Node" parent="." unique_id=1744217233]
+
+[node name="Grabbing" type="Node" parent="Mechanics" unique_id=1343810587 node_paths=PackedStringArray("player", "interact_ray", "hand")]
+unique_name_in_owner = true
+script = ExtResource("4_j8irr")
+player = NodePath("../..")
+interact_ray = NodePath("../../Head/Neck/InteractRay")
+hand = NodePath("../../Head/Neck/Marker3D")
+
+[node name="StateMachine" type="Node" parent="." unique_id=1106026005 node_paths=PackedStringArray("state_machine", "states", "player")]
+script = ExtResource("2_bacvh")
+state_machine = NodePath(".")
+states = [null, null]
+player = NodePath("")
+
+[node name="Piloting" type="Node" parent="StateMachine" unique_id=750467208]
+script = ExtResource("7_laaob")
+
+[node name="MovementState" type="Node" parent="StateMachine" unique_id=308264425]
+script = ExtResource("5_vn67c")
+
+[node name="FloorCast" type="RayCast3D" parent="." unique_id=1865612603]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9, 0)
+target_position = Vector3(0, -0.15, 0)
+collision_mask = 255
+debug_shape_custom_color = Color(1, 0, 0, 1)

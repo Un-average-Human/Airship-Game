@@ -1,28 +1,50 @@
 [gd_scene format=3 uid="uid://dh37arl8pdixe"]
 
 [ext_resource type="Script" uid="uid://d38nihi776aod" path="res://PhysicsPlayerController.gd" id="1_d30y4"]
+[ext_resource type="Script" uid="uid://c6gjh12dpxa8f" path="res://Player/Scripts/Mechanics/GrabbingMechanic.gd" id="2_esr8d"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nc3cx"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_j8abd"]
 
-[node name="RigidBody3D" type="RigidBody3D" unique_id=1024272573 node_paths=PackedStringArray("floor_cast")]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vdvg3"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="RigidBody3D" type="RigidBody3D" unique_id=1024272573 node_paths=PackedStringArray("camera", "head", "neck", "interact_raycast", "floor_cast")]
+collision_layer = 2
+collision_mask = 15
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 80.0
+can_sleep = false
 script = ExtResource("1_d30y4")
+camera = NodePath("Head/Neck/PlayerCamera")
+head = NodePath("Head")
+neck = NodePath("Head/Neck")
+interact_raycast = NodePath("Head/Neck/InteractRay")
 floor_cast = NodePath("FloorCast")
 
-[node name="Neck" type="Node3D" parent="." unique_id=1436354818]
+[node name="Head" type="Marker3D" parent="." unique_id=436624094]
+
+[node name="Neck" type="Marker3D" parent="Head" unique_id=1213759027]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="InteractRay" type="RayCast3D" parent="Neck" unique_id=19216323]
+[node name="InteractRay" type="RayCast3D" parent="Head/Neck" unique_id=19216323]
 target_position = Vector3(0, 0, -3)
 collision_mask = 31
 collide_with_areas = true
 
-[node name="PlayerCamera" type="Camera3D" parent="Neck" unique_id=971430205]
+[node name="PlayerCamera" type="Camera3D" parent="Head/Neck" unique_id=971430205]
 transform = Transform3D(1, 0, 0, 0, 1, 2.9802319e-08, 0, -2.9802319e-08, 1, 0, 0, 0)
 current = true
 
-[node name="Marker3D" type="Marker3D" parent="Neck" unique_id=1846667099]
+[node name="Marker3D" type="Marker3D" parent="Head/Neck" unique_id=1846667099]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1639636936]
@@ -34,4 +56,18 @@ mesh = SubResource("CapsuleMesh_j8abd")
 [node name="FloorCast" type="RayCast3D" parent="." unique_id=383548420]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9, 0)
 target_position = Vector3(0, -0.15, 0)
+collision_mask = 15
 debug_shape_custom_color = Color(1, 0, 0, 1)
+
+[node name="Mechanics" type="Node" parent="." unique_id=1043597667]
+
+[node name="Grabbing" type="Node" parent="Mechanics" unique_id=990881364 node_paths=PackedStringArray("player", "interact_ray", "hand")]
+unique_name_in_owner = true
+script = ExtResource("2_esr8d")
+player = NodePath("../..")
+interact_ray = NodePath("../../Head/Neck/InteractRay")
+hand = NodePath("../../Head/Neck/Marker3D")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=258951707]
+replication_interval = 0.05
+replication_config = SubResource("SceneReplicationConfig_vdvg3")
