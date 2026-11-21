@@ -17,7 +17,7 @@ var value: float
 var sensitivity_multiplier: float = 0.00001
 
 var is_grabbed: bool = false
-var player: CharacterBody3D
+var player: Player
 var virtual_mouse_pos: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
@@ -25,7 +25,7 @@ func _ready() -> void:
 	if is_vent:
 		value = 1.0
 
-func execute(player_interacting: CharacterBody3D) -> void:
+func execute(player_interacting: Player) -> void:
 	if player != null:
 		return
 	_multiplayer_manager.rpc(true, player_interacting.get_path())

@@ -11,6 +11,8 @@ var world_state_buffer: Array[Dictionary] #stores packet data, such as when it a
 func _ready() -> void:
 	#check if player is multiplayer authority and stop if they are (only want to update the movement from OTHER players)
 	#and if they are simply stop the code from running for them since it'll already be smooth for em
+	if object_updating == null:
+		object_updating = get_parent()
 	multiplayer_synchronizer.synchronized.connect(synchronizer_updated)
 	if not object_updating.is_multiplayer_authority():
 		top_level = true

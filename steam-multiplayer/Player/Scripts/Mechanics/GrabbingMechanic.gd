@@ -1,7 +1,7 @@
 extends Node
 
 @export_subgroup("Interaction")
-@export var player: CharacterBody3D
+@export var player: Player
 @export var carrying_speed: float = 3.0
 @export var interact_ray: RayCast3D
 @export var visual_interact_ray: RayCast3D

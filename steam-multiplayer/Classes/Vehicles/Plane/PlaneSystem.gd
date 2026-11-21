@@ -80,11 +80,11 @@ var is_grounded: bool = true
 @export var multiplayer_synchronizer: MultiplayerSynchronizer
 @export var player_id: int
 @export var pilot_seat: Marker3D
-var pilot: CharacterBody3D
+var pilot: Player
 
 
 
-func execute(player: CharacterBody3D):
+func execute(player: Player):
 	pilot = player
 		
 	_manage_authority.rpc(int(player.name))

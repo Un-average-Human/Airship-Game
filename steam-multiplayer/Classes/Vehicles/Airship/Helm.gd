@@ -12,7 +12,7 @@ class_name Helm
 @export var min_helm_rot: float = -360
 
 var is_grabbed: bool = false
-var player: CharacterBody3D
+var player: Player
 var player_pos_tween
 
 var value: float
@@ -28,7 +28,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		camera.rotate_y(-event.relative.x * 0.005)
 		camera.rotation.y = clamp(camera.rotation.y, deg_to_rad(-60), deg_to_rad(60))
 
-func execute(player_interacting: CharacterBody3D):
+func execute(player_interacting: Player):
 	player = player_interacting
 	
 	if not is_grabbed:

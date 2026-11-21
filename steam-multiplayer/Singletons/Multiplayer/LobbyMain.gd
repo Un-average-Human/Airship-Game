@@ -1,8 +1,8 @@
 extends Node3D
 
 @export var spawn_point: Node3D
-const PLAYER_CONTROLLER = preload("uid://bxrtwet2knbel")
-var players: Array[CharacterBody3D]
+const PLAYER_CONTROLLER = preload("uid://dh37arl8pdixe")
+var players: Array[PhysicsBody3D]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -27,12 +27,12 @@ func remove_peer(peer_id: int):
 
 #creates a new player and adds it to the scene
 func spawn_player(peer_id: int) -> void:
-	var new_player := PLAYER_CONTROLLER.instantiate() as CharacterBody3D
+	var new_player := PLAYER_CONTROLLER.instantiate() as PhysicsBody3D
 	new_player.name = str(peer_id)
 	add_child(new_player)
 	initialize_player(new_player)
 
-func initialize_player(player: CharacterBody3D) -> void:
+func initialize_player(player: PhysicsBody3D) -> void:
 	player.position = spawn_point.global_position
 	for other_players in players:
 		player.add_collision_exception_with(other_players)

@@ -16,9 +16,9 @@ var package_mesh: Mesh
 @export var holder: NodePath = ""
 
 func _ready() -> void:
-	if not multiplayer.is_server():
-		set_freeze_enabled(true)
-		set_freeze_mode(RigidBody3D.FREEZE_MODE_KINEMATIC)
+	#if not multiplayer.is_server():
+		#set_freeze_enabled(true)
+		#set_freeze_mode(RigidBody3D.FREEZE_MODE_KINEMATIC)
 	
 	sell_price = stats_resource.sell_price
 	buy_price = stats_resource.buy_price
