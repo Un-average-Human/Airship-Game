@@ -182,8 +182,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_lka76")
 [node name="Area3D" type="Area3D" parent="AnimatableBody3D" unique_id=811221168]
 collision_layer = 0
 collision_mask = 10
-monitoring = false
-monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D/Area3D" unique_id=1340137150]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0489259, 0)

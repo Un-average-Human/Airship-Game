@@ -33,8 +33,8 @@ var target_propeller_rpm: float = 0.0
 @export var ENGINE_POWER: float = 8000
 
 @export_subgroup("Speed")
-@export var max_speed: float = 15.0
-@export var flight_speed_threshold: float = 10.0
+@export var max_speed: float = 40.0
+@export var flight_speed_threshold: float = 20.0
 @export var throttle_charge_duration: float = 2.0
 var throttle: float = 0.0
 @export var is_engine_on: bool = false
@@ -81,12 +81,11 @@ var is_grounded: bool = true
 @export var player_id: int
 @export var pilot_seat: Marker3D
 @export var seat_remote_transform: RemoteTransform3D
-var pilot: Player
+@export var pilot: Player
 
 
 
 func execute(player: Player):
-		
 	_manage_authority.rpc(int(player.name))
 	if pilot and pilot == player:
 		_stop_piloting()
@@ -107,6 +106,8 @@ func _manage_authority(driver_id: int):
 
 
 func _start_piloting():
+	if player_id == 0:
+		return
 	print(pilot)
 	#print(player_id)
 	if pilot and pilot.has_node("CollisionShape3D"):
@@ -114,14 +115,14 @@ func _start_piloting():
 	pilot.can_move = false
 	pilot.is_camera_locked = true
 	seat_remote_transform.remote_path = pilot.get_path()
-	#$Camera3D.current = true
-	$Camera3D2.make_current()
+	$Camera3D.make_current()
 
 func _stop_piloting():
 	if pilot.has_node("CollisionShape3D"):
 		pilot.get_node("CollisionShape3D").disabled = false
 		
 	seat_remote_transform.remote_path = ""
+	pilot.global_rotation = Vector3(0.0, pilot.global_position.y, 0.0)
 	pilot.camera.make_current()
 	pilot.can_move = true
 	pilot.is_camera_locked = false

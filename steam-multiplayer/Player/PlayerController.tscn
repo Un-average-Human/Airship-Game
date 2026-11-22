@@ -8,13 +8,6 @@
 [ext_resource type="Script" uid="uid://joqw06u5sr4d" path="res://Player/Scripts/StateMachine/WalkState.gd" id="5_vn67c"]
 [ext_resource type="Script" uid="uid://u4r25gc10pi0" path="res://Player/Scripts/StateMachine/SittingState.gd" id="7_laaob"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f0yg5"]
-albedo_texture = ExtResource("2_ldje2")
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_vn67c"]
-radius = 0.02
-height = 0.08
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j8abd"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_f0yg5"]
@@ -25,12 +18,15 @@ properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f0yg5"]
+albedo_texture = ExtResource("2_ldje2")
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_j8abd"]
 
 [node name="player" type="CharacterBody3D" unique_id=863670502 node_paths=PackedStringArray("neck", "camera", "interact_raycast")]
 collision_layer = 2
 collision_mask = 15
-platform_floor_layers = 4294967291
+platform_on_leave = 2
 script = ExtResource("1_ldje2")
 neck = NodePath("Neck")
 camera = NodePath("Neck/PlayerCamera")
@@ -51,11 +47,6 @@ current = true
 
 [node name="Marker3D" type="Marker3D" parent="Neck" unique_id=1901907171]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Neck" unique_id=951542316]
-transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, 0, 0, -2)
-material_override = SubResource("StandardMaterial3D_f0yg5")
-mesh = SubResource("CapsuleMesh_vn67c")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=840744841]
 shape = SubResource("CapsuleShape3D_j8abd")
@@ -83,14 +74,27 @@ player = NodePath("../..")
 interact_ray = NodePath("../../Neck/InteractRay")
 hand = NodePath("../../Neck/Marker3D")
 
-[node name="StateMachine" type="Node" parent="." unique_id=1106026005 node_paths=PackedStringArray("state_machine", "states", "player")]
+[node name="StateMachine" type="Node" parent="." unique_id=1106026005 node_paths=PackedStringArray("state_machine", "states")]
 script = ExtResource("2_bacvh")
 state_machine = NodePath(".")
 states = [null, null]
-player = NodePath("")
 
 [node name="Piloting" type="Node" parent="StateMachine" unique_id=750467208]
 script = ExtResource("7_laaob")
 
 [node name="MovementState" type="Node" parent="StateMachine" unique_id=308264425]
 script = ExtResource("5_vn67c")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2024141456]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.5
+offset_top = -2.5
+offset_right = 2.5
+offset_bottom = 2.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

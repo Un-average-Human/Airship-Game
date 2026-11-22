@@ -71,7 +71,7 @@ func _unhandled_input(_event: InputEvent) -> void:
 		can_accelerate = !can_accelerate
 
 func _physics_process(_delta: float) -> void:
-	_manage_player_velocity()
+	#_manage_player_velocity()
 	if can_accelerate:
 		apply_central_force(-global_transform.basis.z * 3000)
 	
