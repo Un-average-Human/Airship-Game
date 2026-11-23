@@ -1,9 +1,12 @@
-# Airship Game
+# Airship "Game"
 
 <br>
 
 ## How did I think of this?
 Actually, I didn't! I was playing a game called <i>Delivery Not Guaranteed</i> on Roblox when I started thinking about ways of improving the gameplay. I landed on making it a co-op game instead with mechanics similar to <i>Dear Passengers</i>. Friends and janky physics always go well right?
+
+## What am I working on as of 23/11/26?
+Mostly getting the basics working, such as the multiplayer, airship system and plane. It'll take me a fair bit to complete these so I'm trying to get them out of the way.
 
 ## How to test it?
 ​WASD to move
