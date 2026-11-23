@@ -46,12 +46,7 @@ shape = SubResource("BoxShape3D_j8abd")
 replication_interval = 0.05
 replication_config = SubResource("SceneReplicationConfig_vs22u")
 
-[node name="Visuals" type="StaticBody3D" parent="." unique_id=1255183629]
-collision_layer = 0
-collision_mask = 0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Visuals" unique_id=1729935981]
-shape = SubResource("BoxShape3D_j8abd")
+[node name="Visuals" type="Node3D" parent="." unique_id=1266664941]
 
 [node name="TickInterpolation3D" type="Node3D" parent="Visuals" unique_id=389432985 node_paths=PackedStringArray("object_updating", "multiplayer_synchronizer")]
 script = ExtResource("3_e4dnp")
