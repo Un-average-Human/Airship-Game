@@ -14,7 +14,9 @@ func _ready() -> void:
 
 func _on_area_entered(body: Node3D) -> void:
 	if "visuals" in body:
-		print("has visuals")
+		var visuals: Node3D = body.visuals
+		var visuals_copy = visuals.duplicate()
+		visuals_copy.top_level = true
 
 func _on_area_exited(body: Node3D) -> void:
 	pass
