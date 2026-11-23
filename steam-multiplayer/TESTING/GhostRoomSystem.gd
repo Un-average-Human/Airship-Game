@@ -28,10 +28,28 @@ func _on_area_entered(body: Node3D) -> void:
 			
 			body.global_position = ghost_world_pos
 	
+	elif body is Package:
+		if not packages.has(body):
+			packages.append(body)
+	
+			#manage the separation between the visuals the logic part
+			body.visuals.top_level = true
+			
+			#manage position
+			var relative_pos: Vector3 = to_local(body.global_position)
+			var ghost_world_pos: Vector3 = ghost_room.to_global(relative_pos)
+			
+			body.global_position = ghost_world_pos
+	
 func _on_area_exited(body: Node3D) -> void:
 	if body is CharacterBody3D:
 		if players.has(body):
 			players.erase(body)
+			body.global_transform = body.visuals.global_transform
+			body.visuals.top_level = false
+	if body is Package:
+		if packages.has(body):
+			packages.erase(body)
 			body.global_transform = body.visuals.global_transform
 			body.visuals.top_level = false
 

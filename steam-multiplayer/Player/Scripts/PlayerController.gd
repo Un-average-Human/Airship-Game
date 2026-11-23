@@ -17,6 +17,8 @@ var is_camera_locked: bool = false
 # Multiplayer
 @export_subgroup("Multiplayer")
 @export var multiplayer_compatible: bool
+@export var visuals: Node3D
+@export var multiplayer_synchronizer: MultiplayerSynchronizer
 
 # Movement
 @export_subgroup("Movement")
@@ -31,6 +33,7 @@ var platform_vel: Vector3
 func _enter_tree() -> void:
 	if multiplayer_compatible:
 		set_multiplayer_authority(name.to_int())
+		multiplayer_synchronizer.set_multiplayer_authority(name.to_int())
 
 func _ready() -> void:
 	if is_multiplayer_authority():

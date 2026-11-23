@@ -3,8 +3,12 @@ extends Node
 @export_subgroup("Interaction")
 @export var player: Player
 @export var carrying_speed: float = 3.0
+
 @export var interact_ray: RayCast3D
 @export var hand: Marker3D
+
+@export var visuals_interact_ray: RayCast3D
+@export var visuals_hand: Marker3D
 
 @export_subgroup("Weight Thresholds")
 @export var light_threshold: float = 50

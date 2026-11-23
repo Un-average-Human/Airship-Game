@@ -14,6 +14,7 @@ var package_mesh: Mesh
 @export_subgroup("To Be Synced")
 @export var is_grabbed: bool = false 
 @export var holder: NodePath = ""
+@export var visuals: Node3D
 
 func _ready() -> void:
 	#if not multiplayer.is_server():

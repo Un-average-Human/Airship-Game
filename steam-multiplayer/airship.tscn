@@ -94,8 +94,7 @@ size = Vector3(0.1, 10, 1.5)
 size = Vector3(1, 1.7, 0.6)
 
 [node name="Airship" type="RigidBody3D" unique_id=11995041 node_paths=PackedStringArray("gas_valve", "vent_valve", "rudder", "propeller", "helm", "airship_area")]
-process_priority = -1
-process_physics_priority = -1
+process_physics_priority = -10
 collision_layer = 0
 mass = 1000.0
 angular_damp = 2.0
@@ -105,7 +104,6 @@ vent_valve = NodePath("TickInterpolation3D/Visual/vent_valve")
 rudder = NodePath("Rudder")
 propeller = NodePath("Propeller")
 helm = NodePath("TickInterpolation3D/Visual/Helm")
-helm_angle = null
 airship_area = NodePath("storage_area")
 metadata/_custom_type_script = "uid://b5k04yjwruc21"
 
@@ -153,8 +151,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1012695, -3.7000003)
 shape = SubResource("BoxShape3D_j8abd")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=2073082866]
-replication_interval = 0.05
 replication_config = SubResource("SceneReplicationConfig_w4ouc")
+visibility_update_mode = 1
 
 [node name="TickInterpolation3D" type="Node3D" parent="." unique_id=1191227001 node_paths=PackedStringArray("object_updating", "multiplayer_synchronizer")]
 script = ExtResource("3_ovxpy")
@@ -261,7 +259,8 @@ crank_sensitivity = 2.5
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.8484793, 1.1000001, 1.8021092e-07)
 collision_mask = 2
 
-[node name="walkable" type="AnimatableBody3D" parent="." unique_id=1728637781]
+[node name="walkable" type="StaticBody3D" parent="." unique_id=217915038]
+process_physics_priority = -10
 top_level = true
 collision_layer = 4
 collision_mask = 10

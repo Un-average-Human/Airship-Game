@@ -8,6 +8,11 @@
 [ext_resource type="Script" uid="uid://joqw06u5sr4d" path="res://Player/Scripts/StateMachine/WalkState.gd" id="5_vn67c"]
 [ext_resource type="Script" uid="uid://u4r25gc10pi0" path="res://Player/Scripts/StateMachine/SittingState.gd" id="7_laaob"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f0yg5"]
+albedo_texture = ExtResource("2_ldje2")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_j8abd"]
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j8abd"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_f0yg5"]
@@ -18,35 +23,60 @@ properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f0yg5"]
-albedo_texture = ExtResource("2_ldje2")
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_j8abd"]
-
-[node name="player" type="CharacterBody3D" unique_id=863670502 node_paths=PackedStringArray("neck", "camera", "interact_raycast")]
+[node name="player" type="CharacterBody3D" unique_id=863670502 node_paths=PackedStringArray("neck", "camera", "interact_raycast", "visuals", "multiplayer_synchronizer")]
 collision_layer = 2
 collision_mask = 15
-platform_on_leave = 2
 script = ExtResource("1_ldje2")
 neck = NodePath("Neck")
-camera = NodePath("Neck/PlayerCamera")
-interact_raycast = NodePath("Neck/InteractRay")
+camera = NodePath("Visuals/VisualsNeck/PlayerCamera")
+interact_raycast = NodePath("Visuals/VisualsNeck/VisualsInteractRay")
 multiplayer_compatible = true
+visuals = NodePath("Visuals")
+multiplayer_synchronizer = NodePath("MultiplayerSynchronizer")
 
-[node name="Neck" type="Node3D" parent="." unique_id=1019611577]
+[node name="Visuals" type="Node3D" parent="." unique_id=1038279948]
+
+[node name="TickInterpolation3D" type="Node3D" parent="Visuals" unique_id=1973222762 node_paths=PackedStringArray("object_updating", "multiplayer_synchronizer")]
+script = ExtResource("5_mdtj2")
+object_updating = NodePath("../..")
+multiplayer_synchronizer = NodePath("../../MultiplayerSynchronizer")
+metadata/_custom_type_script = "uid://c32bammkpp58s"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Visuals/TickInterpolation3D" unique_id=1744936756]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_f0yg5")
+mesh = SubResource("CapsuleMesh_j8abd")
+
+[node name="VisualsNeck" type="Node3D" parent="Visuals" unique_id=1019611577]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="InteractRay" type="RayCast3D" parent="Neck" unique_id=1572390967]
+[node name="VisualsInteractRay" type="RayCast3D" parent="Visuals/VisualsNeck" unique_id=1572390967]
 target_position = Vector3(0, 0, -3)
 collision_mask = 31
 collide_with_areas = true
 
-[node name="PlayerCamera" type="Camera3D" parent="Neck" unique_id=1385574841]
+[node name="PlayerCamera" type="Camera3D" parent="Visuals/VisualsNeck" unique_id=1385574841]
 transform = Transform3D(1, 0, 0, 0, 1, 2.9802319e-08, 0, -2.9802319e-08, 1, 0, 0, 0)
 current = true
 
-[node name="Marker3D" type="Marker3D" parent="Neck" unique_id=1901907171]
+[node name="VisualsHand" type="Marker3D" parent="Visuals/VisualsNeck" unique_id=1901907171]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="Neck" type="Node3D" parent="." unique_id=1988158104]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="InteractRay" type="RayCast3D" parent="Neck" unique_id=747847822]
+target_position = Vector3(0, 0, -3)
+collision_mask = 31
+collide_with_areas = true
+
+[node name="Hand" type="Marker3D" parent="Neck" unique_id=1715444770]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Neck" unique_id=1345311643]
+remote_path = NodePath("../../Visuals/VisualsNeck")
+update_position = false
+update_scale = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=840744841]
 shape = SubResource("CapsuleShape3D_j8abd")
@@ -55,24 +85,16 @@ shape = SubResource("CapsuleShape3D_j8abd")
 replication_interval = 0.05
 replication_config = SubResource("SceneReplicationConfig_f0yg5")
 
-[node name="TickInterpolation3D" type="Node3D" parent="." unique_id=1973222762 node_paths=PackedStringArray("multiplayer_synchronizer")]
-script = ExtResource("5_mdtj2")
-multiplayer_synchronizer = NodePath("../MultiplayerSynchronizer")
-metadata/_custom_type_script = "uid://c32bammkpp58s"
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TickInterpolation3D" unique_id=1744936756]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_f0yg5")
-mesh = SubResource("CapsuleMesh_j8abd")
-
 [node name="Mechanics" type="Node" parent="." unique_id=1744217233]
 
-[node name="Grabbing" type="Node" parent="Mechanics" unique_id=1343810587 node_paths=PackedStringArray("player", "interact_ray", "hand")]
+[node name="Grabbing" type="Node" parent="Mechanics" unique_id=1343810587 node_paths=PackedStringArray("player", "interact_ray", "hand", "visuals_interact_ray", "visuals_hand")]
 unique_name_in_owner = true
 script = ExtResource("4_j8irr")
 player = NodePath("../..")
 interact_ray = NodePath("../../Neck/InteractRay")
-hand = NodePath("../../Neck/Marker3D")
+hand = NodePath("../../Neck/Hand")
+visuals_interact_ray = NodePath("../../Visuals/VisualsNeck/VisualsInteractRay")
+visuals_hand = NodePath("../../Visuals/VisualsNeck/VisualsHand")
 
 [node name="StateMachine" type="Node" parent="." unique_id=1106026005 node_paths=PackedStringArray("state_machine", "states")]
 script = ExtResource("2_bacvh")
