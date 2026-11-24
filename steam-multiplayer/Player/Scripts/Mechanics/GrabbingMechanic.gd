@@ -49,7 +49,9 @@ func _unhandled_input(_event: InputEvent) -> void:
 				_drop()
 
 func _physics_process(delta: float) -> void:
-	#calculates the player speed to use as a variable, allowing
+	#calculates the player speed to use as a variable, allowing the package to be moved
+	#based on the player position instead of the world's position (aka itll move at the same
+	#speed no matter how fast the player is going
 	var player_vel = Vector3.ZERO
 	if last_player_pos != Vector3.ZERO:
 		player_vel = (player.global_position - last_player_pos) / delta
@@ -60,8 +62,22 @@ func _physics_process(delta: float) -> void:
 
 
 
-func _manage_interaction(in_ghost_room: bool):
+func _manage_interaction(player_in_room: CharacterBody3D, body_in_ghost_room: bool):
+	if player_in_room != player:
+		return
+		
+	target_hand = _get_target_hand()
+
+func _get_target_ray():
 	pass
+
+func _get_target_hand() -> Marker3D:
+	if grabbed_object and not grabbed_object.is_in_group("InGhostRoom"):
+		return visuals_hand
+		print("visuals_hand")
+	else:
+		return hand
+		print("hand")
 
 
 

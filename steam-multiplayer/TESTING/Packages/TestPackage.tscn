@@ -6,6 +6,11 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j8abd"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_lka76"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nc3cx"]
+albedo_color = Color(1, 0, 1, 1)
+
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vs22u"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
@@ -41,6 +46,10 @@ metadata/_custom_type_script = "uid://wutysbfbd5x6"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1078963526]
 shape = SubResource("BoxShape3D_j8abd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=421787514]
+mesh = SubResource("BoxMesh_lka76")
+surface_material_override/0 = SubResource("StandardMaterial3D_nc3cx")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=106212303]
 replication_interval = 0.05

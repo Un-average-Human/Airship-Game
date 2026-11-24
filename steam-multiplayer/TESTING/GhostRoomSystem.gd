@@ -18,15 +18,15 @@ func _on_area_entered(body: Node3D) -> void:
 				_enter_ghost_state(body)
 				players.append(body)
 			"Package":
-				if not body.is_grabbed:
-					_enter_ghost_state(body)
-					packages.append(body)
+				_enter_ghost_state(body)
+				packages.append(body)
 
 func _enter_ghost_state(body: Node3D) -> void:
 	if "visuals" in body:
 		#manage visuals
 		var visuals: Node3D = body.visuals
 		visuals.set_as_top_level(true)
+		body.add_to_group("InGhostRoom")
 		SignalBus.update_ghost_room_status.emit(visuals.is_set_as_top_level())
 		
 		#manage the player position
@@ -42,7 +42,9 @@ func _exit_ghost_state(body: Node3D) -> void:
 		
 		#manage visuals
 		visuals.set_as_top_level(false)
-		SignalBus.update_ghost_room_status.emit(visuals.is_set_as_top_level())
+		body.remove_from_group("InGhostRoom")
+		if body is Player:
+			SignalBus.update_ghost_room_status.emit(body, visuals.is_set_as_top_level())
 
 func _on_area_exited(body: Node3D) -> void:
 		match body.get_script().get_global_name():
@@ -50,9 +52,8 @@ func _on_area_exited(body: Node3D) -> void:
 				_exit_ghost_state(body)
 				players.erase(body)
 			"Package":
-				if not body.is_grabbed:
-					_exit_ghost_state(body)
-					packages.erase(body)
+				_exit_ghost_state(body)
+				packages.erase(body)
 
 func _process(delta: float) -> void:
 	for object: Node3D in packages + players:
