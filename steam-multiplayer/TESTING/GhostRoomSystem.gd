@@ -18,8 +18,9 @@ func _on_area_entered(body: Node3D) -> void:
 				_enter_ghost_state(body)
 				players.append(body)
 			"Package":
-				_enter_ghost_state(body)
-				packages.append(body)
+				if not body.is_grabbed:
+					_enter_ghost_state(body)
+					packages.append(body)
 
 func _enter_ghost_state(body: Node3D) -> void:
 	if "visuals" in body:
@@ -27,7 +28,9 @@ func _enter_ghost_state(body: Node3D) -> void:
 		var visuals: Node3D = body.visuals
 		visuals.set_as_top_level(true)
 		body.add_to_group("InGhostRoom")
-		SignalBus.update_ghost_room_status.emit(visuals.is_set_as_top_level())
+		if body is Player:
+			SignalBus.update_ghost_room_status.emit(body, visuals.is_set_as_top_level())
+			print("changed visuals")
 		
 		#manage the player position
 		var relative_pos: Vector3 = to_local(body.global_position)
@@ -44,18 +47,24 @@ func _exit_ghost_state(body: Node3D) -> void:
 		visuals.set_as_top_level(false)
 		body.remove_from_group("InGhostRoom")
 		if body is Player:
+			print("changed visuals")
 			SignalBus.update_ghost_room_status.emit(body, visuals.is_set_as_top_level())
 
 func _on_area_exited(body: Node3D) -> void:
-		match body.get_script().get_global_name():
-			"Player":
-				_exit_ghost_state(body)
-				players.erase(body)
-			"Package":
-				_exit_ghost_state(body)
-				packages.erase(body)
+	match body.get_script().get_global_name():
+		"Player":
+			_exit_ghost_state(body)
+			players.erase(body)
+		"Package":
+			_exit_ghost_state(body)
+			packages.erase(body)
 
 func _process(delta: float) -> void:
+	for body in enter_area.get_overlapping_bodies():
+		if body is Package:
+			if not body.is_grabbed and not packages.has(body):
+				_enter_ghost_state(body)
+				packages.append(body)
 	for object: Node3D in packages + players:
 		if is_instance_valid(object.visuals):
 			var visuals: Node3D = object.visuals

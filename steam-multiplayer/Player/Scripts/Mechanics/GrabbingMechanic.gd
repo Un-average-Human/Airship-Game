@@ -72,12 +72,15 @@ func _get_target_ray():
 	pass
 
 func _get_target_hand() -> Marker3D:
-	if grabbed_object and not grabbed_object.is_in_group("InGhostRoom"):
-		return visuals_hand
-		print("visuals_hand")
+	if player.is_in_group("InGhostRoom"):
+		if grabbed_object and not grabbed_object.is_in_group("InGhostRoom"):
+			print("visual hand")
+			return visuals_hand
+		else:
+			print("hand")
+			return hand
 	else:
 		return hand
-		print("hand")
 
 
 

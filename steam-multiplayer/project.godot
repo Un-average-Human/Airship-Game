@@ -23,7 +23,6 @@ driver/enable_input=true
 [autoload]
 
 SteamNetworking="*uid://km4e1jkgqakx"
-ConfigFileManager="*uid://djn5c3twrdufi"
 LarpNetworking="*uid://cskr2m6am1s7x"
 SignalBus="*uid://b82pdbithgfwo"
 
