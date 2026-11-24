@@ -28,13 +28,29 @@ collision_layer = 2
 collision_mask = 15
 script = ExtResource("1_ldje2")
 neck = NodePath("Neck")
-camera = NodePath("Neck/PlayerCamera")
+camera = NodePath("Visuals/VisualsNeck/PlayerCamera")
 interact_raycast = NodePath("Neck/InteractRay")
 multiplayer_compatible = true
 visuals = NodePath("Visuals")
 multiplayer_synchronizer = NodePath("MultiplayerSynchronizer")
 
 [node name="Visuals" type="Node3D" parent="." unique_id=1038279948]
+
+[node name="VisualsNeck" type="Node3D" parent="Visuals" unique_id=353250062]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="VisualsInteractRay" type="RayCast3D" parent="Visuals/VisualsNeck" unique_id=443886599]
+process_priority = -1
+process_physics_priority = -1
+target_position = Vector3(0, 0, -3)
+collision_mask = 31
+
+[node name="VisualsHand" type="Marker3D" parent="Visuals/VisualsNeck" unique_id=1765100705]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="PlayerCamera" type="Camera3D" parent="Visuals/VisualsNeck" unique_id=1385574841]
+transform = Transform3D(1, 0, 0, 0, 1, 2.9802319e-08, 0, -2.9802319e-08, 1, 0, 0, 0)
+current = true
 
 [node name="TickInterpolation3D" type="Node3D" parent="Visuals" unique_id=1973222762 node_paths=PackedStringArray("object_updating", "multiplayer_synchronizer")]
 script = ExtResource("5_mdtj2")
@@ -53,14 +69,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 [node name="InteractRay" type="RayCast3D" parent="Neck" unique_id=747847822]
 target_position = Vector3(0, 0, -3)
 collision_mask = 31
-collide_with_areas = true
 
 [node name="Hand" type="Marker3D" parent="Neck" unique_id=1715444770]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 
-[node name="PlayerCamera" type="Camera3D" parent="Neck" unique_id=1385574841]
-transform = Transform3D(1, 0, 0, 0, 1, 2.9802319e-08, 0, -2.9802319e-08, 1, 0, 0, 0)
-current = true
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Neck" unique_id=1856952944]
+remote_path = NodePath("../../Visuals/VisualsNeck")
+update_position = false
+update_scale = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=840744841]
 shape = SubResource("CapsuleShape3D_j8abd")
@@ -77,8 +93,8 @@ script = ExtResource("4_j8irr")
 player = NodePath("../..")
 interact_ray = NodePath("../../Neck/InteractRay")
 hand = NodePath("../../Neck/Hand")
-visuals_interact_ray = NodePath("")
-visuals_hand = NodePath("")
+visuals_interact_ray = NodePath("../../Visuals/VisualsNeck/VisualsInteractRay")
+visuals_hand = NodePath("../../Visuals/VisualsNeck/VisualsHand")
 
 [node name="StateMachine" type="Node" parent="." unique_id=1106026005 node_paths=PackedStringArray("state_machine", "states")]
 script = ExtResource("2_bacvh")

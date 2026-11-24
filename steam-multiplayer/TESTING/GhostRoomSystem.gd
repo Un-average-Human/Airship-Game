@@ -24,12 +24,10 @@ func _on_area_entered(body: Node3D) -> void:
 
 func _enter_ghost_state(body: Node3D) -> void:
 	if "visuals" in body:
-		#manage the copy
+		#manage visuals
 		var visuals: Node3D = body.visuals
-		var visuals_copy = visuals.duplicate()
-		visuals_copy.name = "VisualsCopy"
-		body.add_child(visuals_copy)
-		visuals_copy.top_level = true
+		visuals.set_as_top_level(true)
+		SignalBus.update_ghost_room_status.emit(visuals.is_set_as_top_level())
 		
 		#manage the player position
 		var relative_pos: Vector3 = to_local(body.global_position)
@@ -37,13 +35,14 @@ func _enter_ghost_state(body: Node3D) -> void:
 		body.global_position = ghost_world_pos
 
 func _exit_ghost_state(body: Node3D) -> void:
-	if body.get_node("VisualsCopy"):
-		var visuals_copy: Node3D = body.get_node("VisualsCopy")
+	if "visuals" in body:
+		var visuals: Node3D = body.visuals
 		#manage the player position
-		body.global_position = visuals_copy.global_position
+		body.global_position = visuals.global_position
 		
-		#manage the copy
-		visuals_copy.queue_free()
+		#manage visuals
+		visuals.set_as_top_level(false)
+		SignalBus.update_ghost_room_status.emit(visuals.is_set_as_top_level())
 
 func _on_area_exited(body: Node3D) -> void:
 		match body.get_script().get_global_name():
@@ -57,9 +56,9 @@ func _on_area_exited(body: Node3D) -> void:
 
 func _process(delta: float) -> void:
 	for object: Node3D in packages + players:
-		if is_instance_valid(object.get_node("VisualsCopy")):
-			var visual_copy: Node3D = object.get_node("VisualsCopy")
+		if is_instance_valid(object.visuals):
+			var visuals: Node3D = object.visuals
 			var local_pos: Vector3 = ghost_room.to_local(object.global_position)
 			
-			visual_copy.global_position = to_global(local_pos)
-			visual_copy.global_basis = global_basis * object.global_basis
+			visuals.global_position = to_global(local_pos)
+			visuals.global_basis = global_basis * object.global_basis

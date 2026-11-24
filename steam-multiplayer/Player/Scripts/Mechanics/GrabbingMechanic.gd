@@ -6,9 +6,11 @@ extends Node
 
 @export var interact_ray: RayCast3D
 @export var hand: Marker3D
-
 @export var visuals_interact_ray: RayCast3D
 @export var visuals_hand: Marker3D
+
+var target_hand: Marker3D
+var target_raycast: RayCast3D
 
 @export_subgroup("Weight Thresholds")
 @export var light_threshold: float = 50
@@ -27,6 +29,11 @@ var current_pull_strength: float = light_pull_strength
 var is_grabbing_toggleable: bool = false
 var grabbed_object: RigidBody3D = null
 var last_player_pos: Vector3 = Vector3.ZERO
+
+func _ready() -> void:
+	SignalBus.update_ghost_room_status.connect(_manage_interaction)
+	target_hand = hand
+	target_raycast = interact_ray
 
 func _unhandled_input(_event: InputEvent) -> void:
 	if not is_grabbing_toggleable:
@@ -49,11 +56,18 @@ func _physics_process(delta: float) -> void:
 	last_player_pos = player.global_position
 
 	if grabbed_object != null and is_multiplayer_authority():
-		_pull_object.rpc(grabbed_object.get_path(), hand.global_position, player_vel)
+		_pull_object.rpc(grabbed_object.get_path(), target_hand.global_position, player_vel)
+
+
+
+func _manage_interaction(in_ghost_room: bool):
+	pass
+
+
 
 func _grab() -> void:
-	if interact_ray.is_colliding():
-		var collider = interact_ray.get_collider()
+	if target_raycast.is_colliding():
+		var collider = target_raycast.get_collider()
 		if collider is Package:
 			if collider.is_grabbed == false and grabbed_object == null:
 				print("grabbed object")
