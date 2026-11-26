@@ -28,9 +28,7 @@ func _enter_ghost_state(body: Node3D) -> void:
 		var visuals: Node3D = body.visuals
 		visuals.set_as_top_level(true)
 		body.add_to_group("InGhostRoom")
-		if body is Player:
-			SignalBus.update_ghost_room_status.emit(body, visuals.is_set_as_top_level())
-			print("changed visuals")
+		SignalBus.update_ghost_room_status.emit(body, visuals.is_set_as_top_level())
 		
 		#manage the player position
 		var relative_pos: Vector3 = to_local(body.global_position)
@@ -46,10 +44,13 @@ func _exit_ghost_state(body: Node3D) -> void:
 		#manage visuals
 		visuals.set_as_top_level(false)
 		body.remove_from_group("InGhostRoom")
-		if body is Player:
-			print("changed visuals")
-			SignalBus.update_ghost_room_status.emit(body, visuals.is_set_as_top_level())
+		SignalBus.update_ghost_room_status.emit(body, visuals.is_set_as_top_level())
+		if body is Package:
+			var relative_pos: Vector3 = ghost_room.to_local(body.global_position)
+			var real_world_pos: Vector3 = to_global(relative_pos)
+			body.global_position = real_world_pos
 
+			
 func _on_area_exited(body: Node3D) -> void:
 	match body.get_script().get_global_name():
 		"Player":
